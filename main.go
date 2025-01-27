@@ -6,8 +6,6 @@ import (
 	"net/http"
 	database "real-time-forum/DATABASE"
 	"real-time-forum/handlers"
-
-	"github.com/gorilla/mux"
 )
 
 func main() {
@@ -16,14 +14,13 @@ func main() {
 		fmt.Println("error in data base", err)
 		log.Fatalln(err)
 	}
-
+	mux := http.NewServeMux()
 	defer database.DataBase.Close()
 
-	router := mux.NewRouter()
+	mux.HandleFunc("/posts", handlers.GetPosts)
+	//router.HandleFunc("/posts", handlers.CreatePost)
 
-	router.HandleFunc("/posts", handlers.GetPosts).Methods("GET")
-	//router.HandleFunc("/posts", handlers.CreatePost).Methods("POST")
-
-	http.Handle("/", router)
-	http.ListenAndServe(":8080", nil)
+	if err := http.ListenAndServe(":8080", mux); err != nil {
+		fmt.Println("Error starting server:", err)
+	}
 }
