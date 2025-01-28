@@ -21,7 +21,6 @@ type Post struct {
 
 func GetPosts(w http.ResponseWriter, r *http.Request) {
 
-
 	rows, err := database.DataBase.Query("SELECT * FROM posts")
 	if err != nil {
 		fmt.Println("ERRORO IN SELECTING", err)

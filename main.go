@@ -5,13 +5,13 @@ import (
 	"log"
 	"net/http"
 	database "real-time-forum/DATABASE"
-	"real-time-forum/handlers"
+	"real-time-forum/handlers/api"
 )
 
 func main() {
 	if err := database.InitDb(); err != nil {
 		//fmt.Errorf("error ;", err)
-		fmt.Println("error in data base", err)
+		//fmt.Println("error in data base", err)
 		log.Fatalln(err)
 	}
 	mux := http.NewServeMux()
