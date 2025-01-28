@@ -3,7 +3,7 @@ package routers
 import (
 	"net/http"
 
-	"real-time-forum/handlers"
+	//"real-time-forum/handlers"
 	//"real-time-forum/handlers/middleware"
 )
 
