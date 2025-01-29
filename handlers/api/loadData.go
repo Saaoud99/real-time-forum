@@ -6,6 +6,7 @@ import (
 	"fmt"
 	"net/http"
 	database "real-time-forum/DATABASE"
+	"text/template"
 	"time"
 )
 
@@ -79,3 +80,15 @@ func CreatePost(w http.ResponseWriter, r *http.Request) {
 	w.WriteHeader(http.StatusCreated)
 	json.NewEncoder(w).Encode(post)
 }
+
+func HomeHandler(w http.ResponseWriter, r *http.Request){
+	//fmt.Println(r.URL.Path)
+	tmp, _ :=	template.ParseFiles("Web/template/page.html")
+	tmp.Execute(w,nil)
+	
+	// http.ServeFile(w, r,"Web/template/page.html")
+}
+
+// func ServeJs(w http.ResponseWriter, r *http.Request){
+// 	http.ServeFile(w, r,"controlers/login.js")
+// }

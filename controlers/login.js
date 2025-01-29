@@ -1,3 +1,5 @@
+console.log('ffffffffffff');
+
 document.addEventListener("DOMContentLoaded", () => {
     const app = document.getElementById("app");
     

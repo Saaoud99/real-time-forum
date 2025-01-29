@@ -12,7 +12,7 @@ func SetupHomeRoutes() *http.ServeMux {
 	mux := http.NewServeMux()
 
 	//mux.HandleFunc("/", handlers.HomeHandler)
-	mux.HandleFunc("/login", )
+	//mux.HandleFunc("/api/login", )
 	//mux.HandleFunc("/register", middleware.RedirectMiddleware(handlers.RegisterHandler))
 
 	// mux.HandleFunc("/newpost", middleware.Middleware(handlers.NewPostHandler))
