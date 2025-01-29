@@ -19,7 +19,7 @@ func main() {
 
 	mux.HandleFunc("/posts", handlers.GetPosts)
 	//router.HandleFunc("/posts", handlers.CreatePost)
-
+	fmt.Println("listening on http://localhost:8080")
 	if err := http.ListenAndServe(":8080", mux); err != nil {
 		fmt.Println("Error starting server:", err)
 	}
