@@ -2,11 +2,11 @@ package forum
 
 import "time"
 
-type RegisterCredenials struct {
-	UserName string `json:"username"`
-	Email    string `json:"email"`
-	Password string `json:"password"`
-}
+// type RegisterCredenials struct {
+// 	UserName string `json:"username"`
+// 	Email    string `json:"email"`
+// 	Password string `json:"password"`
+// }
 
 type LoginCredentials struct {
 	Email    string `json:"email"`

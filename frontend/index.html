@@ -4,14 +4,88 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Document</title>
+  <title>Real-Time Forum</title>
+  <link rel="stylesheet" href="/css/global.css">
 </head>
 
 <body>
-  <h1 style="display: flex; align-items: center;">welcom to real-time-forum</h1>
-  <button id="login">login</button>
-  <button id="register">register</button>
-  <button id="logout">logout</button>
+
+  <!-- Navigation Buttons -->
+  <button id="login">Login</button>
+  <button id="register">Register</button>
+  <button id="logout">Logout</button>
+
+  <h1>Welcome to Real-Time Forum</h1>
+
+  <!-- Main Content Area -->
+  <main id="app">
+    <p>Click a button to navigate.</p>
+  </main>
+
+  <script>
+    const app = document.getElementById("app");
+
+    function renderRegisterForm() {
+      app.innerHTML = `
+        <h2>Register</h2>
+        <form id="registerForm">
+          <input type="text" id="nickname" placeholder="Nickname" required><br>
+          <input type="text" id="age" placeholder="Age" required><br>
+          <input type="text" id="gender" placeholder="Gender" required><br>
+          <input type="text" id="firstName" placeholder="First Name" required><br>
+          <input type="text" id="lastName" placeholder="Last Name" required><br>
+          <input type="email" id="email" placeholder="Email" required><br>
+          <input type="password" id="password" placeholder="Password" required><br>
+          <button type="submit">Register</button>
+        </form>
+      `;
+
+      document.getElementById("registerForm").addEventListener("submit", registerUser);
+    }
+
+    async function registerUser(event) {
+      event.preventDefault();
+
+      let user = {
+        nickname: document.getElementById("nickname").value,
+        age: document.getElementById("age").value,
+        gender: document.getElementById("gender").value,
+        firstName: document.getElementById("firstName").value,
+        lastName: document.getElementById("lastName").value,
+        email: document.getElementById("email").value,
+        password: document.getElementById("password").value
+      };
+
+      let res = await fetch("/register", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(user)
+      });
+
+      let data = await res.text();
+      alert(data);
+    }
+
+    function renderLoginForm() {
+      app.innerHTML = `
+        <h2>Login</h2>
+        <form id="loginForm">
+          <input type="text" id="loginNickname" placeholder="Enter your nickname" required><br>
+          <input type="password" id="loginPassword" placeholder="Enter your password" required><br>
+          <button type="submit">Login</button>
+        </form>
+      `;
+    }
+
+    function renderLogout() {
+      app.innerHTML = `<h2>You have been logged out.</h2>`;
+    }
+
+    document.getElementById("register").addEventListener("click", renderRegisterForm);
+    document.getElementById("login").addEventListener("click", renderLoginForm);
+    document.getElementById("logout").addEventListener("click", renderLogout);
+  </script>
+
 </body>
 
 </html>
