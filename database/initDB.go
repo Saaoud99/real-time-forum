@@ -20,7 +20,7 @@ func InitDb() error {
 		return err
 	}
 	// we read our tables from schema
-	query, err := os.ReadFile("./DATABASE/schema.sql")
+	query, err := os.ReadFile("./database/schema.sql")
 	if err != nil {
 		return err
 	}
