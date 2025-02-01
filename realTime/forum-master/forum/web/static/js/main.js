@@ -1,18 +1,15 @@
 import { Login } from "./views/login.js";
+import { Register } from "./views/register.js";
 
 
 const views = new Map([
-  //  ["/", Home],
     ["login", Login],
-    // ["register", 200],
-    // ["/post/{id}", 500],
-    // ["chat/", 300],
+    ["register", Register],
   ]);
 
 const path = window.location.pathname.replace(/^\/|\/$/g, '');
 
-
-const view = views.get(path); // Use get() method of Map
+const view = views.get(path); 
 if (view) {
   const View = new view();
   View.init();
@@ -21,11 +18,6 @@ if (view) {
 }
 
 
-// // console.log(path)
-// // console.log("ht")
-// // const view = views[path]
-// const View = new view()
-// View.init()
 
 
 
