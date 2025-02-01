@@ -6,6 +6,7 @@ import (
 	"fmt"
 	"log"
 	"net/http"
+	"strings"
 	"time"
 
 	"golang.org/x/crypto/bcrypt"
@@ -48,12 +49,6 @@ func RegisterHandler(db *sql.DB, w http.ResponseWriter, r *http.Request) {
 	fmt.Println(user, "regis tered successfully")
 }
 
-type NewPost struct {
-	Title      string   `json:"title"`
-	Content    string   `json:"content"`
-	Categories []string `json:"categories"`
-}
-
 func NewPostHandler(db *sql.DB) http.HandlerFunc {
 	return func(w http.ResponseWriter, r *http.Request) {
 		var Post NewPost
@@ -67,19 +62,17 @@ func NewPostHandler(db *sql.DB) http.HandlerFunc {
 		var useriD int
 		err = db.QueryRow(`SELECT user_id FROM sesions WHERE sesion= ?;`, cookie.Value).Scan(&useriD)
 		if err != nil {
-			fmt.Println(err)
+			fmt.Println("error selecting from sessions table", err)
 			return
 		}
 		var userName string
 		err = db.QueryRow(`SELECT nickname FROM users WHERE id= ?`, useriD).Scan(&userName)
 		if err != nil {
-			fmt.Println(err)
+			fmt.Println("error selecting from users table", err)
 			return
 		}
 
-		title := Post.Title
-		content := Post.Content
-		categories := Post.Categories
+		title, content, categories := Post.Title, Post.Content, Post.Categories
 		if title == "" || len(categories) == 0 || content == "" {
 			http.Error(w, "All fields are required", http.StatusBadRequest)
 			return
@@ -98,7 +91,7 @@ func NewPostHandler(db *sql.DB) http.HandlerFunc {
 		result, err := tx.Exec(
 			"INSERT INTO posts (nickname, title, content, user_id) VALUES (?, ?, ?,?)",
 			userName, title, content, useriD)
-			fmt.Println(userName, title, content, useriD)
+		fmt.Println(userName, title, content, useriD)
 		if err != nil {
 			http.Error(w, "error creating post", 500)
 			return
@@ -108,6 +101,10 @@ func NewPostHandler(db *sql.DB) http.HandlerFunc {
 			return
 		}
 		for _, category := range categories {
+			if category != "thec" && category != "science" && category != "sport" {
+				http.Error(w, "bad request", http.StatusBadRequest)
+				return
+			}
 			_, err = tx.Exec("INSERT INTO categories (post_id, categories) VALUES (?, ?)", postID, category)
 			if err != nil {
 				return
@@ -118,5 +115,95 @@ func NewPostHandler(db *sql.DB) http.HandlerFunc {
 			return
 		}
 		w.WriteHeader(http.StatusCreated)
+	}
+}
+
+/*
+CREATE TABLE IF NOT EXISTS posts (
+    id INTEGER PRIMARY KEY AUTOINCREMENT,
+    nickname TEXT,
+    title TEXT NOT NULL,
+    content TEXT NOT NULL,
+    user_id INTEGER NOT NULL,
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    FOREIGN KEY (user_id) REFERENCES users (id) ON DELETE CASCADE
+);
+*/
+
+func FetchPosts(db *sql.DB) ([]Post, error) {
+	baseQuery := `
+					SELECT 
+					    p.id,
+					    p.nickname,
+					    p.title,
+					    p.content,
+					    COALESCE(GROUP_CONCAT(c.categories, ','), '') AS categories,
+					    p.created_at,
+					FROM posts p
+					LEFT JOIN categories c ON c.post_id = p.id
+					`
+	var rows *sql.Rows
+	var err error
+	query := baseQuery + `
+		GROUP BY p.id
+		ORDER BY p.created_at DESC
+		`
+	rows, err = db.Query(query)
+	if err != nil {
+		fmt.Println("33333333333333\n33")
+		return nil, fmt.Errorf("query error: %v", err)
+	}
+	defer rows.Close()
+
+	var posts []Post
+	for rows.Next() {
+		var post Post
+		var categoryString string
+		err := rows.Scan(&post.ID, &post.UserName, &post.Title, &post.Content, &categoryString, &post.CreatedAt, &post.Likes, &post.Dislikes)
+		if err != nil {
+			fmt.Printf("error scanning: %v\n", err)
+			continue
+		}
+		if categoryString != "" {
+			post.Categories = splitStringByComma(categoryString)
+		} else {
+			post.Categories = []string{}
+		}
+		posts = append(posts, post)
+	}
+
+	if err := rows.Err(); err != nil {
+		return nil, fmt.Errorf("row iteration error: %v", err)
+	}
+
+	return posts, nil
+}
+
+func splitStringByComma(input string) []string {
+	if input == "" {
+		return []string{}
+	}
+	return strings.Split(input, ",")
+}
+
+// APIHandler serves the posts as JSON
+func APIHandler(db *sql.DB) http.HandlerFunc {
+	return func(w http.ResponseWriter, r *http.Request) {
+		// category := r.URL.Query().Get("category")
+		user_id := isLoged(db, r)
+		posts, err := FetchPosts(db)
+		if err != nil {
+			http.Error(w, "Error fetching posts", http.StatusInternalServerError)
+			return
+		}
+
+		w.Header().Set("Content-Type", "application/json")
+		/* this line sets an HTTP response header to control how the response
+		is cached by clients (browsers) and intermediate caches (proxies).*/
+		w.Header().Set("Cache-Control", "no-cache")
+		if err := json.NewEncoder(w).Encode([]any{posts, user_id}); err != nil {
+			fmt.Println("444444444444444")
+			http.Error(w, "error encoding response", http.StatusInternalServerError)
+		}
 	}
 }

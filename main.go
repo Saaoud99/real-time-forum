@@ -32,6 +32,7 @@ func main() {
 	http.HandleFunc("/newPost", func(w http.ResponseWriter, r *http.Request) {
 		forum.NewPostHandler(db)(w, r)
 	})
+	http.HandleFunc("/posts", forum.APIHandler(db))
 	fmt.Println("Server is running on http://localhost:4011")
 	log.Fatal(http.ListenAndServe(":4011", nil))
 }

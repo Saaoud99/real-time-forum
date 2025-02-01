@@ -1,4 +1,5 @@
 import { renderNewPost } from './newPost.js';
+import { fetchPost } from './posts.js';
 import { renderRegisterForm, app } from './register.js'
 
 function handleRoute() {
@@ -7,6 +8,7 @@ function handleRoute() {
         '/register': renderRegisterForm,
         '/logout': renderLogout,
         '/newPost': renderNewPost,
+        '/posts': fetchPost,
     }
 
     const myroute = window.location.pathname;

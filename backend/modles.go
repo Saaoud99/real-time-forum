@@ -11,6 +11,12 @@ type User struct {
 	Password  string `json:"password"`
 }
 
+type NewPost struct {
+	Title      string   `json:"title"`
+	Content    string   `json:"content"`
+	Categories []string `json:"categories"`
+}
+
 type Post struct {
 	ID         int      `json:"Id"`
 	UserName   string   `json:"Username"`
