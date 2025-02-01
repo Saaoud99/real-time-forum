@@ -1,52 +1,33 @@
-const URL = "/"
-
-const map = {}
-map['/'] = home
-map['sign-in'] = login
-const view = map[Url]
-view.init()
+import { Login } from "./views/login.js";
 
 
+const views = new Map([
+  //  ["/", Home],
+    ["login", Login],
+    // ["register", 200],
+    // ["/post/{id}", 500],
+    // ["chat/", 300],
+  ]);
+
+const path = window.location.pathname.replace(/^\/|\/$/g, '');
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-class home {
-
-    init() {
-
-
-        if (!userAuthorized) {
-            //change url to /sign-in
-            //call router function
-        }
-    }
-
-    userAuthorized() {
-        return true
-    }
+const view = views.get(path); // Use get() method of Map
+if (view) {
+  const View = new view();
+  View.init();
+} else {
+  console.error(`View not found for path: ${path}`);
 }
-class login{
+
+
+// // console.log(path)
+// // console.log("ht")
+// // const view = views[path]
+// const View = new view()
+// View.init()
 
 
 
-    init()
-}
+
+

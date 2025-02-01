@@ -1,0 +1,28 @@
+export class Login {
+    constructor() {
+    }
+
+    init() {
+        const page = document.getElementById('zone')
+        page.innerHTML = ''
+        page.innerHTML = `
+            <div style="text-align: center; margin-top: 50px;">
+            <img src="web/static/img/bg/bg_1.jpg" alt="Logo" style="width: 150px; height: auto;">
+            <form action="#" method="post">
+            <div>
+                <input type="text" name="username" placeholder="Username" required><br><br>
+            </div>
+            <div>
+                <input type="password" name="password" placeholder="Password" required><br><br>
+            </div>
+            <div>
+                <button type="submit">Login</button>
+            </div>
+            </form>
+            </div>
+            `
+        
+    }
+}
+
+
