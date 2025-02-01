@@ -4,13 +4,13 @@ export function renderRegisterForm() {
     app.innerHTML = `
         <h2>Register</h2>
         <form id="registerForm">
-          <input type="text" id="nickname" placeholder="Nickname" ><br>
-          <input type="text" id="age" placeholder="Age" ><br>
-          <input type="text" id="gender" placeholder="Gender" ><br>
-          <input type="text" id="firstName" placeholder="First Name" ><br>
-          <input type="text" id="lastName" placeholder="Last Name" ><br>
-          <input type="email" id="email" placeholder="Email" ><br>
-          <input type="password" id="password" placeholder="Password" ><br>
+          <input type="text" id="nickname" placeholder="Nickname" required><br>
+          <input type="text" id="age" placeholder="Age" required><br>
+          <input type="text" id="gender" placeholder="Gender" required><br>
+          <input type="text" id="firstName" placeholder="First Name" required><br>
+          <input type="text" id="lastName" placeholder="Last Name" required><br>
+          <input type="email" id="email" placeholder="Email" required><br>
+          <input type="password" id="password" placeholder="Password" required><br>
           <button type="submit">Register</button>
         </form>
       `;

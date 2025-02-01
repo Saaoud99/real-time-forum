@@ -1,7 +1,18 @@
+import { renderNewPost } from './newPost.js';
 import { renderRegisterForm, app } from './register.js'
 
+function handleRoute() {
+    const router = {
+        '/login': renderLoginForm,
+        '/register': renderRegisterForm,
+        '/logout': renderLogout,
+        '/newPost': renderNewPost,
+    }
 
-function renderLoginForm() {
+    const myroute = window.location.pathname;
+    router[myroute].call();
+}
+export function renderLoginForm() {
     app.innerHTML = `
         <h2>Login</h2>
         <form id="loginForm">
@@ -12,21 +23,16 @@ function renderLoginForm() {
       `;
 }
 
-function renderLogout() {
+export function renderLogout() {
     app.innerHTML = `<h2>You have been logged out.</h2>`;
 }
 
-document.getElementById("register").addEventListener("click", () => {
-    history.pushState({}, "", "/register");
-    renderRegisterForm();
-});
-document.getElementById("login").addEventListener("click", renderLoginForm);
-document.getElementById("logout").addEventListener("click", renderLogout);
 document.addEventListener('click', (event) => {
     console.log(event);
 
     if (event.target.hasAttribute('data-link')) {
         const link = event.target.getAttribute('href')
         history.pushState(null, null, link);
+        handleRoute();
     }
 })

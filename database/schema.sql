@@ -9,15 +9,32 @@ CREATE TABLE IF NOT EXISTS users (
     password TEXT NOT NULL
 );
 
+-- Sessions table - manage user authentication
+CREATE TABLE IF NOT EXISTS sesions (
+    id INTEGER PRIMARY KEY AUTOINCREMENT,
+    sesion TEXT NOT NULL,
+    exp_date DATETIME,
+    user_id INTEGER NOT NULL,
+    FOREIGN KEY (user_id) REFERENCES users (id)
+);
+
 -- -- Posts table - stores all forum posts
--- CREATE TABLE IF NOT EXISTS posts (
---     id INTEGER PRIMARY KEY AUTOINCREMENT,
---     title TEXT NOT NULL,
---     content TEXT NOT NULL,
---     user_id INTEGER NOT NULL,
---     created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
---     FOREIGN KEY (user_id) REFERENCES users (id) ON DELETE CASCADE
--- );
+CREATE TABLE IF NOT EXISTS posts (
+    id INTEGER PRIMARY KEY AUTOINCREMENT,
+    nickname TEXT,
+    title TEXT NOT NULL,
+    content TEXT NOT NULL,
+    user_id INTEGER NOT NULL,
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    FOREIGN KEY (user_id) REFERENCES users (id) ON DELETE CASCADE
+);
+
+CREATE TABLE IF NOT EXISTS categories (
+    id INTEGER PRIMARY KEY AUTOINCREMENT,
+    post_id INTEGER NOT NULL,
+    categories TEXT,
+    FOREIGN KEY (post_id) REFERENCES posts (id)
+);
 
 -- -- Comments table - stores post comments
 -- CREATE TABLE IF NOT EXISTS comments (
@@ -59,9 +76,3 @@ CREATE TABLE IF NOT EXISTS users (
 --     UNIQUE (user_id, post_id, comment_id)
 -- );
 
--- -- Sessions table - manage user authentication
--- CREATE TABLE IF NOT EXISTS sessions (
---     user_id INTEGER NOT NULL,
---     session_id TEXT NOT NULL UNIQUE,
---     FOREIGN KEY (user_id) REFERENCES users (id) ON DELETE CASCADE
--- );
