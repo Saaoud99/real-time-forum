@@ -8,29 +8,15 @@ function handleRoute() {
         '/register': renderRegisterForm,
         '/logout': renderLogout,
         '/newPost': renderNewPost,
-        '/posts': fetchPost,
+        '/': fetchPost,
     }
 
     const myroute = window.location.pathname;
     router[myroute].call();
 }
-export function renderLoginForm() {
-    app.innerHTML = `
-        <h2>Login</h2>
-        <form id="loginForm">
-          <input type="text" id="loginNickname" placeholder="Enter your nickname" ><br>
-          <input type="password" id="loginPassword" placeholder="Enter your password" ><br>
-          <button type="submit">Login</button>
-        </form>
-      `;
-}
-
-export function renderLogout() {
-    app.innerHTML = `<h2>You have been logged out.</h2>`;
-}
+handleRoute();
 
 document.addEventListener('click', (event) => {
-    console.log(event);
 
     if (event.target.hasAttribute('data-link')) {
         const link = event.target.getAttribute('href')
@@ -38,3 +24,18 @@ document.addEventListener('click', (event) => {
         handleRoute();
     }
 })
+
+export function renderLogout() {
+    app.innerHTML = `<h2>You have been logged out.</h2>`;
+}
+
+export function renderLoginForm() {
+    app.innerHTML = `
+                <h2>Login</h2>
+                <form id="loginForm">
+                  <input type="text" id="loginNickname" placeholder="Enter your nickname" ><br>
+                  <input type="password" id="loginPassword" placeholder="Enter your password" ><br>
+                  <button type="submit">Login</button>
+                </form>
+              `;
+}

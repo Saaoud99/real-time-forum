@@ -23,8 +23,13 @@ func main() {
 
 		http.ServeFile(w, r, "./frontend/index.html")
 	})
+	
 	http.Handle("/frontend/css/", http.StripPrefix("/frontend/css/", http.FileServer(http.Dir("./frontend/css"))))
 	http.Handle("/frontend/js/", http.StripPrefix("/frontend/js/", http.FileServer(http.Dir("./frontend/js"))))
+	
+	http.HandleFunc("/posts", func(w http.ResponseWriter, r *http.Request) {
+		forum.APIHandler(db)(w, r)
+	})
 
 	http.HandleFunc("/register", func(w http.ResponseWriter, r *http.Request) {
 		forum.RegisterHandler(db, w, r)
@@ -32,7 +37,6 @@ func main() {
 	http.HandleFunc("/newPost", func(w http.ResponseWriter, r *http.Request) {
 		forum.NewPostHandler(db)(w, r)
 	})
-	http.HandleFunc("/posts", forum.APIHandler(db))
 	fmt.Println("Server is running on http://localhost:4011")
 	log.Fatal(http.ListenAndServe(":4011", nil))
 }
