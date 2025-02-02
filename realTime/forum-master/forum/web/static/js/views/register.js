@@ -49,8 +49,7 @@ async function checkresponse(){
    console.log(data);
    
    if (response.ok){
-   // console.log(response)
-    console.log("ggggg");
+   main.redicrect("/login")
     
    }else{
     alert(data.msg)

@@ -1,3 +1,4 @@
+import main from "../main.js"
 export class Login {
     constructor() {
     }
@@ -58,7 +59,7 @@ async function checklogin(){
    console.log(data);
    
    if (response.ok){
-    window.location.href = "/"
+    main.redicrect("/")
    }else{
     alert(data.msg)
     
