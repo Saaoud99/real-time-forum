@@ -1,11 +1,12 @@
 import { Login } from "./views/login.js";
 import { Register } from "./views/register.js";
+import { Home } from "./views/home.js"
 
 
 const views = new Map([
     ["login", Login],
     ["register", Register],
-    ["/", Home],
+    ["", Home],
   ]);
 
 const path = window.location.pathname.replace(/^\/|\/$/g, '');
