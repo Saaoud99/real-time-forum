@@ -5,6 +5,7 @@ import { Register } from "./views/register.js";
 const views = new Map([
     ["login", Login],
     ["register", Register],
+    ["/", Home],
   ]);
 
 const path = window.location.pathname.replace(/^\/|\/$/g, '');

@@ -3,6 +3,10 @@ class Home {
     }
 
     init(){
-        
+        const page = document.getElementById('zone');
+        page.innerHTML=''
+        page.innerHTML=`
+            
+        `
     }
 }
