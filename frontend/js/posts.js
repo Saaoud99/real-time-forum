@@ -8,11 +8,13 @@ export async function fetchPost() {
         }
         const posts = await res.json();
         posts.forEach(post => {
+            console.log(post.Usrename);
+            
             const postCard = document.createElement('div')
             postCard.className = 'postCard'
             postCard.innerHTML = `
         <div class="title"> ${escapeHTML(post.Title)}</div >
-         <div class="post-username">by @${escapeHTML(post.UsreName)}</div>
+         <div class="post-username">by @${escapeHTML(post.Username)}</div>
          <div class="post-content">${escapeHTML(post.Content)}</div>
         <div class="details-toggle" onclick="toggleDetails(this)">
            <span class="details-text">Details</span>

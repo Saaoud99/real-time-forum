@@ -1,7 +1,7 @@
 const app = document.getElementById("app");
 
 export function renderNewPost() {
-    app.innerHTML = `
+  app.innerHTML = `
   <form id="newPostForm" >
       <h for="title">Title:</h>
       <input type="text" maxlength="50" id="title" name="title" required />
@@ -29,34 +29,34 @@ export function renderNewPost() {
     </form>
     `;
 
-    document.getElementById("newPostForm").addEventListener("submit", createNewPost);
+  document.getElementById("newPostForm").addEventListener("submit", createNewPost);
 }
 
 async function createNewPost(event) {
-    event.preventDefault();
+  event.preventDefault();
 
-    // Collect form data correctly
-    let selectedCategories = Array.from(document.querySelectorAll('input[name="categories[]"]:checked'))
-        .map(checkbox => checkbox.value);
+  // Collect form data correctly
+  let selectedCategories = Array.from(document.querySelectorAll('input[name="categories[]"]:checked'))
+    .map(checkbox => checkbox.value);
 
-    let postData = {
-        title: document.getElementById("title").value,
-        content: document.getElementById("content").value,
-        categories: selectedCategories
-    };
-    console.log('==========>',postData);
-    
+  let postData = {
+    title: document.getElementById("title").value,
+    content: document.getElementById("content").value,
+    categories: selectedCategories
+  };
 
-    let res = await fetch("/newPost", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify(postData)
-    });
 
-    if (res.ok) {
-        history.pushState(null, null, '/');
-    }
+  let res = await fetch("/newPost", {
+    method: "POST",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify(postData)
+  });
 
-    let data = await res.text();
-    alert(data);
+  if (res.ok) {
+    history.pushState(null, null, '/');
+    handleRoute()
+  }
+
+  let data = await res.text();
+  alert(data);
 }

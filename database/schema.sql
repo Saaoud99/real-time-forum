@@ -75,6 +75,43 @@ INSERT INTO posts (nickname, title, content, user_id) VALUES
     ('CarEnthusiast', 'Basic Car Maintenance Guide', 'Regular maintenance can extend your car''s life and save you money. Here are the essential maintenance tasks every car owner should know.', 3),
     
     ('GameDev', 'Getting Started with Game Development', 'Game development is more accessible than ever. This guide walks through the basics of creating your first simple game using free tools.', 4),
+     ('MusicPro', 'Home Recording Studio Essentials', 'Setting up a home recording studio doesn''t have to break the bank. Here''s a guide to the essential equipment you need to start recording professional-quality audio at home.', 5),
+    
+    ('CyberSec', 'Cybersecurity Best Practices', 'In an increasingly connected world, protecting your digital life is crucial. Learn about essential security practices that everyone should implement to stay safe online.', 1),
+    
+    ('EcoWarrior', 'Sustainable Living on a Budget', 'Living sustainably doesn''t have to be expensive. This guide provides practical tips for reducing your environmental impact while saving money.', 2),
+    
+    ('PetWhisperer', 'Understanding Cat Behavior', 'Cats communicate in subtle ways. Learning to read their body language and understand their needs can help build a stronger bond with your feline friend.', 3),
+    
+    ('DIYMaster', 'Basic Home Repairs Everyone Should Know', 'Some home repairs don''t require a professional. Learn these basic maintenance skills to save money and become more self-reliant.', 4),
+    
+    ('StartupFounder', 'Lessons from My First Year in Business', 'Starting a business is a journey filled with unexpected challenges and valuable lessons. Here are the key insights from my first year as a founder.', 5),
+    
+    ('PhotoPro', 'Smartphone Photography Tips', 'You don''t need expensive equipment to take great photos. These techniques will help you make the most of your smartphone camera.', 1),
+    
+    ('MindfulLiving', 'Introduction to Meditation', 'Meditation doesn''t have to be complicated. Start with these simple techniques to build a daily mindfulness practice.', 2),
+    
+    ('CarEnthusiast', 'Basic Car Maintenance Guide', 'Regular maintenance can extend your car''s life and save you money. Here are the essential maintenance tasks every car owner should know.', 3),
+    
+    ('GameDev', 'Getting Started with Game Development', 'Game development is more accessible than ever. This guide walks through the basics of creating your first simple game using free tools.', 4), ('MusicPro', 'Home Recording Studio Essentials', 'Setting up a home recording studio doesn''t have to break the bank. Here''s a guide to the essential equipment you need to start recording professional-quality audio at home.', 5),
+    
+    ('CyberSec', 'Cybersecurity Best Practices', 'In an increasingly connected world, protecting your digital life is crucial. Learn about essential security practices that everyone should implement to stay safe online.', 1),
+    
+    ('EcoWarrior', 'Sustainable Living on a Budget', 'Living sustainably doesn''t have to be expensive. This guide provides practical tips for reducing your environmental impact while saving money.', 2),
+    
+    ('PetWhisperer', 'Understanding Cat Behavior', 'Cats communicate in subtle ways. Learning to read their body language and understand their needs can help build a stronger bond with your feline friend.', 3),
+    
+    ('DIYMaster', 'Basic Home Repairs Everyone Should Know', 'Some home repairs don''t require a professional. Learn these basic maintenance skills to save money and become more self-reliant.', 4),
+    
+    ('StartupFounder', 'Lessons from My First Year in Business', 'Starting a business is a journey filled with unexpected challenges and valuable lessons. Here are the key insights from my first year as a founder.', 5),
+    
+    ('PhotoPro', 'Smartphone Photography Tips', 'You don''t need expensive equipment to take great photos. These techniques will help you make the most of your smartphone camera.', 1),
+    
+    ('MindfulLiving', 'Introduction to Meditation', 'Meditation doesn''t have to be complicated. Start with these simple techniques to build a daily mindfulness practice.', 2),
+    
+    ('CarEnthusiast', 'Basic Car Maintenance Guide', 'Regular maintenance can extend your car''s life and save you money. Here are the essential maintenance tasks every car owner should know.', 3),
+    
+    ('GameDev', 'Getting Started with Game Development', 'Game development is more accessible than ever. This guide walks through the basics of creating your first simple game using free tools.', 4),
     
     ('LanguageLearner', 'Effective Language Learning Strategies', 'Learning a new language requires the right approach. These proven strategies will help you make consistent progress in your language learning journey.', 5);
 

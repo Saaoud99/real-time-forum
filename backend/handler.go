@@ -101,7 +101,7 @@ func NewPostHandler(db *sql.DB) http.HandlerFunc {
 			return
 		}
 		for _, category := range categories {
-			if category != "thec" && category != "science" && category != "sport" {
+			if category != "tech" && category != "science" && category != "sport" {
 				http.Error(w, "bad request", http.StatusBadRequest)
 				return
 			}
@@ -178,7 +178,7 @@ func APIHandler(db *sql.DB) http.HandlerFunc {
 	return func(w http.ResponseWriter, r *http.Request) {
 		posts, err := FetchPosts(db)
 		if err != nil {
-			http.Error(w, "Error fetching posts 11", http.StatusInternalServerError)
+			http.Error(w, "Error fetching posts", http.StatusInternalServerError)
 			fmt.Println(err)
 			return
 		}
@@ -190,5 +190,103 @@ func APIHandler(db *sql.DB) http.HandlerFunc {
 		if err := json.NewEncoder(w).Encode(posts); err != nil {
 			http.Error(w, "error encoding response", http.StatusInternalServerError)
 		}
+	}
+}
+
+type LoginCredentials struct {
+	Nickname string `json:"nickname"`
+	Email    string `json:"email"`
+	Password string `json:"password"`
+}
+
+func LoginHandler(db *sql.DB) http.HandlerFunc {
+	return func(w http.ResponseWriter, r *http.Request) {
+		if r.Method != http.MethodPost {
+			http.Error(w, "Invalid request method", http.StatusMethodNotAllowed)
+			return
+		}
+
+		var credentials LoginCredentials
+
+		err := json.NewDecoder(r.Body).Decode(&credentials)
+		if err != nil {
+			http.Error(w, "Invalid JSON", http.StatusBadRequest)
+			return
+		}
+		nickname := credentials.Nickname
+		email := credentials.Email
+		password := credentials.Password
+
+		if email == "" && nickname == "" {
+			http.Error(w, "please enter your email or nickname", http.StatusBadRequest)
+			return
+		} else if password == "" {
+			http.Error(w, "password is required", http.StatusBadRequest)
+			return
+		}
+		var storedPassword string
+		var user_id int
+		query := "SELECT password, id FROM users WHERE email = ? or nickname = ?"
+		err = db.QueryRow(query, email, nickname).Scan(&storedPassword, &user_id)
+		if err != nil {
+			if err == sql.ErrNoRows {
+				http.Error(w, "User not found", http.StatusUnauthorized)
+			} else {
+				http.Error(w, "Database error", http.StatusInternalServerError)
+			}
+			return
+		}
+
+		err2 := bcrypt.CompareHashAndPassword([]byte(storedPassword), []byte(password))
+		if err2 != nil {
+			http.Error(w, "Invalid credentials", http.StatusUnauthorized)
+			return
+		}
+
+		// deleting old session
+		deleteQuery := "DELETE FROM sessions WHERE user_id = ?"
+		_, err = db.Exec(deleteQuery, user_id)
+		if err != nil {
+			http.Error(w, "Error cleaning old sessions", http.StatusInternalServerError)
+			return
+		}
+
+		cookie := CookieMaker(w)
+		err = InsretCookie(db, user_id, cookie, time.Now().Add(time.Hour*24))
+		if err != nil {
+			fmt.Println("error inserting cookie\n", err)
+			return
+		}
+		fmt.Printf("%d logged in successfully!\n", user_id)
+	}
+}
+
+func LogOutHandler(db *sql.DB) http.HandlerFunc {
+	return func(w http.ResponseWriter, r *http.Request) {
+		if r.Method != http.MethodPost {
+			http.Error(w, "Invalid request method", http.StatusMethodNotAllowed)
+			return
+		}
+
+		cookie, err := r.Cookie("forum_session")
+		if err != nil {
+			http.Error(w, "No active session found", http.StatusUnauthorized)
+			return
+		}
+
+		sessionID := cookie.Value
+		query := `DELETE FROM sesions WHERE sesion = ?` /*this is not a typo, sessions didn't work for some reason*/
+		_, err = db.Exec(query, sessionID)
+		if err != nil {
+			fmt.Println("error executing the query")
+		}
+
+		http.SetCookie(w, &http.Cookie{
+			Name:   "forum_session",
+			Value:  "",
+			Path:   "/",
+			MaxAge: -1,
+		})
+		fmt.Println(sessionID, "loged out")
 	}
 }

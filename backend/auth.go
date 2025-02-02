@@ -54,18 +54,18 @@ func ValidateCookie(db *sql.DB, w http.ResponseWriter, r *http.Request) (int, er
 	return user_id, nil
 }
 
-func isLoged(db *sql.DB, r *http.Request) int {
-	var user_id int
-	cookie, err := r.Cookie("forum_session")
-	if err != nil {
-		user_id = 0
-	} else {
-		sessionID := cookie.Value
-		query1 := `SELECT user_id FROM sesions WHERE sesion = ?`
-		err = db.QueryRow(query1, sessionID).Scan(&user_id)
-		if err != nil {
-			user_id = 0
-		}
-	}
-	return user_id
-}
+// func isLoged(db *sql.DB, r *http.Request) int {
+// 	var user_id int
+// 	cookie, err := r.Cookie("forum_session")
+// 	if err != nil {
+// 		user_id = 0
+// 	} else {
+// 		sessionID := cookie.Value
+// 		query1 := `SELECT user_id FROM sesions WHERE sesion = ?`
+// 		err = db.QueryRow(query1, sessionID).Scan(&user_id)
+// 		if err != nil {
+// 			user_id = 0
+// 		}
+// 	}
+// 	return user_id
+// }

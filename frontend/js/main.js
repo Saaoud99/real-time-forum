@@ -1,6 +1,8 @@
 import { renderNewPost } from './newPost.js';
 import { fetchPost } from './posts.js';
-import { renderRegisterForm, app } from './register.js'
+import { renderRegisterForm } from './register.js'
+import { renderLoginForm } from './login.js';
+import { renderLogout } from './logedout.js';
 
 function handleRoute() {
     const router = {
@@ -25,17 +27,6 @@ document.addEventListener('click', (event) => {
     }
 })
 
-export function renderLogout() {
-    app.innerHTML = `<h2>You have been logged out.</h2>`;
-}
 
-export function renderLoginForm() {
-    app.innerHTML = `
-                <h2>Login</h2>
-                <form id="loginForm">
-                  <input type="text" id="loginNickname" placeholder="Enter your nickname" ><br>
-                  <input type="password" id="loginPassword" placeholder="Enter your password" ><br>
-                  <button type="submit">Login</button>
-                </form>
-              `;
-}
+
+
