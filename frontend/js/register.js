@@ -19,6 +19,14 @@ export function renderRegisterForm() {
 }
 
 async function registerUser(event) {
+    /*event.preventDefault(); is used here to stop the default form submission behavior
+     of the browser, By default, when a form is submitted, the browser will:
+     Collect all form data
+     Create a GET or POST request
+     Refresh/reload the page
+     Append form data to the URL (in case of GET) or
+    send it in the request body (in case of POST)
+    */
     event.preventDefault();
 
     let user = {

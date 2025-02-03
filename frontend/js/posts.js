@@ -7,9 +7,7 @@ export async function fetchPost() {
             throw new error
         }
         const posts = await res.json();
-        posts.forEach(post => {
-            console.log(post.Usrename);
-            
+        posts.forEach(post => {            
             const postCard = document.createElement('div')
             postCard.className = 'postCard'
             postCard.innerHTML = `

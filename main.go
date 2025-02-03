@@ -39,10 +39,19 @@ func main() {
 	})
 
 	// logout entry point
-		http.HandleFunc("/logout", func(w http.ResponseWriter, r *http.Request) {
+	http.HandleFunc("/logout", func(w http.ResponseWriter, r *http.Request) {
 		if r.Method == http.MethodPost {
 			forum.LogOutHandler(db)(w, r)
 		} else {
+			http.Error(w, "Method Not Allowed", http.StatusMethodNotAllowed)
+		}
+	})
+
+	http.HandleFunc("/login",func(w http.ResponseWriter, r *http.Request) {
+		if r.Method == http.MethodPost {
+			fmt.Println("dkhl ##########")
+			forum.LoginHandler(db)(w,r)
+		}else {
 			http.Error(w, "Method Not Allowed", http.StatusMethodNotAllowed)
 		}
 	})

@@ -194,8 +194,7 @@ func APIHandler(db *sql.DB) http.HandlerFunc {
 }
 
 type LoginCredentials struct {
-	Nickname string `json:"nickname"`
-	Email    string `json:"email"`
+	Login    string `json:"login"`
 	Password string `json:"password"`
 }
 
@@ -213,21 +212,17 @@ func LoginHandler(db *sql.DB) http.HandlerFunc {
 			http.Error(w, "Invalid JSON", http.StatusBadRequest)
 			return
 		}
-		nickname := credentials.Nickname
-		email := credentials.Email
+		login := credentials.Login
 		password := credentials.Password
 
-		if email == "" && nickname == "" {
-			http.Error(w, "please enter your email or nickname", http.StatusBadRequest)
-			return
-		} else if password == "" {
-			http.Error(w, "password is required", http.StatusBadRequest)
+		if login == "" || password == "" {
+			http.Error(w, "please enter your login and password", http.StatusBadRequest)
 			return
 		}
 		var storedPassword string
 		var user_id int
-		query := "SELECT password, id FROM users WHERE email = ? or nickname = ?"
-		err = db.QueryRow(query, email, nickname).Scan(&storedPassword, &user_id)
+		query := "SELECT password, id FROM users WHERE email = ? OR nickname = ?"
+		err = db.QueryRow(query, login , login).Scan(&storedPassword, &user_id) // should i call it once or twice
 		if err != nil {
 			if err == sql.ErrNoRows {
 				http.Error(w, "User not found", http.StatusUnauthorized)
@@ -244,7 +239,7 @@ func LoginHandler(db *sql.DB) http.HandlerFunc {
 		}
 
 		// deleting old session
-		deleteQuery := "DELETE FROM sessions WHERE user_id = ?"
+		deleteQuery := "DELETE FROM sesions WHERE user_id = ?"
 		_, err = db.Exec(deleteQuery, user_id)
 		if err != nil {
 			http.Error(w, "Error cleaning old sessions", http.StatusInternalServerError)
