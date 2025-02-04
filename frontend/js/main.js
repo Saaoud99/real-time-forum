@@ -1,20 +1,10 @@
-import { renderNewPost } from './newPost.js';
-import { fetchPost } from './posts.js';
-import { renderRegisterForm } from './register.js'
-import { renderLoginForm } from './login.js';
-import { renderLogout } from './logedout.js';
+import { router } from "./routes.js";
 
-function handleRoute() {
-    const router = {
-        '/login': renderLoginForm,
-        '/register': renderRegisterForm,
-        '/logout': renderLogout,
-        '/newPost': renderNewPost,
-        '/': fetchPost,
-    }
+export async function handleRoute() {
 
     const myroute = window.location.pathname;
-    router[myroute].call();
+    console.log(router[myroute]);
+    await router[myroute].call();
 }
 handleRoute();
 

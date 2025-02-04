@@ -1,4 +1,4 @@
-import { debounce, escapeHTML } from "./helpers.js";
+import { debounce, escapeHTML, toggleComments } from "./helpers.js";
 
 const container = document.getElementById('container')
 export async function fetchPost() {
@@ -8,6 +8,7 @@ export async function fetchPost() {
             throw new error
         }
         const posts = await res.json();
+        container.replaceChildren();
         displayposts(posts);
         const debouncedDisplay = debounce((posts) => {
             displayposts(posts);
@@ -45,14 +46,14 @@ function displayposts(posts) {
               <button class="post-btn dislike", style="background:none;"  id = ${post.Id}>👎</button>
               <div class="post-dislikes" >${escapeHTML(post.Dislikes.toString())} </div>
             </div >
-             <button class="comment-btn" onclick="toggleComments(${post.Id}, this)">Show Comments</button>
-            <div class="comment-section hidden" id="comment-section-${post.Id}">
-              <textarea class="comment-input" id="comment-input-${post.Id}" placeholder="Your comment"></textarea>
-              <button class="send-comment-btn" onclick="postComment(${post.Id}, 1)">Comment</button>
-              <div id="comments-list-${post.Id}" class="comments-list"></div>
-                `
+            `
             container.appendChild(postCard)
         }
     }
 }
+        //     <button class="comment-btn" onclick="toggleComments(${post.Id}, this)">Show Comments</button>
+        //    <div class="comment-section hidden" id="comment-section-${post.Id}">
+        //      <textarea class="comment-input" id="comment-input-${post.Id}" placeholder="Your comment"></textarea>
+        //      <button class="send-comment-btn" onclick="postComment(${post.Id}, 1)">Comment</button>
+        //      <div id="comments-list-${post.Id}" class="comments-list"></div>
 //window.escapeHTML = escapeHTML;

@@ -1,4 +1,7 @@
-const app = document.getElementById("app");
+import { handleRoute } from './main.js'
+
+const app = document.getElementById('container');
+
 
 export function renderNewPost() {
   app.innerHTML = `
@@ -25,10 +28,19 @@ export function renderNewPost() {
         </div>
       </div1>
       <button type="submit" id="createPostButton" class="create-post">Create Post</button>
-      <button type="button" class="btn back-btn" onclick="window.location.href='/'">Back to Home</button>
+      <button type="button" class="btn back-btn" href="/" data-link>Back to Home</button>
     </form>
     `;
+  const createPostButton = document.getElementById('createPostButton');
+  console.log(createPostButton);
 
+  createPostButton.disabled = true;
+  createPostButton.textContent = 'Submitting...';
+
+  setTimeout(() => {
+    createPostButton.disabled = false;
+    createPostButton.textContent = 'Create Post';
+  }, 5000);
   document.getElementById("newPostForm").addEventListener("submit", createNewPost);
 }
 
@@ -53,7 +65,8 @@ async function createNewPost(event) {
 
   if (res.ok) {
     history.pushState(null, null, '/');
-    handleRoute()
+    await handleRoute()
+    return
   }
 
   let data = await res.text();

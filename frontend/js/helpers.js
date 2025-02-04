@@ -42,3 +42,25 @@ export function timeAgo(date) {
     }
     return "just now";
 }
+
+
+
+export function toggleComments(postId, button) {
+    const commentSection = document.getElementById(`comment-section-${postId}`);
+    console.log("Button clicked:", button.textContent);
+    console.log(
+        "Comment section hidden:",
+        commentSection.classList.contains("hidden")
+    );
+
+    if (commentSection.classList.contains("hidden")) {
+        console.log("Showing comments for post:", postId);
+        commentSection.classList.remove("hidden");
+        button.textContent = "Hide Comments";
+        loadComments(postId);
+    } else {
+        console.log("Hiding comments for post:", postId);
+        commentSection.classList.add("hidden");
+        button.textContent = "Show Comments";
+    }
+}
