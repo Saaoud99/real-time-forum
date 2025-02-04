@@ -1,3 +1,4 @@
+import main from "../main.js";
 
 
 
@@ -15,7 +16,7 @@ export class Home {
             },
             
            })
-           const data =  response.json()
+           //const data =  response.json
            
            if (!response.ok){
            main.redicrect("/login")
