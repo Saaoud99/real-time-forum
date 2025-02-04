@@ -8,7 +8,7 @@ import (
 )
 
 func InitDB() *sql.DB {
-	db, err := sql.Open("sqlite3", "./database/Test11.db")
+	db, err := sql.Open("sqlite3", "./database/Test13.db")
 	if err != nil {
 		log.Fatal("Error connecting to database:", err)
 	}
@@ -27,7 +27,7 @@ func InitDB() *sql.DB {
 	if err != nil {
 		log.Fatalf("Failed to read SQL script file: %v", err)
 	}
-	_, err = db.Exec(string(scriptContent)+Test)
+	_, err = db.Exec(string(scriptContent))
 	if err != nil {
 		log.Fatalf("Failed to execute SQL script: %v", err)
 	}

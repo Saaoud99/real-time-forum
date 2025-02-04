@@ -7,6 +7,16 @@ export function debounce(func, wait) {
     }
 }
 
+export function hasCookie(cookieName) {
+    // Get all cookies as a string
+    const cookies = document.cookie;
+
+    // Check if the cookie exists by searching for the cookie name followed by '='
+    return cookies.split(';').some(cookie => cookie.trim().startsWith(cookieName + '='));
+}
+
+
+
 export function escapeHTML(str) {
     if (typeof str !== "string") return "";
     return str.replace(

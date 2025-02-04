@@ -25,8 +25,18 @@ export async function fetchPost() {
 
 
 function displayposts(posts) {
+    // if (posts[1] != 0) {
+    //     document.querySelectorAll(".loged").forEach((elem) => {
+    //         elem.style.display = "none";
+    //     });
+    // }
+    // if (posts[1] === 0) {
+    //     document.querySelectorAll(".unloged").forEach((elem) => {
+    //         elem.style.display = "none";
+    //     });
+    // }
     for (let i = 0; i < 10; i++) {
-        const post = posts.shift();
+        const post = posts[0].shift();
         if (post) {
             const postCard = document.createElement('div')
             postCard.className = 'postCard'

@@ -5,7 +5,7 @@ import (
 	"log"
 	"net/http"
 
-	forum "real-time-forum/backend"
+	forum "real-time-forum/backend/handlers"
 	"real-time-forum/database"
 
 	_ "github.com/mattn/go-sqlite3"
@@ -45,10 +45,10 @@ func main() {
 		}
 	})
 
-	http.HandleFunc("/login",func(w http.ResponseWriter, r *http.Request) {
+	http.HandleFunc("/login", func(w http.ResponseWriter, r *http.Request) {
 		if r.Method == http.MethodPost {
-			forum.LoginHandler(db)(w,r)
-		}else {
+			forum.LoginHandler(db)(w, r)
+		} else {
 			http.Error(w, "Method Not Allowed", http.StatusMethodNotAllowed)
 		}
 	})

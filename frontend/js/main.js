@@ -1,9 +1,9 @@
 import { router } from "./routes.js";
+import { hasCookie } from "./helpers.js";
 
 export async function handleRoute() {
 
     const myroute = window.location.pathname;
-    console.log(router[myroute]);
     await router[myroute].call();
 }
 handleRoute();
@@ -17,6 +17,9 @@ document.addEventListener('click', (event) => {
     }
 })
 
-
-
-
+// Example usage:
+if (hasCookie('forum_session')) {
+    console.log('User has the "userSession" cookie');
+} else {
+    console.log('User does not have the "userSession" cookie');
+}
