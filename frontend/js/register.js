@@ -1,7 +1,9 @@
-export const app = document.getElementById("app");
+import { handleRoute } from "./main.js";
+
+export const container = document.getElementById("container");
 
 export function renderRegisterForm() {
-    app.innerHTML = `
+    container.innerHTML = `
         <h2>Register</h2>
         <form id="registerForm">
           <input type="text" id="nickname" placeholder="Nickname" required><br>
@@ -44,8 +46,12 @@ async function registerUser(event) {
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify(user)
     });
+    console.log(res);
+
     if (res.ok) {
         history.pushState(null, null, '/');
+        await handleRoute();
+        return;
     }
     let data = await res.text();
     alert(data);

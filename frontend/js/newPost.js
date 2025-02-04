@@ -1,10 +1,10 @@
 import { handleRoute } from './main.js'
 
-const app = document.getElementById('container');
+const container = document.getElementById('container');
 
 
 export function renderNewPost() {
-  app.innerHTML = `
+  container.innerHTML = `
   <form id="newPostForm" >
       <h for="title">Title:</h>
       <input type="text" maxlength="50" id="title" name="title" required />
@@ -31,16 +31,6 @@ export function renderNewPost() {
       <button type="button" class="btn back-btn" href="/" data-link>Back to Home</button>
     </form>
     `;
-  const createPostButton = document.getElementById('createPostButton');
-  console.log(createPostButton);
-
-  createPostButton.disabled = true;
-  createPostButton.textContent = 'Submitting...';
-
-  setTimeout(() => {
-    createPostButton.disabled = false;
-    createPostButton.textContent = 'Create Post';
-  }, 5000);
   document.getElementById("newPostForm").addEventListener("submit", createNewPost);
 }
 
