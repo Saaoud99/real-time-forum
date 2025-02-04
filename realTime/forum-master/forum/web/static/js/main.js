@@ -3,7 +3,7 @@ import { Register } from "./views/register.js";
 import { Home } from "./views/home.js"
 
 function operation(){
-
+  
   const views = new Map([
       ["login", Login],
       ["register", Register],

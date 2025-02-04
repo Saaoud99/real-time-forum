@@ -292,3 +292,23 @@ func LoadAllCategories(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 }
+
+func CheckToken(w http.ResponseWriter, r *http.Request) {
+	if r.Method != http.MethodGet {
+		utils.ResponseJSON(w, utils.Resp{Msg: "Method Not Allowed", Code: http.StatusMethodNotAllowed})
+		return
+	}
+
+	cookie, errNoCookie := r.Cookie("session_id")
+
+	if errNoCookie != nil {
+		utils.ResponseJSON(w, utils.Resp{Msg: errNoCookie.Error(), Code: http.StatusBadRequest})
+		return
+	}
+
+	var isValid bool
+	if err := database.DataBase.QueryRow("SELECT EXISTS(SELECT * FROM sessions WHERE session_id=?)", cookie.Value).Scan(&isValid); err != nil || !isValid {
+		utils.ResponseJSON(w, utils.Resp{Msg: err.Error(), Code: http.StatusBadRequest})
+		return
+	}
+}

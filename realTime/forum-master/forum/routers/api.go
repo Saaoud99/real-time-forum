@@ -18,5 +18,6 @@ func SetupApiRoutes() *http.ServeMux {
 	mux.HandleFunc("/api/posts", api.LoadData)
 	mux.HandleFunc("/api/posts/{id}", api.LoadPostData)
 	mux.HandleFunc("/api/categories", api.LoadAllCategories)
+	mux.HandleFunc("/api/checkToken", api.CheckToken)
 	return mux
 }

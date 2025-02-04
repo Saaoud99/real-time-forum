@@ -29,7 +29,7 @@ func ErrorHandler(w http.ResponseWriter, r *http.Request, status int) {
 	DetailsError.Status = status
 	DetailsError.Method = r.Method
 	DetailsError.Path = r.URL.Path
-	if err := templates.ExecuteTemplate(w, "error.html", DetailsError); err != nil {
+	if err := templates.ExecuteTemplate(w, "index.html", DetailsError); err != nil {
 		http.Error(w, "500 Internal Server Error", http.StatusInternalServerError)
 		return
 	}

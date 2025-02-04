@@ -6,7 +6,6 @@ import (
 	"strconv"
 
 	"forum/controllers"
-	"forum/database"
 	"forum/handlers"
 	"forum/models"
 	"forum/utils"
@@ -135,17 +134,18 @@ func LogoutUser(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-	session_id, err := r.Cookie("session_id")
-	if err != nil {
-		handlers.ErrorHandler(w, r, http.StatusInternalServerError)
-		return
-	}
+	//session_id, _ := r.Cookie("session_id")
+	// if err != nil {
+	// fmt.Println("eror in cookie ;", err)
+	// handlers.ErrorHandler(w, r, http.StatusInternalServerError)
+	// return
+	// }
 
-	query := `DELETE FROM sessions WHERE session_id=?`
-	if _, err := database.DataBase.Exec(query, session_id.Value); err != nil {
-		handlers.ErrorHandler(w, r, http.StatusInternalServerError)
-		return
-	}
+	// query := `DELETE FROM sessions WHERE session_id=?`
+	// if _, err := database.DataBase.Exec(query, session_id.Value); err != nil {
+	// handlers.ErrorHandler(w, r, http.StatusInternalServerError)
+	// return
+	// }
 
 	utils.DeleteCookie(w, "session_id")
 	utils.DeleteCookie(w, "user_id")
