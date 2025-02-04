@@ -1,6 +1,5 @@
-import { debounce } from "./helpers.js";
+import { debounce, escapeHTML } from "./helpers.js";
 
-const app = document.getElementById('app')
 const container = document.getElementById('container')
 export async function fetchPost() {
     try {
@@ -12,7 +11,7 @@ export async function fetchPost() {
         displayposts(posts);
         const debouncedDisplay = debounce((posts) => {
             displayposts(posts);
-        }, 3000);
+        }, 300);
 
         document.addEventListener('scroll', () => {
             debouncedDisplay(posts);
@@ -22,24 +21,11 @@ export async function fetchPost() {
         console.error(error);
     }
 }
-export function escapeHTML(str) {
-    if (typeof str !== "string") return "";
-    return str.replace(
-        /[&<>'"]/g,
-        (tag) =>
-        ({
-            "&": "&amp;",
-            "<": "&lt;",
-            ">": "&gt;",
-            "'": "&#39;",
-            '"': "&quot;",
-        }[tag] || tag)
-    );
-}
+
 
 function displayposts(posts) {
     for (let i = 0; i < 10; i++) {
-        const post = posts.pop();
+        const post = posts.shift();
         if (post) {
             const postCard = document.createElement('div')
             postCard.className = 'postCard'
@@ -69,4 +55,4 @@ function displayposts(posts) {
         }
     }
 }
-window.escapeHTML = escapeHTML;
+//window.escapeHTML = escapeHTML;

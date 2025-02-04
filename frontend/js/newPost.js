@@ -35,7 +35,6 @@ export function renderNewPost() {
 async function createNewPost(event) {
   event.preventDefault();
 
-  // Collect form data correctly
   let selectedCategories = Array.from(document.querySelectorAll('input[name="categories[]"]:checked'))
     .map(checkbox => checkbox.value);
 

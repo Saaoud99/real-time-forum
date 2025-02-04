@@ -1,8 +1,6 @@
 const app = document.getElementById('app')
 
-export function renderLoginForm() {
-    console.log('entred $$$$$');
-    
+export function renderLoginForm() {    
     app.innerHTML = `
     <h2>Login</h2>
     <form id="loginForm">
@@ -20,7 +18,6 @@ async function logUser(event) {
         login: document.getElementById("loginNickname").value,
         password: document.getElementById("loginPassword").value
     }
-    console.log(LoginCredentials);
     
     let res = await fetch('/login', {
         method: "POST",
