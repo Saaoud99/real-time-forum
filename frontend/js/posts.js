@@ -1,4 +1,5 @@
-import { debounce, escapeHTML, toggleComments } from "./helpers.js";
+import { debounce, escapeHTML, toggleComments } from './helpers.js';
+import { likeEvent } from './likes.js'
 
 const container = document.getElementById('container')
 export async function fetchPost() {
@@ -20,7 +21,7 @@ export async function fetchPost() {
 
     } catch (error) {
         console.log(error);
-        
+
         console.error(error);
     }
 }
@@ -53,24 +54,31 @@ function displayposts(posts) {
             ${escapeHTML(post.Categories.join(", "))}, ${post.Created_at}
               </div>
 
-        <!-- Comment section -->
-        <button class="comment-btn" onclick="toggleComments(${post.Id}, this)">Show Comments</button>
-       <div class="comment-section hidden" id="comment-section-${post.Id}">
-         <textarea class="comment-input" id="comment-input-${post.Id}" placeholder="Your comment"></textarea>
-         <button class="send-comment-btn" onclick="loadComments(${post.Id}, 1)">Comment</button>
-         <div id="comments-list-${post.Id}" class="comments-list"></div>
-
         <!-- Like section -->
-            <div class="post-actions">
-                <button class="post-btn like" style="background:none;" id="${post.Id}">👍</button>
-                <div class="post-likes like">${escapeHTML(post.Likes.toString())} </div>
-                <button class="post-btn dislike", style="background:none;"  id = ${post.Id}>👎</button>
-                <div class="post-dislikes" >${escapeHTML(post.Dislikes.toString())} </div>
-            </div >
+     <div class="post-actions">
+          <button class="post-btn like" style="background:none;" id="${post.Id}">👍</button>
+          <div class="post-likes like">${escapeHTML(post.Likes.toString())} </div>
+          <button class="post-btn dislike", style="background:none;"  id = ${post.Id}>👎</button>
+          <div class="post-dislikes" >${escapeHTML(post.Dislikes.toString())} </div>
+        </div>
+
+        <!-- Comment section -->
+                 <button class="comment-btn" onclick="toggleComments(${post.Id}, this)">Show Comments</button>
+                <div class="comment-section hidden" id="comment-section-${post.Id}">
+                  <textarea class="comment-input" id="comment-input-${post.Id}" placeholder="Your comment"></textarea>
+                  <button class="send-comment-btn" onclick="loadComments(${post.Id}, 1)">Comment</button>
+                  <div id="comments-list-${post.Id}" class="comments-list"></div>
+
+
             `
+            console.log(post.Id);
+            
+            likeEvent(postCard);
             container.appendChild(postCard)
         }
     }
 }
 window.escapeHTML = escapeHTML;
 window.toggleComments = toggleComments;
+// import this shit
+//  <script src="/static/js/likes.js"></script>

@@ -47,32 +47,20 @@ CREATE TABLE IF NOT EXISTS comments (
     FOREIGN KEY (user_id) REFERENCES users (id) ON DELETE CASCADE
 );
 
--- -- Categories table - store categories
--- CREATE TABLE IF NOT EXISTS categories (
---     id INTEGER PRIMARY KEY AUTOINCREMENT,
---     name TEXT NOT NULL UNIQUE
--- );
-
--- -- Post_Categories table - for relationship between posts and categories
--- CREATE TABLE IF NOT EXISTS post_categories (
---     post_id INTEGER,
---     category_id INTEGER,
---     PRIMARY KEY (post_id, category_id),
---     FOREIGN KEY (post_id) REFERENCES posts (id) ON DELETE CASCADE,
---     FOREIGN KEY (category_id) REFERENCES categories (id) ON DELETE CASCADE
--- );
-
 -- -- reactions table - stores both likes and dislikes
--- CREATE TABLE IF NOT EXISTS reactions (
---     id INTEGER PRIMARY KEY AUTOINCREMENT,
---     user_id INTEGER NOT NULL,
---     post_id INTEGER,
---     comment_id INTEGER,
---     is_like BOOLEAN NOT NULL,
---     created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
---     FOREIGN KEY (user_id) REFERENCES users (id) ON DELETE CASCADE,
---     FOREIGN KEY (post_id) REFERENCES posts (id) ON DELETE CASCADE,
---     FOREIGN KEY (comment_id) REFERENCES comments (id) ON DELETE CASCADE,
---     UNIQUE (user_id, post_id, comment_id)
--- );
+CREATE TABLE if NOT EXISTS likes(
+    id INTEGER PRIMARY KEY AUTOINCREMENT,
+    TypeOfLike TEXT NOT NULL,
+    user_id INTEGER NOT NULL,
+    post_id INTEGER NOT NULL,
+    comment_id INTEGER NOT NULL,
+    FOREIGN KEY (user_id) REFERENCES users (id)
+    FOREIGN KEY (post_id) REFERENCES posts (id)
+    FOREIGN KEY (comment_id) REFERENCES comments (id)
+
+);
+
+
+
+
 

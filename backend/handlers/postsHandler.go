@@ -11,25 +11,50 @@ import (
 	modles "real-time-forum/backend/mods"
 )
 
-func FetchPosts(db *sql.DB) ([]modles.Post, error) {
+func FetchPosts(db *sql.DB, category string) ([]modles.Post, error) {
 	baseQuery := `
-        SELECT 
-            p.id,
-            p.nickname,
-            p.title,
-            p.content,
-            COALESCE(GROUP_CONCAT(c.categories, ','), '') AS categories,
-            p.created_at
-        FROM posts p
-        LEFT JOIN categories c ON c.post_id = p.id
-    `
+					SELECT 
+					    p.id,
+					    p.nickname,
+					    p.title,
+					    p.content,
+					    COALESCE(GROUP_CONCAT(c.categories, ','), '') AS categories,
+					    p.created_at,
+					    COALESCE(
+					        (SELECT COUNT(*) FROM likes 
+					         WHERE post_id = p.id AND typeOfLike = 'like' AND comment_id = -1), 
+					        0
+					    ) AS likes,
+					    COALESCE(
+					        (SELECT COUNT(*) FROM likes 
+					         WHERE post_id = p.id AND typeOfLike = 'dislike' AND comment_id = -1), 
+					        0
+					    ) AS dislikes
+					FROM posts p
+					LEFT JOIN categories c ON c.post_id = p.id
+					`
+	var rows *sql.Rows
+	var err error
 
-	query := baseQuery + `
-        GROUP BY p.id
-        ORDER BY p.created_at DESC
-    `
+	if category != "" && category != "all" {
+		query := baseQuery + `
+		WHERE p.id IN (
+			SELECT post_id 
+			FROM categories 
+			WHERE categories = ?
+		)
+		GROUP BY p.id
+		ORDER BY p.created_at DESC
+		`
+		rows, err = db.Query(query, category)
+	} else {
+		query := baseQuery + `
+		GROUP BY p.id
+		ORDER BY p.created_at DESC
+		`
+		rows, err = db.Query(query)
+	}
 
-	rows, err := db.Query(query)
 	if err != nil {
 		return nil, fmt.Errorf("query error: %v", err)
 	}
@@ -39,7 +64,7 @@ func FetchPosts(db *sql.DB) ([]modles.Post, error) {
 	for rows.Next() {
 		var post modles.Post
 		var categoryString string
-		err := rows.Scan(&post.ID, &post.UserName, &post.Title, &post.Content, &categoryString, &post.CreatedAt)
+		err := rows.Scan(&post.ID, &post.UserName, &post.Title, &post.Content, &categoryString, &post.CreatedAt, &post.Likes, &post.Dislikes)
 		if err != nil {
 			fmt.Printf("error scanning: %v\n", err)
 			continue
@@ -66,10 +91,10 @@ func splitStringByComma(input string) []string {
 	return strings.Split(input, ",")
 }
 
-// APIHandler serves the posts as JSON
 func APIHandler(db *sql.DB) http.HandlerFunc {
 	return func(w http.ResponseWriter, r *http.Request) {
-		posts, err := FetchPosts(db)
+		category := r.URL.Query().Get("category")
+		posts, err := FetchPosts(db, category)
 		/*add this to hid login and register if the user alredy loged*/
 		user_id := authentication.IsLoged(db, r)
 		fmt.Println("user id :", user_id)

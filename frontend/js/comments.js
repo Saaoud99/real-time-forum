@@ -53,7 +53,7 @@ export async function postComments(postId) {
               </div>
         </div>
       `;
-            //likeEvent(commentElement, comment.id, postId);
+            likeEvent(commentElement, comment.id, postId);
             commentsList.appendChild(commentElement);
         });
     } catch (error) {

@@ -11,7 +11,6 @@ export async function renderLogout() {
         credentials: 'same-origin',
     });
     if (!res.ok) {
-        console.log('fuck you');
         return;
     }
     renderLoginForm()

@@ -65,6 +65,10 @@ func main() {
 		}
 	})
 
+	// here but not like this of cours
+
+	http.HandleFunc("/like", forum.HandleLikes(db))
+
 	fmt.Println("Server is running on http://localhost:4011")
 	log.Fatal(http.ListenAndServe(":4011", nil))
 }

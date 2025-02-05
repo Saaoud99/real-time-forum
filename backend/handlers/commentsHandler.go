@@ -75,16 +75,16 @@ func GetComments(db *sql.DB) http.HandlerFunc {
 				http.Error(w, err.Error(), http.StatusInternalServerError)
 				return
 			}
-			// comment.Likes, err = countLikesForPost(db, comment.PostID, comment.ID, "like", "comment")
-			// if err != nil {
-			// 	http.Error(w, "Error Counting likes", http.StatusInternalServerError)
-			// 	return
-			// }
-			// comment.Dislikes, err = countLikesForPost(db, comment.PostID, comment.ID, "dislike", "comment")
-			// if err != nil {
-			// 	http.Error(w, "Error Counting dislikes", http.StatusInternalServerError)
-			// 	return
-			// }
+			comment.Likes, err = countLikesForPost(db, comment.PostID, comment.ID, "like", "comment")
+			if err != nil {
+				http.Error(w, "Error Counting likes", http.StatusInternalServerError)
+				return
+			}
+			comment.Dislikes, err = countLikesForPost(db, comment.PostID, comment.ID, "dislike", "comment")
+			if err != nil {
+				http.Error(w, "Error Counting dislikes", http.StatusInternalServerError)
+				return
+			}
 			comments = append(comments, comment)
 		}
 
