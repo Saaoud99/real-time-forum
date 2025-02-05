@@ -50,11 +50,19 @@ function displayposts(posts) {
             <div class="meta hidden">
             ${escapeHTML(post.Categories.join(", "))}, ${post.Created_at}
               </div>
-             <div class="post-actions">
-              <button class="post-btn like" style="background:none;" id="${post.Id}">👍</button>
-              <div class="post-likes like">${escapeHTML(post.Likes.toString())} </div>
-              <button class="post-btn dislike", style="background:none;"  id = ${post.Id}>👎</button>
-              <div class="post-dislikes" >${escapeHTML(post.Dislikes.toString())} </div>
+
+        <!-- Comment section -->
+            <div class="comment-section">
+              <textarea id="comment-text-${post.Id}" placeholder="Write a comment..."></textarea>
+              <button class="post-btn comment-btn" onclick="submitComment(${post.Id})">Post Comment</button>
+            </div>
+
+        <!-- Like section -->
+            <div class="post-actions">
+                <button class="post-btn like" style="background:none;" id="${post.Id}">👍</button>
+                <div class="post-likes like">${escapeHTML(post.Likes.toString())} </div>
+                <button class="post-btn dislike", style="background:none;"  id = ${post.Id}>👎</button>
+                <div class="post-dislikes" >${escapeHTML(post.Dislikes.toString())} </div>
             </div >
             `
             container.appendChild(postCard)
