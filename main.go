@@ -54,11 +54,12 @@ func main() {
 	})
 
 	http.HandleFunc("/comments", func(w http.ResponseWriter, r *http.Request) {
-		fmt.Println("kkkkkkkkkkk")
-		if r.Method == http.MethodPost{
-			forum.CreateComment(db)(w,r)
-		} else if r.Method == http.MethodGet{
-			forum.GetComments(db)(w,r)
+		if r.Method == http.MethodPost {
+			fmt.Println("post here")
+			forum.CreateComment(db)(w, r)
+		} else if r.Method == http.MethodGet {
+			fmt.Println("get here")
+			forum.GetComments(db)(w, r)
 		} else {
 			http.Error(w, "Method Not Allowed", http.StatusMethodNotAllowed)
 		}

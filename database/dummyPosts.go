@@ -1,81 +1,56 @@
 package database
 
-const Test = `
+const DummyPosts = `
+
+INSERT INTO users (nickname, age, gender, firstName, lastName, email, password) VALUES
+('AliceW', 25, 'Female', 'Alice', 'Walker', 'alice@example.com', 'password123'),
+('BobM', 30, 'Male', 'Bob', 'Miller', 'bob@example.com', 'securepass'),
+('CharlieS', 28, 'Male', 'Charlie', 'Smith', 'charlie@example.com', 'pass123'),
+('DianaJ', 26, 'Female', 'Diana', 'Johnson', 'diana@example.com', 'qwerty'),
+('EveL', 32, 'Female', 'Eve', 'Lewis', 'eve@example.com', 'letmein'),
+('FrankB', 35, 'Male', 'Frank', 'Brown', 'frank@example.com', 'hunter2'),
+('GraceD', 27, 'Female', 'Grace', 'Davis', 'grace@example.com', '123456'),
+('HenryC', 29, 'Male', 'Henry', 'Clark', 'henry@example.com', 'abcdef'),
+('IvyP', 24, 'Female', 'Ivy', 'Parker', 'ivy@example.com', 'mypassword'),
+('JackR', 31, 'Male', 'Jack', 'Roberts', 'jack@example.com', 'admin123');
+
+
 INSERT INTO posts (nickname, title, content, user_id) VALUES
-    ('TechGuru', 'Getting Started with Go Programming', 'Go is a statically typed, compiled programming language designed at Google. In this post, I want to share my experience learning Go and some basic concepts that helped me understand the language better. The strong typing and simple syntax make it an excellent choice for beginners.', 1),
-    
-    ('SportsFan', 'The Evolution of Basketball Strategy', 'Modern basketball has changed dramatically over the last decade. The emphasis on three-point shooting and position-less basketball has transformed how teams approach both offense and defense. This post explores these tactical changes and their impact on the game.', 2),
-    
-    ('BookWorm', 'Must-Read Science Fiction Novels of 2024', 'Science fiction continues to push boundaries and explore new ideas. Here are some groundbreaking novels that combine compelling storytelling with innovative concepts. From AI ethics to space exploration, these books tackle contemporary issues through a sci-fi lens.', 3),
-    
-    ('FoodieExplorer', 'Traditional Recipes with Modern Twists', 'Fusion cuisine doesn''t have to be complicated. Sometimes, small changes to traditional recipes can create exciting new flavors while maintaining the essence of the original dish. Here are some of my favorite experiments in combining culinary traditions.', 4),
-    
-    ('GreenThumb', 'Urban Gardening Tips for Beginners', 'You don''t need a large space to start growing your own food. This guide covers everything you need to know about starting a small urban garden, from choosing the right containers to selecting plants that thrive in limited spaces.', 5),
-    
-    ('CodeNinja', 'Understanding Database Indexing', 'Database performance can make or break your application. In this deep dive, we''ll explore how indexing works, when to use it, and common pitfalls to avoid. Examples will be provided using popular database systems.', 1),
-    
-    ('HealthCoach', 'Sustainable Fitness Habits', 'Creating lasting fitness habits isn''t about intense short-term programs. It''s about building sustainable routines that you can maintain long-term. Here''s how to develop a fitness routine that sticks.', 2),
-    
-    ('ArtLover', 'Digital Art Tools Comparison', 'With so many digital art tools available, choosing the right one can be overwhelming. This post compares popular software options, considering factors like price, features, and learning curve.', 3),
-    
-    ('TravelBug', 'Hidden Gems in Local Travel', 'Sometimes the best adventures are right in your backyard. Discover how to be a tourist in your own city and uncover hidden gems that even locals might not know about.', 4),
-    
-    ('MusicPro', 'Home Recording Studio Essentials', 'Setting up a home recording studio doesn''t have to break the bank. Here''s a guide to the essential equipment you need to start recording professional-quality audio at home.', 5),
-    
-    ('CyberSec', 'Cybersecurity Best Practices', 'In an increasingly connected world, protecting your digital life is crucial. Learn about essential security practices that everyone should implement to stay safe online.', 1),
-    
-    ('EcoWarrior', 'Sustainable Living on a Budget', 'Living sustainably doesn''t have to be expensive. This guide provides practical tips for reducing your environmental impact while saving money.', 2),
-    
-    ('PetWhisperer', 'Understanding Cat Behavior', 'Cats communicate in subtle ways. Learning to read their body language and understand their needs can help build a stronger bond with your feline friend.', 3),
-    
-    ('DIYMaster', 'Basic Home Repairs Everyone Should Know', 'Some home repairs don''t require a professional. Learn these basic maintenance skills to save money and become more self-reliant.', 4),
-    
-    ('StartupFounder', 'Lessons from My First Year in Business', 'Starting a business is a journey filled with unexpected challenges and valuable lessons. Here are the key insights from my first year as a founder.', 5),
-    
-    ('PhotoPro', 'Smartphone Photography Tips', 'You don''t need expensive equipment to take great photos. These techniques will help you make the most of your smartphone camera.', 1),
-    
-    ('MindfulLiving', 'Introduction to Meditation', 'Meditation doesn''t have to be complicated. Start with these simple techniques to build a daily mindfulness practice.', 2),
-    
-    ('CarEnthusiast', 'Basic Car Maintenance Guide', 'Regular maintenance can extend your car''s life and save you money. Here are the essential maintenance tasks every car owner should know.', 3),
-    
-    ('GameDev', 'Getting Started with Game Development', 'Game development is more accessible than ever. This guide walks through the basics of creating your first simple game using free tools.', 4),
-     ('MusicPro', 'Home Recording Studio Essentials', 'Setting up a home recording studio doesn''t have to break the bank. Here''s a guide to the essential equipment you need to start recording professional-quality audio at home.', 5),
-    
-    ('CyberSec', 'Cybersecurity Best Practices', 'In an increasingly connected world, protecting your digital life is crucial. Learn about essential security practices that everyone should implement to stay safe online.', 1),
-    
-    ('EcoWarrior', 'Sustainable Living on a Budget', 'Living sustainably doesn''t have to be expensive. This guide provides practical tips for reducing your environmental impact while saving money.', 2),
-    
-    ('PetWhisperer', 'Understanding Cat Behavior', 'Cats communicate in subtle ways. Learning to read their body language and understand their needs can help build a stronger bond with your feline friend.', 3),
-    
-    ('DIYMaster', 'Basic Home Repairs Everyone Should Know', 'Some home repairs don''t require a professional. Learn these basic maintenance skills to save money and become more self-reliant.', 4),
-    
-    ('StartupFounder', 'Lessons from My First Year in Business', 'Starting a business is a journey filled with unexpected challenges and valuable lessons. Here are the key insights from my first year as a founder.', 5),
-    
-    ('PhotoPro', 'Smartphone Photography Tips', 'You don''t need expensive equipment to take great photos. These techniques will help you make the most of your smartphone camera.', 1),
-    
-    ('MindfulLiving', 'Introduction to Meditation', 'Meditation doesn''t have to be complicated. Start with these simple techniques to build a daily mindfulness practice.', 2),
-    
-    ('CarEnthusiast', 'Basic Car Maintenance Guide', 'Regular maintenance can extend your car''s life and save you money. Here are the essential maintenance tasks every car owner should know.', 3),
-    
-    ('GameDev', 'Getting Started with Game Development', 'Game development is more accessible than ever. This guide walks through the basics of creating your first simple game using free tools.', 4), ('MusicPro', 'Home Recording Studio Essentials', 'Setting up a home recording studio doesn''t have to break the bank. Here''s a guide to the essential equipment you need to start recording professional-quality audio at home.', 5),
-    
-    ('CyberSec', 'Cybersecurity Best Practices', 'In an increasingly connected world, protecting your digital life is crucial. Learn about essential security practices that everyone should implement to stay safe online.', 1),
-    
-    ('EcoWarrior', 'Sustainable Living on a Budget', 'Living sustainably doesn''t have to be expensive. This guide provides practical tips for reducing your environmental impact while saving money.', 2),
-    
-    ('PetWhisperer', 'Understanding Cat Behavior', 'Cats communicate in subtle ways. Learning to read their body language and understand their needs can help build a stronger bond with your feline friend.', 3),
-    
-    ('DIYMaster', 'Basic Home Repairs Everyone Should Know', 'Some home repairs don''t require a professional. Learn these basic maintenance skills to save money and become more self-reliant.', 4),
-    
-    ('StartupFounder', 'Lessons from My First Year in Business', 'Starting a business is a journey filled with unexpected challenges and valuable lessons. Here are the key insights from my first year as a founder.', 5),
-    
-    ('PhotoPro', 'Smartphone Photography Tips', 'You don''t need expensive equipment to take great photos. These techniques will help you make the most of your smartphone camera.', 1),
-    
-    ('MindfulLiving', 'Introduction to Meditation', 'Meditation doesn''t have to be complicated. Start with these simple techniques to build a daily mindfulness practice.', 2),
-    
-    ('CarEnthusiast', 'Basic Car Maintenance Guide', 'Regular maintenance can extend your car''s life and save you money. Here are the essential maintenance tasks every car owner should know.', 3),
-    
-    ('GameDev', 'Getting Started with Game Development', 'Game development is more accessible than ever. This guide walks through the basics of creating your first simple game using free tools.', 4),
-    
-    ('LanguageLearner', 'Effective Language Learning Strategies', 'Learning a new language requires the right approach. These proven strategies will help you make consistent progress in your language learning journey.', 5);
+('AliceW', 'Latest Tech Trends', 'Discussing the latest advancements in AI and ML.', 1),
+('BobM', 'Scientific Discoveries', 'New research in quantum physics.', 2),
+('CharlieS', 'Football World Cup', 'Predictions for the upcoming World Cup.', 3),
+('DianaJ', 'Tech Innovations', 'The impact of blockchain on finance.', 4),
+('EveL', 'Space Exploration', 'NASA’s upcoming Mars mission.', 5),
+('FrankB', 'Basketball Tactics', 'How to improve defensive strategies.', 6),
+('GraceD', 'Cybersecurity Tips', 'Best practices to keep your data safe.', 7),
+('HenryC', 'Health and Science', 'The effects of sleep on brain function.', 8),
+('IvyP', 'Tennis Grand Slam', 'Analyzing top players this season.', 9),
+('JackR', 'AI in Sports', 'How AI is revolutionizing athlete training.', 10);
+
+
+INSERT INTO categories (post_id, categories) VALUES
+(1, 'tech'),
+(2, 'science'),
+(3, 'sport'),
+(4, 'tech'),
+(5, 'science'),
+(6, 'sport'),
+(7, 'tech'),
+(8, 'science'),
+(9, 'sport'),
+(10, 'tech');
+
+
+INSERT INTO comments (post_id, user_id, content) VALUES
+(1, 2, 'AI is evolving rapidly!'),
+(2, 3, 'Quantum physics is mind-blowing.'),
+(3, 4, 'I think Brazil has a strong chance.'),
+(4, 5, 'Blockchain is the future of transactions.'),
+(5, 6, 'Mars colonization is a huge challenge.'),
+(6, 7, 'Defense wins championships!'),
+(7, 8, 'Cybersecurity is critical nowadays.'),
+(8, 9, 'Good sleep is underrated!'),
+(9, 10, 'Tennis has become more competitive.'),
+(10, 1, 'AI-driven training is fascinating.');
+
 `

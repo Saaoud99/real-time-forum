@@ -6,6 +6,7 @@ import (
 	"fmt"
 	"net/http"
 	"strconv"
+	"strings"
 	"time"
 
 	authentication "real-time-forum/backend/authentication"
@@ -22,8 +23,8 @@ func RegisterHandler(db *sql.DB, w http.ResponseWriter, r *http.Request) {
 
 	var user modles.User
 	json.NewDecoder(r.Body).Decode(&user)
-	fmt.Println("age :", user.Age)
-	 age, err := strconv.Atoi(user.Age); if err != nil {
+	age, err := strconv.Atoi(user.Age)
+	if err != nil {
 		http.Error(w, "check age again", 400)
 		return
 	}
@@ -32,9 +33,9 @@ func RegisterHandler(db *sql.DB, w http.ResponseWriter, r *http.Request) {
 		fmt.Println("age must be more than 18", 400)
 		return
 	}
-	if user.Nickname == "" || user.Gender == "" || user.FirstName == "" || user.LastName == "" || user.Email == "" || user.Password == "" {
-		http.Error(w, "bad request ", 400)
-		fmt.Println("bad request ", 400)
+	if strings.TrimSpace(user.Nickname) == "" || strings.TrimSpace(user.Gender) == "" || strings.TrimSpace(user.FirstName) == "" || strings.TrimSpace(user.LastName)== "" || strings.TrimSpace(user.Email) == "" || strings.TrimSpace(user.Password) == "" {
+		http.Error(w, "all fields shouldn't be empty or only white spaces", 400)
+		fmt.Println("all fields must be filled", 400)
 		return
 	}
 	hashedPassword, _ := bcrypt.GenerateFromPassword([]byte(user.Password), bcrypt.DefaultCost)

@@ -1,6 +1,6 @@
 package database
 
-const Test2 = `
+const DummyCmnts = `
 INSERT INTO comments (post_id, user_id, content) VALUES
 (1, 1, 'This is a great post! I really enjoyed reading it.'),
 (1, 2, 'I disagree with some points, but overall, good content.'),

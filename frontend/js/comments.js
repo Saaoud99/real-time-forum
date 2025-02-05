@@ -15,7 +15,8 @@ export async function loadComments(postId, userId) {
                 content: commentContent,
             }),
         });
-
+        console.log(response);
+        
         if (response.ok) {
             postComments(postId);
             commentInput.value = "";
@@ -31,7 +32,7 @@ export async function postComments(postId) {
     try {
         const response = await fetch(`/comments?post_id=${postId}`);
         const comments = await response.json();
-
+        
         const commentsList = document.getElementById(`comments-list-${postId}`);
         commentsList.innerHTML = "";
 

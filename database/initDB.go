@@ -2,13 +2,14 @@ package database
 
 import (
 	"database/sql"
+	"fmt"
 	"io"
 	"log"
 	"os"
 )
 
 func InitDB() *sql.DB {
-	db, err := sql.Open("sqlite3", "./database/Test13.db")
+	db, err := sql.Open("sqlite3", "./database/Test16.db")
 	if err != nil {
 		log.Fatal("Error connecting to database:", err)
 	}
@@ -27,7 +28,9 @@ func InitDB() *sql.DB {
 	if err != nil {
 		log.Fatalf("Failed to read SQL script file: %v", err)
 	}
-	_, err = db.Exec(string(scriptContent))
+	res, err := db.Exec(string(scriptContent))
+	r, _ := res.RowsAffected()
+	fmt.Println("res",r)
 	if err != nil {
 		log.Fatalf("Failed to execute SQL script: %v", err)
 	}
