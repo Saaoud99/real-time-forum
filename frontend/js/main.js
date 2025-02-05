@@ -1,5 +1,4 @@
 import { router } from "./routes.js";
-import { hasCookie } from "./helpers.js";
 
 export async function handleRoute() {
 
@@ -8,8 +7,12 @@ export async function handleRoute() {
 }
 handleRoute();
 
+/*  this part of the code Listens for clicks on elements 
+    with the data-link attribute (likely navigation links)
+    Prevents the default page reload behavior
+    Updates the URL without refreshing the page using history.pushState
+*/
 document.addEventListener('click', (event) => {
-
     if (event.target.hasAttribute('data-link')) {
         const link = event.target.getAttribute('href')
         history.pushState(null, null, link);
@@ -17,9 +20,4 @@ document.addEventListener('click', (event) => {
     }
 })
 
-// Example usage:
-if (hasCookie('forum_session')) {
-    console.log('User has the "userSession" cookie');
-} else {
-    console.log('User does not have the "userSession" cookie');
-}
+

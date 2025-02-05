@@ -52,10 +52,11 @@ function displayposts(posts) {
               </div>
 
         <!-- Comment section -->
-            <div class="comment-section">
-              <textarea id="comment-text-${post.Id}" placeholder="Write a comment..."></textarea>
-              <button class="post-btn comment-btn" onclick="submitComment(${post.Id})">Post Comment</button>
-            </div>
+        <button class="comment-btn" onclick="toggleComments(${post.Id}, this)">Show Comments</button>
+       <div class="comment-section hidden" id="comment-section-${post.Id}">
+         <textarea class="comment-input" id="comment-input-${post.Id}" placeholder="Your comment"></textarea>
+         <button class="send-comment-btn" onclick="loadComments(${post.Id}, 1)">Comment</button>
+         <div id="comments-list-${post.Id}" class="comments-list"></div>
 
         <!-- Like section -->
             <div class="post-actions">
@@ -69,9 +70,5 @@ function displayposts(posts) {
         }
     }
 }
-        //     <button class="comment-btn" onclick="toggleComments(${post.Id}, this)">Show Comments</button>
-        //    <div class="comment-section hidden" id="comment-section-${post.Id}">
-        //      <textarea class="comment-input" id="comment-input-${post.Id}" placeholder="Your comment"></textarea>
-        //      <button class="send-comment-btn" onclick="postComment(${post.Id}, 1)">Comment</button>
-        //      <div id="comments-list-${post.Id}" class="comments-list"></div>
-//window.escapeHTML = escapeHTML;
+window.escapeHTML = escapeHTML;
+window.toggleComments = toggleComments;

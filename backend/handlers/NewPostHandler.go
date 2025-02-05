@@ -6,6 +6,7 @@ import (
 	"fmt"
 	"log"
 	"net/http"
+	"strings"
 
 	modles "real-time-forum/backend/mods"
 )
@@ -34,7 +35,7 @@ func NewPostHandler(db *sql.DB) http.HandlerFunc {
 		}
 
 		title, content, categories := Post.Title, Post.Content, Post.Categories
-		if title == "" || len(categories) == 0 || content == "" {
+		if strings.TrimSpace(title) == "" || len(categories) == 0 || strings.TrimSpace(content) == "" {
 			http.Error(w, "All fields are required", http.StatusBadRequest)
 			return
 		}

@@ -1,3 +1,4 @@
+import { postComments } from "./comments.js";
 
 export function debounce(func, wait) {
     let timeout
@@ -6,16 +7,6 @@ export function debounce(func, wait) {
         timeout = setTimeout(() => func(...args), wait)
     }
 }
-
-export function hasCookie(cookieName) {
-    // Get all cookies as a string
-    const cookies = document.cookie;
-
-    // Check if the cookie exists by searching for the cookie name followed by '='
-    return cookies.split(';').some(cookie => cookie.trim().startsWith(cookieName + '='));
-}
-
-
 
 export function escapeHTML(str) {
     if (typeof str !== "string") return "";
@@ -53,7 +44,7 @@ export function timeAgo(date) {
     return "just now";
 }
 
-
+//toggleComments, toggleDetails
 
 export function toggleComments(postId, button) {
     const commentSection = document.getElementById(`comment-section-${postId}`);
@@ -67,10 +58,21 @@ export function toggleComments(postId, button) {
         console.log("Showing comments for post:", postId);
         commentSection.classList.remove("hidden");
         button.textContent = "Hide Comments";
-        loadComments(postId);
+        postComments(postId);
     } else {
         console.log("Hiding comments for post:", postId);
         commentSection.classList.add("hidden");
         button.textContent = "Show Comments";
     }
 }
+
+export function toggleDetails(toggleElement) {
+    const meta = toggleElement.nextElementSibling;
+    meta.classList.toggle("hidden");
+    const detailsText = toggleElement.querySelector(".details-text");
+    detailsText.textContent = meta.classList.contains("hidden")
+        ? "Details"
+        : "Hide Details";
+}
+
+window.toggleDetails = toggleDetails;

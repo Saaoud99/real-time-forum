@@ -1,5 +1,7 @@
 package modles
 
+import "time"
+
 type LoginCredentials struct {
 	Login    string `json:"login"`
 	Password string `json:"password"`
@@ -31,4 +33,15 @@ type Post struct {
 	CreatedAt  string   `json:"Created_at"`
 	Likes      int      `json:"Likes"`
 	Dislikes   int      `json:"Dislikes"`
+}
+
+type Comment struct {
+	ID        int       `json:"id"`
+	PostID    int       `json:"post_id"`
+	UserName  string    `json:"username"`
+	UserID    int       `json:"user_id"`
+	Content   string    `json:"content"`
+	CreatedAt time.Time `json:"created_at"`
+	Likes     int       `json:"Likes"`
+	Dislikes  int       `json:"Dislikes"`
 }

@@ -21,7 +21,7 @@ CREATE TABLE IF NOT EXISTS sesions (
 -- -- Posts table - stores all forum posts
 CREATE TABLE IF NOT EXISTS posts (
     id INTEGER PRIMARY KEY AUTOINCREMENT,
-    nickname TEXT,
+    nickname TEXT UNIQUE,
     title TEXT NOT NULL,
     content TEXT NOT NULL,
     user_id INTEGER NOT NULL,
