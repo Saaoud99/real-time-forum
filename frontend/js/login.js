@@ -26,7 +26,6 @@ async function logUser(event) {
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify(LoginCredentials)
     });
-    console.log(res);
     
     if (res.ok) {
         history.pushState(null, null, '/');

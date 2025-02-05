@@ -15,6 +15,7 @@ import (
 // It handles both posts and comments through a single endpoint
 // Bug: targetId is incorrectly set to like.User_Id initially instead of the actual target ID
 func HandleLikes(db *sql.DB) http.HandlerFunc {
+	fmt.Println("dkhl ########")
 	// For POST requests:
 	// - Validates user session via cookie
 	// - Checks if like already exists

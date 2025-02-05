@@ -1,9 +1,5 @@
-// UpdateLike fetches and updates the UI with current like/dislike counts
-// Bug: Attempts to use response.json() twice which will fail
 export async function UpdateLike(post, classNm) {
-    // Fetches current like counts from server
-    // Updates UI elements with new counts
-    // Handles both post and comment like displays
+    console.log('entered');
     try {
         console.log(post, classNm)
         const response = await fetch("/like");
@@ -21,20 +17,12 @@ export async function UpdateLike(post, classNm) {
     }
 }
 
-// likeEvent sets up click handlers for like/dislike buttons
-// Handles both posts and comments through a single function
-// Disables like functionality for non-logged-in users
-export function likeEvent(post, commentId, postId) {
-    // Sets class based on whether target is post or comment
-    // Disables buttons if user isn't logged in
-    // Sets up click listeners that:
-    //   - Send like/dislike action to server
-    //   - Updates UI with new counts
-    //   - Shows error message if user not found
-    // Bug: Uses window.cookie directly which might not be secure
-    // Bug: Error message appended to document without specific parent
+
+
+
+export function likeEvent(post, commentId, postId) {    
     let clss = "post"
-    if (commentId !== null) {
+    if (commentId !== undefined) {
         clss = "comment"
     }
 
