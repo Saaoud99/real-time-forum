@@ -8,7 +8,17 @@ export function renderRegisterForm() {
         <form id="registerForm">
           <input type="text" id="nickname" placeholder="Nickname" required><br>
           <input type="text" id="age" placeholder="Age" required><br>
-          <input type="text" id="gender" placeholder="Gender" required><br>
+            <div class="gender-group">
+            <span class="gender-title">Gender</span>
+            <label>
+                <input type="radio" name="gender" value="male" required>
+                <span>Male</span>
+            </label>
+            <label>
+                <input type="radio" name="gender" value="female" required>
+                <span>Female</span>
+            </label>
+        </div>
           <input type="text" id="firstName" placeholder="First Name" required><br>
           <input type="text" id="lastName" placeholder="Last Name" required><br>
           <input type="email" id="email" placeholder="Email" required><br>
@@ -34,7 +44,7 @@ async function registerUser(event) {
     let user = {
         nickname: document.getElementById("nickname").value,
         age: document.getElementById("age").value,
-        gender: document.getElementById("gender").value,
+        gender: document.querySelector('input[name="gender"]:checked')?.value || '', // Get selected radio value
         firstName: document.getElementById("firstName").value,
         lastName: document.getElementById("lastName").value,
         email: document.getElementById("email").value,

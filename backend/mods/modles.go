@@ -42,15 +42,13 @@ type Comment struct {
 	UserID    int       `json:"user_id"`
 	Content   string    `json:"content"`
 	CreatedAt time.Time `json:"created_at"`
-	Likes     int       `json:"Likes"`
-	Dislikes  int       `json:"Dislikes"`
 }
 
-type Likes struct {
+/*type Likes struct {
 	User_Id      int    `json:"UserId"`
 	Post_Id      int    `json:"PostId"`
 	LikeCOunt    int    `json:"LikeCOunt"`
 	DislikeCOunt int    `json:"DislikeCOunt"`
 	CommentId    int    `json:"CommentId"`
 	Type         string `json:"Type"`
-}
+}*/

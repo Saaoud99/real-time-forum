@@ -1,5 +1,4 @@
-import { debounce, escapeHTML, toggleComments } from './helpers.js';
-import { likeEvent } from './likes.js'
+import { debounce, escapeHTML, toggleComments, timeAgo } from './helpers.js';
 
 const container = document.getElementById('container')
 export async function fetchPost() {
@@ -51,16 +50,10 @@ function displayposts(posts) {
                <span class="details-text">Details</span>
             </div>
             <div class="meta hidden">
-            ${escapeHTML(post.Categories.join(", "))}, ${post.Created_at}
+            ${escapeHTML(post.Categories.join(", "))}, ${timeAgo(post.Created_at)}
               </div>
 
         <!-- Like section -->
-     <div class="post-actions">
-          <button class="post-btn like" style="background:none;" id="${post.Id}">👍</button>
-          <div class="post-likes like">${escapeHTML(post.Likes.toString())} </div>
-          <button class="post-btn dislike", style="background:none;"  id = ${post.Id}>👎</button>
-          <div class="post-dislikes" >${escapeHTML(post.Dislikes.toString())} </div>
-        </div>
 
         <!-- Comment section -->
                  <button class="comment-btn" onclick="toggleComments(${post.Id}, this)">Show Comments</button>
@@ -71,14 +64,11 @@ function displayposts(posts) {
 
 
             `
-            console.log(post.Id);
-            
-            likeEvent(postCard);
+
             container.appendChild(postCard)
         }
     }
 }
 window.escapeHTML = escapeHTML;
 window.toggleComments = toggleComments;
-// import this shit
-//  <script src="/static/js/likes.js"></script>
+

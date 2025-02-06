@@ -21,7 +21,7 @@ CREATE TABLE IF NOT EXISTS sesions (
 -- -- Posts table - stores all forum posts
 CREATE TABLE IF NOT EXISTS posts (
     id INTEGER PRIMARY KEY AUTOINCREMENT,
-    nickname TEXT UNIQUE,
+    nickname TEXT ,
     title TEXT NOT NULL,
     content TEXT NOT NULL,
     user_id INTEGER NOT NULL,
@@ -47,18 +47,6 @@ CREATE TABLE IF NOT EXISTS comments (
     FOREIGN KEY (user_id) REFERENCES users (id) ON DELETE CASCADE
 );
 
--- -- reactions table - stores both likes and dislikes
-CREATE TABLE if NOT EXISTS likes(
-    id INTEGER PRIMARY KEY AUTOINCREMENT,
-    TypeOfLike TEXT NOT NULL,
-    user_id INTEGER NOT NULL,
-    post_id INTEGER NOT NULL,
-    comment_id INTEGER NOT NULL,
-    FOREIGN KEY (user_id) REFERENCES users (id)
-    FOREIGN KEY (post_id) REFERENCES posts (id)
-    FOREIGN KEY (comment_id) REFERENCES comments (id)
-
-);
 
 
 

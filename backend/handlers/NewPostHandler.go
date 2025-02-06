@@ -53,7 +53,6 @@ func NewPostHandler(db *sql.DB) http.HandlerFunc {
 		result, err := tx.Exec(
 			"INSERT INTO posts (nickname, title, content, user_id) VALUES (?, ?, ?,?)",
 			userName, title, content, useriD)
-		fmt.Println(userName, title, content, useriD)
 		if err != nil {
 			http.Error(w, "error creating post", 500)
 			return

@@ -30,6 +30,7 @@ func main() {
 		forum.APIHandler(db)(w, r)
 	})
 
+	// handle method not allowed later
 	http.HandleFunc("/register", func(w http.ResponseWriter, r *http.Request) {
 		forum.RegisterHandler(db, w, r)
 	})
@@ -65,9 +66,7 @@ func main() {
 		}
 	})
 
-	// here but not like this of cours
-
-	http.HandleFunc("/like", forum.HandleLikes(db))
+	/*http.HandleFunc("/like", forum.HandleLikes(db))*/
 
 	fmt.Println("Server is running on http://localhost:4011")
 	log.Fatal(http.ListenAndServe(":4011", nil))
