@@ -1,143 +1,4 @@
-import main from "../main.js";
 
-
-
-export class Home {
-    constructor (){
-    }
-
-    init()
-    {
-        const response =  fetch("/api/checkToken", {
-            method : 'GET',
-            headers: {
-                "Content-Type": "application/json",
-                "Accept": "application/json",
-            },
-            
-           })
-           //const data =  response.json
-           
-           if (!response.ok){
-           main.redicrect("/login")
-           }
-        const page = document.getElementById('zone');
-        page.innerHTML=''
-        page.innerHTML=`
-            <noscript>RedirectMiddleware
-        <div class="nojs-popup">
-            <div class="spinner-container">
-                <div class="spinner-wrap">
-                    <h2 id="nojs">You need to enable JavaScript to run this app.</h2>
-                    <div class="spinner"></div>
-                    <div class="spinner-text">Loading...</div>
-                </div>
-            </div>
-        </div>
-    </noscript>
-
-    <nav class="navbar">
-    <a id="logo" href="/">
-        <img id="logo-img" src="/assets/img/logo.svg" alt="">
-        <span id="logo-name"><b>01</b>Forum</span>
-    </a>
-    <div class="sign">
-        <button id="create" onclick="newPost()"><i class="plus-icon"></i>new post</button>
-        <button id="logout" onclick="logout()"><i class="logout-icon"></i>logout</button>
-    </div>
-    </nav>
-
-
-    <div class="container">
-        <div class="sidebar">
-    <label>navigator</label>
-    <div id="select_1" class="menu-select active" onclick="recentPosts()">
-        <i class="clock-icon"></i>
-        <h2>recent posts</h2>
-    </div>
-    <div id="select_2" class="menu-select" onclick="createdPosts()">
-        <i class="edit-icon"></i>
-        <h2>my posts</h2>
-    </div>
-    <div id="select_3" class="menu-select" onclick="likedPosts()">
-        <i class="heart-icon"></i>
-        <h2>liked posts</h2>
-    </div>
-
-    <label>categories</label>
-    <ul class="categories">
-    </ul>
-</div>
-
-        <div class="main">
-        </div>
-        <div class="widget">
-            <div class="section">
-                <h2 class="section-title">
-                    <i class="star-icon"></i>
-                    Must-read posts
-                </h2>
-                <ul>
-                    <li><a href="#" target="_blank">Please read rules before you start using our platform</a></li>
-                    <li><a href="https://www.paypal.com/paypalme/outiskteanas" target="_blank">Donate for 01Forum</a></li>
-                </ul>
-            </div>
-            <div class="section">
-                <h2 class="section-title">
-                    <i class="link-icon"></i>
-                    Featured links
-                </h2>
-                <ul>
-                    <li><a href="https://github.com/ANAS-OU/go_forum" target="_blank">01Forum source-code on GitHub</a></li>
-                    <li><a href="https://medium.com/@golangda/golang-quick-reference-top-20-best-coding-practices-c0cea6a43f20" target="_blank">Golang best-practices</a></li>
-                    <li><a href="https://zone01oujda.ma/" target="_blank">Zone01-Oujda Company</a></li>
-                </ul>
-            </div>
-        </div>
-    </div>
-
-    <div id="loginPopup" class="popup">
-        <div class="popup-content">
-            <div>
-                <div id="sign" class="figure"></div>
-                <div>
-                    <h2>sorry! your need to register first</h2>
-                    <div class="sign">
-                        <a href="/register" id="register"><i class="register-icon"></i>register</a>
-                        <a href="/login" id="login"><i class="login-icon"></i>login</a>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
-    <script src="/assets/js/main.js" defer></script>
-        `
-        const newp = document.getElementById("create")
-        const out = document.getElementById("logout")
-        const recentP = document.getElementById("select_1")
-        const createdP = document.getElementById("select_2")
-        const likedP = document.getElementById("select_3")
-
-        newp.addEventListener("click", ()=>{
-            newPost()
-        });
-
-        out.onclick = () => {
-            logout();
-        };
-        recentP.onclick = () =>{
-            recentPosts();
-        }
-        createdP.onclick = () => {
-            createdPosts();
-        }
-        likedP.onclick = () =>{
-            likedPosts();
-        }
-
-         
-    }
-}
 
 const data = {
     allPosts: [],
@@ -291,7 +152,7 @@ const openPost = async (postId) => {
 
             const response = await fetch("/newcomment", {
                 method: "POST",
-                body: JSON.stringify({ postId : parseInt(postId), content })
+                body: JSON.stringify({ postId: parseInt(postId), content })
             })
 
             if (response.ok) {
@@ -371,7 +232,6 @@ const loadData = async (page, resetData = false) => {
         }
 
         const response = await fetch(url);
-        
         const result = await response.json();
         if (!response.ok) {
             console.error(result)
@@ -389,7 +249,8 @@ const loadData = async (page, resetData = false) => {
     }
 };
 
-const init = async () => {
+export const init = async () => {
+
     data.allCategories = await fetch("/api/categories")
         .then(response => response.json());
 
@@ -402,7 +263,7 @@ const init = async () => {
         categoryElem.innerHTML = `
         <i class="hash-icon"></i>${category}
         `;
-        //categContainer.append(categoryElem);
+        categContainer.append(categoryElem);
     }
     displayPosts(data.allPosts);
     document.getElementById('select_1').classList.add('active');
@@ -413,7 +274,7 @@ const displayPosts = (posts) => {
     const postsContainer = document.createElement('div');
     postsContainer.classList.add('posts-container');
     disactive();
-    main.innerHTML = '';
+    main.innerHTML = "";
     if (!posts || !posts.length) {
         main.innerHTML += `
         <img id="no_data" src="/assets/img/no_data.svg" alt="no result"/>
@@ -422,12 +283,23 @@ const displayPosts = (posts) => {
         for (const post of posts) {
             const postDiv = createPostElement(post);
             postsContainer.append(postDiv);
+
+            let likeElement = postDiv.querySelector(".like");
+            let dislikeElement = postDiv.querySelector(".dislike");
+
+            // Correct way: Use an arrow function to pass parameters
+            likeElement?.addEventListener("click", () => likeAction(post.id, true));
+            dislikeElement?.addEventListener("click", () => dislikeAction(post.id, true));
         }
+
         main.append(postsContainer);
+
     }
 
     initInfiniteScroll()
 };
+
+document.getElementById('select_1').onclick = () => recentPosts()
 
 const recentPosts = async () => {
     data.currentView = 'recent';
@@ -437,6 +309,8 @@ const recentPosts = async () => {
     document.getElementById('select_1').classList.add('active');
 };
 
+document.getElementById('select_2').onclick = () => createdPosts()
+
 const createdPosts = async () => {
     data.currentView = 'created';
     await loadData(1, true);
@@ -444,6 +318,8 @@ const createdPosts = async () => {
     displayPosts(data.allPosts);
     document.getElementById('select_2').classList.add('active');
 };
+
+document.getElementById('select_3').onclick = () => likedPosts()
 
 const likedPosts = async () => {
     data.currentView = 'liked';
@@ -556,7 +432,7 @@ const closedPost = () => {
     return document.querySelector('.comment-box') == undefined
 }
 
-const likeAction = async (id, isPost) => {
+async function likeAction(id, isPost) {
     const reqData = isPost ? { postId: id, isLike: true } : { commentId: id, isLike: true }
     try {
         const response = await fetch("/reaction", {
@@ -582,7 +458,9 @@ const likeAction = async (id, isPost) => {
     }
 }
 
-const dislikeAction = async (id, isPost) => {
+//document.getElementsByClassName("stat${dislikeActive}").onclick = ()=> dislikeAction()
+
+async function dislikeAction(id, isPost) {
     const reqData = isPost ? { postId: id, isDislike: true } : { commentId: id, isDislike: true }
     try {
         const response = await fetch("/reaction", {
@@ -686,17 +564,33 @@ const widgetBack = () => {
     `
 }
 
-const logout = async () => {
-    try {
-        const response = await fetch('/auth/logout', {
-            method: 'POST',
-        });
+document.getElementById('logout').onclick = () => logout()
 
-        if (!response.ok) location.href = "/login";
-    } catch (err) {
-        console.error(err);
-    }
+function logout() {
+    fetch('/auth/logout', {
+        method: 'POST',
+        // You can add headers or other configuration here as needed
+        headers: {
+            'Content-Type': 'application/json',
+        }
+    })
+
+        .then(response => response.json())  // Parse the JSON response
+        .then(result => {
+            if (result.redirected) {
+                window.location.href = "/";  // Redirect if the response indicates a redirect
+            }
+        })
+
+        .catch(error => {
+            // console.error('Error during logout:', error);
+            // alert('There was a problem logging out. Please try again later.');
+            window.location.href = "/register"
+        });
 }
+
+
+document.getElementById('create').onclick = () => newPost()
 
 const newPost = () => {
     document.querySelector('.main').innerHTML = `
