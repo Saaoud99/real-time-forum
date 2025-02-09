@@ -5,12 +5,10 @@ import (
 	"encoding/json"
 	"fmt"
 	"net/http"
-	"os"
 	modles "real-time-forum/backend/mods"
 )
 
 func selectUsers(db *sql.DB) ([]modles.User, error) {
-	fmt.Println("here")
 	query := `SELECT 
 				u.id,
 				u.nickname,
@@ -53,6 +51,5 @@ func DisplayUsersHandler(db *sql.DB) http.HandlerFunc {
 		if err := json.NewEncoder(w).Encode(users); err != nil {
 			http.Error(w, "error encoding response", http.StatusInternalServerError)
 		}
-		json.NewEncoder(os.Stdout).Encode(users)
 	}
 }

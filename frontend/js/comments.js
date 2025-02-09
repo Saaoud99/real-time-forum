@@ -39,16 +39,16 @@ export async function postComments(postId) {
         comments.reverse().forEach((comment) => {
             const commentElement = document.createElement("div");
             
-            commentElement.innerHTML = `
-        <div class="comment">
-          <small>Posted by <b>@${comment.username}</b>, ${timeAgo(comment.created_at)}</small>
-          <p>${escapeHTML(comment.content)}</p>
-        </div>
+        commentElement.innerHTML = `
+            <div class="comment">
+              <small>Posted by <b>@${comment.username}</b>, ${timeAgo(comment.created_at)}</small>
+              <p>${escapeHTML(comment.content)}</p>
+            </div>
       `;
             commentsList.appendChild(commentElement);
         });
     } catch (error) {
-        console.error("RError of loading comments:", error);
+        console.error("Error of loading comments:", error);
     }
 }
 

@@ -71,7 +71,6 @@ func APIHandler(db *sql.DB) http.HandlerFunc {
 		posts, err := FetchPosts(db, category)
 		/*add this to hid login and register if the user alredy loged*/
 		user_id := authentication.IsLoged(db, r)
-		fmt.Println("user id :", user_id)
 		if err != nil {
 			http.Error(w, "Error fetching posts", http.StatusInternalServerError)
 			fmt.Println(err)

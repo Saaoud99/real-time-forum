@@ -75,4 +75,6 @@ export function toggleDetails(toggleElement) {
         : "Hide Details";
 }
 
+
 window.toggleDetails = toggleDetails;
+

@@ -1,20 +1,17 @@
+import { debounce } from "./helpers.js";
+
 const chat = document.getElementById('chat')
-console.log(chat);
 
-
-export async function fetchUsers() {
-    console.log('entered fetchusers');
-    
+export async function fetchUsers() {    
     try {
-        const res = await fetch('/users');
-        console.log(res);
-        
+        const res = await fetch('/users');        
         if (!res.ok){
             throw new Error("Failed to fetch users");
         }
         const users = await res.json();
           chat.replaceChildren();
          displayUsers(users);
+         // debounce displaying the users to not spam the document
          const debouncedDisplay = debounce((users) => {
              displayUsers(users);
          }, 300);
@@ -29,19 +26,33 @@ export async function fetchUsers() {
 }
 
 function displayUsers(users){
-    for (let i = 0; i<10; i++){
+    for (let i = 0; i < 30; i++){
         const user = users.pop()
         if (user){
             const userCard = document.createElement('div');
+            userCard.className = 'user-card';
+
             const profile = document.createElement('div');
             profile.className = 'profile';
-            profile.innerText = `${user.firstName.slice(0, 1)+user.lastName.slice(0, 1)}`
+            profile.innerText = `${user.firstName[0]}${user.lastName[0]}`
+            profile.style.backgroundColor = getRandomColor();
+            
             const nickname = document.createElement('div');
             nickname.className = 'nickname';
             nickname.innerText = `${user.nickname}`
+
             userCard.appendChild(profile);
             userCard.appendChild(nickname);
             chat.appendChild(userCard)
         }
     }
+}
+
+function getRandomColor() {
+    const letters = '0123456789ABCDEF';
+    let color = '#';
+    for (let i = 0; i < 6; i++) {
+        color += letters[Math.floor(Math.random() * 16)];
+    }
+    return color;
 }

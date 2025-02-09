@@ -31,7 +31,6 @@ func main() {
 		forum.APIHandler(db)(w, r)
 	})
 
-	// handle method not allowed later
 	mux.HandleFunc("/register", func(w http.ResponseWriter, r *http.Request) {
 		if r.Method == http.MethodPost {
 			forum.RegisterHandler(db, w, r)
@@ -66,10 +65,8 @@ func main() {
 
 	mux.HandleFunc("/comments", func(w http.ResponseWriter, r *http.Request) {
 		if r.Method == http.MethodPost {
-			fmt.Println("post here")
 			forum.CreateComment(db)(w, r)
 		} else if r.Method == http.MethodGet {
-			fmt.Println("get here")
 			forum.GetComments(db)(w, r)
 		} else {
 			http.Error(w, "Method Not Allowed", http.StatusMethodNotAllowed)

@@ -6,6 +6,9 @@ import { renderLogout } from './logedout.js';
 import { postComments } from './comments.js';
 // import { HandleConn } from './chat/handleConn.js';
 import { fetchUsers } from './displayUsers.js';
+// import { isAuthenticated } from './helpers.js';
+
+
 
 export const router = {
     '/login': renderLoginForm,
