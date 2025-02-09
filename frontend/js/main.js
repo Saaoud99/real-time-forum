@@ -3,6 +3,7 @@ import { router } from "./routes.js";
 export async function handleRoute() {
 
     const myroute = window.location.pathname;
+    console.log(window.location.pathname);
     await router[myroute].call();
 }
 handleRoute();

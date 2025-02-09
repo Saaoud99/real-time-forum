@@ -12,10 +12,11 @@ import (
 )
 
 func main() {
+	mux := http.NewServeMux()
 	db := database.InitDB()
 	defer db.Close()
 
-	http.HandleFunc("/", func(w http.ResponseWriter, r *http.Request) {
+	mux.HandleFunc("/", func(w http.ResponseWriter, r *http.Request) {
 		if r.URL.Path != "/" {
 			http.Error(w, "page not found", 404)
 			return
@@ -24,21 +25,30 @@ func main() {
 		http.ServeFile(w, r, "./frontend/index.html")
 	})
 
-	http.Handle("/frontend/", http.StripPrefix("/frontend/", http.FileServer(http.Dir("./frontend"))))
+	mux.Handle("/frontend/", http.StripPrefix("/frontend/", http.FileServer(http.Dir("./frontend"))))
 
-	http.HandleFunc("/posts", func(w http.ResponseWriter, r *http.Request) {
+	mux.HandleFunc("/posts", func(w http.ResponseWriter, r *http.Request) {
 		forum.APIHandler(db)(w, r)
 	})
 
 	// handle method not allowed later
-	http.HandleFunc("/register", func(w http.ResponseWriter, r *http.Request) {
-		forum.RegisterHandler(db, w, r)
-	})
-	http.HandleFunc("/newPost", func(w http.ResponseWriter, r *http.Request) {
-		forum.NewPostHandler(db)(w, r)
+	mux.HandleFunc("/register", func(w http.ResponseWriter, r *http.Request) {
+		if r.Method == http.MethodPost {
+			forum.RegisterHandler(db, w, r)
+		} else {
+			http.Error(w, "Method Not Allowed", http.StatusMethodNotAllowed)
+		}
 	})
 
-	http.HandleFunc("/logout", func(w http.ResponseWriter, r *http.Request) {
+	mux.HandleFunc("/newPost", func(w http.ResponseWriter, r *http.Request) {
+		if r.Method == http.MethodPost {
+			forum.NewPostHandler(db)(w, r)
+		} else {
+			http.Error(w, "Method Not Allowed", http.StatusMethodNotAllowed)
+		}
+	})
+
+	mux.HandleFunc("/logout", func(w http.ResponseWriter, r *http.Request) {
 		if r.Method == http.MethodPost {
 			forum.LogOutHandler(db)(w, r)
 		} else {
@@ -46,7 +56,7 @@ func main() {
 		}
 	})
 
-	http.HandleFunc("/login", func(w http.ResponseWriter, r *http.Request) {
+	mux.HandleFunc("/login", func(w http.ResponseWriter, r *http.Request) {
 		if r.Method == http.MethodPost {
 			forum.LoginHandler(db)(w, r)
 		} else {
@@ -54,7 +64,7 @@ func main() {
 		}
 	})
 
-	http.HandleFunc("/comments", func(w http.ResponseWriter, r *http.Request) {
+	mux.HandleFunc("/comments", func(w http.ResponseWriter, r *http.Request) {
 		if r.Method == http.MethodPost {
 			fmt.Println("post here")
 			forum.CreateComment(db)(w, r)
@@ -66,8 +76,18 @@ func main() {
 		}
 	})
 
+	// mux.HandleFunc("/ws", func(w http.ResponseWriter, r *http.Request) {
+	// 	print("dkhl main soc \n")
+	// 	websoc.HandleConnections(db, w, r)
+	// })
+
+	// displaying users
+	mux.HandleFunc("/users", func(w http.ResponseWriter, r *http.Request) {
+		forum.DisplayUsersHandler(db)(w,r)
+	})
+
 	/*http.HandleFunc("/like", forum.HandleLikes(db))*/
 
 	fmt.Println("Server is running on http://localhost:4011")
-	log.Fatal(http.ListenAndServe(":4011", nil))
+	log.Fatal(http.ListenAndServe(":4011", mux))
 }

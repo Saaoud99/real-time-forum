@@ -52,3 +52,21 @@ type Comment struct {
 	CommentId    int    `json:"CommentId"`
 	Type         string `json:"Type"`
 }*/
+
+// CREATE TABLE IF NOT EXISTS chat (
+//     id INTEGER PRIMARY KEY AUTOINCREMENT,
+//     content TEXT NOT NULL,
+//     sent_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+//     sender_id INTEGER NOT NULL,
+//     receiver_id INTEGER NOT NULL,
+//     FOREIGN KEY (sender_id) REFERENCES users (id) ON DELETE CASCADE,
+//     FOREIGN KEY (receiver_id) REFERENCES users (id) ON DELETE CASCADE
+// );
+
+type Message struct {
+	ID          int       `json:"Id"`
+	Content     string    `json:"Content"`
+	Sender_id   int       `json:"Sender_id"`
+	Receiver_id int       `json:"Receiver_id"`
+	Sent_at     time.Time `json:"Sent_at"`
+}

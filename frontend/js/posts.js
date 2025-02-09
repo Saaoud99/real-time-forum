@@ -8,6 +8,7 @@ export async function fetchPost() {
             throw new error
         }
         const posts = await res.json();
+        /*replaceChildren(); simply empties out the content of the container element,*/
         container.replaceChildren();
         displayposts(posts);
         const debouncedDisplay = debounce((posts) => {
@@ -20,7 +21,6 @@ export async function fetchPost() {
 
     } catch (error) {
         console.log(error);
-
         console.error(error);
     }
 }

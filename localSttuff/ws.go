@@ -1,20 +1,20 @@
 package main
 
-import (
-	"fmt"
-)
+// import (
+// 	"fmt"
+// )
 
-func sendData(ch chan<- int) {
-	ch <- 42
-}
+// func sendData(ch chan<- int) {
+// 	ch <- 42
+// }
 
-func main() {
-	ch := make(chan int)
+// func main() {
+// 	ch := make(chan int)
 
-	sendCh := (chan<- int)(ch)
-	go sendData(sendCh)
+// 	sendCh := (chan<- int)(ch)
+// 	go sendData(sendCh)
 
-	readCh := (<-chan int)(ch)
-	x := <-readCh
-	fmt.Println(x)
-}
+// 	readCh := (<-chan int)(ch)
+// 	x := <-readCh
+// 	fmt.Println(x)
+// }

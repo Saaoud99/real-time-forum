@@ -9,7 +9,6 @@ CREATE TABLE IF NOT EXISTS users (
     password TEXT NOT NULL
 );
 
--- Sessions table - manage user authentication
 CREATE TABLE IF NOT EXISTS sesions (
     id INTEGER PRIMARY KEY AUTOINCREMENT,
     sesion TEXT NOT NULL,
@@ -18,7 +17,6 @@ CREATE TABLE IF NOT EXISTS sesions (
     FOREIGN KEY (user_id) REFERENCES users (id)
 );
 
--- -- Posts table - stores all forum posts
 CREATE TABLE IF NOT EXISTS posts (
     id INTEGER PRIMARY KEY AUTOINCREMENT,
     nickname TEXT ,
@@ -36,19 +34,22 @@ CREATE TABLE IF NOT EXISTS categories (
     FOREIGN KEY (post_id) REFERENCES posts (id)
 );
 
--- Comments table - stores post comments
 CREATE TABLE IF NOT EXISTS comments (
     id INTEGER PRIMARY KEY AUTOINCREMENT,
     post_id INTEGER NOT NULL,
     user_id INTEGER NOT NULL,
     content TEXT NOT NULL,
-    created_at DATETIME DEFAULT CURRENT_TIMESTAMP,
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
     FOREIGN KEY (post_id) REFERENCES posts (id) ON DELETE CASCADE,
     FOREIGN KEY (user_id) REFERENCES users (id) ON DELETE CASCADE
 );
 
-
-
-
-
-
+CREATE TABLE IF NOT EXISTS chat (
+    id INTEGER PRIMARY KEY AUTOINCREMENT,
+    content TEXT NOT NULL,
+    sent_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    sender_id INTEGER NOT NULL,
+    receiver_id INTEGER NOT NULL,
+    FOREIGN KEY (sender_id) REFERENCES users (id) ON DELETE CASCADE,
+    FOREIGN KEY (receiver_id) REFERENCES users (id) ON DELETE CASCADE
+);
