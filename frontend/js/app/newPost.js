@@ -1,4 +1,4 @@
-import { handleRoute } from './main.js'
+import { handleRoute } from '../main.js'
 
 const container = document.getElementById('container');
 

@@ -1,4 +1,4 @@
-import { debounce } from "./helpers.js";
+import { debounce } from "../app/helpers.js";
 
 export async function fetchUsers() {    
 
@@ -10,7 +10,7 @@ export async function fetchUsers() {
             throw new Error("Failed to fetch users");
         }
         const users = await res.json();
-          chat.replaceChildren();
+        document.querySelector('#chat').replaceChildren();
          displayUsers(users);
          // debounce displaying the users to not spam the document
          const debouncedDisplay = debounce((users) => {
@@ -61,10 +61,12 @@ function getRandomColor() {
 
 function createChat(){
     const app = document.querySelector('#app');
-    const chat = document.createElement('div');
-    chat.innerHTML = `
-                            <!-- chat area -->
-        <div id="chat" class="chat" href="/chat" data-link></div>
-    `
-    app.appendChild(chat)
+    if (!document.querySelector('#chat')){
+        const chat = document.createElement('div');
+        chat.className = 'chat'
+        chat.id = 'chat'
+        chat.href = "/chat";
+        chat.setAttribute("data-link", "/chat");
+        app.appendChild(chat)
+    }
 }

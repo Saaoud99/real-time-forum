@@ -5,6 +5,7 @@ import (
 	"log"
 	"net/http"
 
+	websoc "real-time-forum/backend/WebSocket"
 	forum "real-time-forum/backend/handlers"
 	"real-time-forum/database"
 
@@ -73,14 +74,14 @@ func main() {
 		}
 	})
 
-	// mux.HandleFunc("/ws", func(w http.ResponseWriter, r *http.Request) {
-	// 	print("dkhl main soc \n")
-	// 	websoc.HandleConnections(db, w, r)
-	// })
-
 	// displaying users
 	mux.HandleFunc("/users", func(w http.ResponseWriter, r *http.Request) {
-		forum.DisplayUsersHandler(db)(w,r)
+		forum.DisplayUsersHandler(db)(w, r)
+	})
+
+	mux.HandleFunc("/ws", func(w http.ResponseWriter, r *http.Request) {
+		print("dkhl main soc \n")
+		websoc.HandleConnections(db, w, r)
 	})
 
 	/*http.HandleFunc("/like", forum.HandleLikes(db))*/
