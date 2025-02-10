@@ -27,11 +27,11 @@ func CookieMaker(w http.ResponseWriter) string {
 	}
 
 	cookie := &http.Cookie{
-		Name:     "forum_session",
-		Value:    u.String(),
-		Path:     "/",
-		HttpOnly: true,
-		Expires:  time.Now().Add(time.Hour * 24),
+		Name:  "forum_session",
+		Value: u.String(),
+		Path:  "/",
+		// HttpOnly: true,
+		Expires: time.Now().Add(time.Hour * 24),
 	}
 	http.SetCookie(w, cookie)
 	return u.String()

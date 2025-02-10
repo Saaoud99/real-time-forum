@@ -1,8 +1,9 @@
 import { debounce } from "./helpers.js";
 
-const chat = document.getElementById('chat')
-
 export async function fetchUsers() {    
+
+
+    createChat()
     try {
         const res = await fetch('/users');        
         if (!res.ok){
@@ -26,6 +27,7 @@ export async function fetchUsers() {
 }
 
 function displayUsers(users){
+    const chat = document.querySelector('#chat');
     for (let i = 0; i < 30; i++){
         const user = users.pop()
         if (user){
@@ -43,7 +45,7 @@ function displayUsers(users){
 
             userCard.appendChild(profile);
             userCard.appendChild(nickname);
-            chat.appendChild(userCard)
+            chat.appendChild(userCard);
         }
     }
 }
@@ -55,4 +57,14 @@ function getRandomColor() {
         color += letters[Math.floor(Math.random() * 16)];
     }
     return color;
+}
+
+function createChat(){
+    const app = document.querySelector('#app');
+    const chat = document.createElement('div');
+    chat.innerHTML = `
+                            <!-- chat area -->
+        <div id="chat" class="chat" href="/chat" data-link></div>
+    `
+    app.appendChild(chat)
 }

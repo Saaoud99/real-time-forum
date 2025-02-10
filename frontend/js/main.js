@@ -2,32 +2,29 @@ import { router } from "./routes.js";
 
 
 // this is not working i'll fix it tomorrow
-function isAuthenticated(){
+function isAuthenticated() {
     return document.cookie.includes('forum_session=');
 }
-console.log(document.cookie.includes('forum_session='));
-
-
 
 const publicRoutes = ['/login', '/register'];
-const protectedRoutes = ['/', '/newPost', '/logout', '/comment'];
+ const protectedRoutes = ['/', '/newPost', '/logout', '/comment'];
 
 export async function handleRoute() {
     const currentPath = window.location.pathname;
     const isAuth = isAuthenticated();
-    
-    console.log(window.location.pathname);
-    /* call() method is needed because you're invoking 
-    a function dynamically (based on the path) from the router object */
-    if (!isAuth && protectedRoutes.includes(currentPath)){
-        // If not authenticated and trying to access protected route, redirect to login
+
+
+    if (!isAuth && protectedRoutes.includes(currentPath)) {
+        console.log('11111111111');
+                
         history.pushState(null, null, '/login');
         await router['/login'].call();
         return;
     }
 
     if (isAuth && publicRoutes.includes(currentPath)) {
-        // If authenticated and trying to access public routes, redirect to home
+        console.log('22222222');
+        
         history.pushState(null, null, '/');
         await router['/'].call();
         return;
@@ -58,9 +55,9 @@ document.addEventListener('click', (event) => {
 })
 
 // Handle browser back/forward buttons
-// window.addEventListener('popstate', () => {
-//     handleRoute();
-// });
+window.addEventListener('popstate', () => {
+    handleRoute();
+});
 
 // Initial route handling
-handleRoute();
+await handleRoute();

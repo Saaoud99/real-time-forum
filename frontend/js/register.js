@@ -3,6 +3,8 @@ import { handleRoute } from "./main.js";
 export const container = document.getElementById("container");
 
 export function renderRegisterForm() {
+    const chat = document.querySelector('#chat')
+    if (chat) chat.remove();
     container.innerHTML = `
         <h2>Register</h2>
         <form id="registerForm">
