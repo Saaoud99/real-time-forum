@@ -34,7 +34,6 @@ func fetchChat(db *sql.DB) ([]modles.WebSocketMessage, error) {
 		}
 		chat = append(chat, msg)
 	}
-	fmt.Println(chat)
 	if err := rows.Err(); err != nil {
 		return nil, fmt.Errorf("row iteration error: %v", err)
 	}

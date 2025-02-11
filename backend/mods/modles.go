@@ -54,9 +54,9 @@ type Comment struct {
 }*/
 
 type WebSocketMessage struct {
-	Type       string    `json:"type"`
-	Content    string    `json:"content"`
-	SenderID   int       `json:"sender_id"`
-	ReceiverID int       `json:"receiver_id"`
-	Timestamp  time.Time `json:"timestamp"`
+	Type       string    `json:"Type"`
+	Content    string    `json:"Content"`
+	SenderID   int       `json:"Sender_id"`
+	ReceiverID int       `json:"Receiver_id"`
+	Timestamp  time.Time `json:"Timestamp"`
 }

@@ -37,7 +37,7 @@ function displayHistory(dms){
             const messageContent = document.createElement('div');
             messageContent.className = 'message-content';
             messageContent.textContent = dm.Content;
-            console.log(dm.Content);
+            console.log(dm.Sender_id, dm.Receiver_id);
             
             
             // const messageTime = document.createElement('div');
@@ -45,10 +45,7 @@ function displayHistory(dms){
             // messageTime.textContent = new Date(dm.Timestamp)
             // messageCard.appendChild(messageTime);
             
-            messageCard.appendChild(messageContent);
-            console.log(messageCard);
-            
-
+            messageCard.appendChild(messageContent);            
             messages.append(messageCard)
         }
     } 

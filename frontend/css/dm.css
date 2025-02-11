@@ -114,3 +114,49 @@
     background-color: #f0f0f0;
     border-radius: 50%;
 }
+
+.messages-container {
+    padding: 16px;
+    background-color: #f0f0f0;
+    height: calc(100vh - 180px);
+    overflow-y: auto;  /* Re-enable this */
+}
+
+.message {
+    margin-bottom: 12px;
+    max-width: 65%;
+    clear: both;  /* Add this to clear the floats */
+    display: block;  /* Change from flex to block */
+}
+
+.message.sent {
+    float: right;  /* Float sent messages to the right */
+}
+
+.message.received {
+    float: left;  /* Float received messages to the left */
+}
+
+.message-content {
+    padding: 8px 12px;
+    border-radius: 8px;
+    word-wrap: break-word;
+    display: inline-block;  /* Add this */
+}
+
+.message.sent .message-content {
+    background-color: #ffffff;
+    border: 1px solid #e0e0e0;
+}
+
+.message.received .message-content {
+    background-color: #f8f8f8;
+    border: 1px solid #e0e0e0;
+}
+
+/* Add this to clear floats */
+.messages-container::after {
+    content: "";
+    display: table;
+    clear: both;
+}
