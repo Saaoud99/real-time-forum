@@ -9,7 +9,7 @@ export async function fetchHistory(){
         }
         const dms = await res.json();
         messages.replaceChildren();
-        displayHistory(dms);
+        if (dms) displayHistory(dms);
          const debouncedDisplay = debounce((dms)=>{
             displayHistory(dms)
          }, 200);

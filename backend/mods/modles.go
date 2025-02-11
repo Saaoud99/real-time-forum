@@ -53,7 +53,7 @@ type Comment struct {
 	Type         string `json:"Type"`
 }*/
 
-type WebSocketMessage struct {
+type Message struct {
 	Type       string    `json:"Type"`
 	Content    string    `json:"Content"`
 	SenderID   int       `json:"Sender_id"`

@@ -1,5 +1,8 @@
 import { fetchHistory } from "./chatHistory.js";
 import { fetchUsers } from "./displayUsers.js";
+// import { socket } from "./handleConn.js";
+
+const socket = new WebSocket(`ws://${document.location.host}/ws`); /*handle if user enters from other pc*/
 
 export function chatArea(userId, nickname) {
     const chat = document.querySelector('#chat');
@@ -32,18 +35,20 @@ export function chatArea(userId, nickname) {
         if (e.key === 'Enter') sendMessage();
     });
 
-    function sendMessage() {
-        const input = document.querySelector('#message-input');
-        const content = input.value.trim();
-        if (!content) return;
+}
+function sendMessage() {
+    const input = document.querySelector('#message-input');
+    const content = input.value.trim();
+    console.log(content);
+    
+    if (!content) return;
 
-        const message = {
-            type: "dm",
-            content: content,
-            sender_id: getCurrentUserId(), // Implement this based on your auth
-            receiver_id: userId
-        };
-        socket.send(JSON.stringify(message));
-        input.value = '';
-    }
+    const message = {
+        type: "dm",
+        content: content,
+        sender_id: 2,//getCurrentUserId(), // Implement this based on your auth
+        receiver_id: 1,
+    };
+    socket.send(JSON.stringify(message));
+    input.value = '';
 }

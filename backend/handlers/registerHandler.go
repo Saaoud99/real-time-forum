@@ -59,5 +59,5 @@ func RegisterHandler(db *sql.DB, w http.ResponseWriter, r *http.Request) {
 	}
 
 	w.Write([]byte("User registered successfully"))
-	fmt.Println(user, "regis tered successfully")
+	fmt.Println(user, "registered successfully")
 }

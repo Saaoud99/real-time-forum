@@ -47,6 +47,8 @@ function displayUsers(users){
             // click on user to display chat area
             userCard.addEventListener('click', () => {
                 chatArea(user.id, user.nickname);
+                console.log(user.id);
+                
             });
             chat.appendChild(userCard);
         }

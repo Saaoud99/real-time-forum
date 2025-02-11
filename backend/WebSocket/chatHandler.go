@@ -3,6 +3,7 @@ package websoc
 import (
 	"database/sql"
 	"encoding/json"
+	"fmt"
 	"net/http"
 	"real-time-forum/backend/authentication"
 	modles "real-time-forum/backend/mods"
@@ -32,6 +33,7 @@ type Client struct {
 }
 
 func (c *Client) readPump(db *sql.DB) {
+	fmt.Println("readPump invoked")
 	defer func() {
 		c.hub.Unregister <- c
 		c.conn.Close()
@@ -43,7 +45,7 @@ func (c *Client) readPump(db *sql.DB) {
 			break
 		}
 
-		var msg modles.WebSocketMessage
+		var msg modles.Message
 		if err := json.Unmarshal(message, &msg); err != nil {
 			continue
 		}
@@ -61,6 +63,7 @@ func (c *Client) readPump(db *sql.DB) {
 }
 
 func (c *Client) writePump() {
+	fmt.Println("writePump invoked")
 	defer c.conn.Close()
 	for {
 		message, ok := <-c.send
@@ -69,7 +72,7 @@ func (c *Client) writePump() {
 			return
 		}
 
-		var msg modles.WebSocketMessage
+		var msg modles.Message
 		if err := json.Unmarshal(message, &msg); err != nil {
 			continue
 		}

@@ -9,7 +9,7 @@ import (
 	modles "real-time-forum/backend/mods"
 )
 
-func fetchChat(db *sql.DB) ([]modles.WebSocketMessage, error) {
+func fetchChat(db *sql.DB) ([]modles.Message, error) {
 	query := `
 			SELECT 
 				ch.content,
@@ -25,9 +25,9 @@ func fetchChat(db *sql.DB) ([]modles.WebSocketMessage, error) {
 	}
 	defer rows.Close()
 
-	var chat []modles.WebSocketMessage
+	var chat []modles.Message
 	for rows.Next() {
-		var msg modles.WebSocketMessage
+		var msg modles.Message
 		if err = rows.Scan(&msg.Content, &msg.Timestamp, &msg.SenderID, &msg.ReceiverID); err != nil {
 			fmt.Printf("error scanning: %v\n", err)
 			continue
