@@ -62,6 +62,6 @@ func RedirectMiddleware(next http.HandlerFunc) http.HandlerFunc {
 			next.ServeHTTP(w, r)
 			return
 		}
-		http.Redirect(w, r, "/", http.StatusMovedPermanently)
+		// http.Redirect(w, r, "/", http.StatusMovedPermanently)
 	}
 }

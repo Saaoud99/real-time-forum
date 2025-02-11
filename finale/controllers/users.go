@@ -30,7 +30,6 @@ func RegisterUser(user models.User) error {
 // LoginUser checks if the user info are exists, and correct in user table database
 func LoginUser(user models.User) (models.User, int, error) {
 	existUser := models.User{}
-	// check if username already exist
 	query := "SELECT id, username, email, password FROM users WHERE username = ? OR email = ?"
 	err := database.DataBase.QueryRow(query, user.Username, user.Username).Scan(&existUser.Id, &existUser.Username, &existUser.Email, &existUser.Password)
 	if err == sql.ErrNoRows {

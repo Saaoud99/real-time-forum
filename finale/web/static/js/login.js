@@ -1,6 +1,8 @@
 export function Handlelogin(){
 const page = document.querySelector(".zone")
 page.innerHTML = ""
+console.log("hH");
+
 page.innerHTML= `
     <nav class="navbar">
         <a id="logo" href="/">

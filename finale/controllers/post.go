@@ -8,15 +8,11 @@ import (
 )
 
 func CreateCategories() {
-	var isValid bool
-	if err := database.DataBase.QueryRow(`SELECT EXISTS(SELECT * FROM categories WHERE name = 'Technology')`).Scan(&isValid); err != nil {
-		fmt.Printf("Error checking existence of category: %v\n", err)
-	}
-	if !isValid {
-		if _, err := database.DataBase.Exec(`INSERT INTO categories(name) VALUES ('Technology'),('GoLang'),('Gaming'),('Sports'),('Programming'),('Zone01'),('Back-end'),('Front-end')`); err != nil {
+
+		if _, err := database.DataBase.Exec(`INSERT OR IGNORE INTO categories(name) VALUES ('Technology'),('GoLang'),('Gaming'),('Sports'),('Programming'),('Zone01'),('Back-end'),('Front-end')`); err != nil {
 			fmt.Printf("Error inserting categories: %v\n", err)
 		}
-	}
+	
 }
 
 // CreatePost stores content of the post, and relation between posts and categories.
