@@ -1,7 +1,5 @@
 import { router } from "./routes.js";
 
-
-// this is not working i'll fix it tomorrow
 function isAuthenticated() {
     return document.cookie.includes('forum_session=');
 }
@@ -14,17 +12,13 @@ export async function handleRoute() {
     const isAuth = isAuthenticated();
 
 
-    if (!isAuth && protectedRoutes.includes(currentPath)) {
-        console.log('11111111111');
-                
+    if (!isAuth && protectedRoutes.includes(currentPath)) {                
         history.pushState(null, null, '/login');
         await router['/login'].call();
         return;
     }
 
     if (isAuth && publicRoutes.includes(currentPath)) {
-        console.log('22222222');
-        
         history.pushState(null, null, '/');
         await router['/'].call();
         return;

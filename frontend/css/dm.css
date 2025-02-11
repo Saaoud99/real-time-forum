@@ -1,0 +1,116 @@
+.messages-container {
+    padding: 16px;
+    background-color: #f0f0f0;
+    height: calc(100vh - 180px);
+    /* overflow-y: auto; */
+}
+
+.message {
+    display: flex;
+    flex-direction: column;
+    max-width: 65%;
+    margin-bottom: 12px;
+    position: relative;
+}
+
+.message.sent {
+    margin-left: auto;
+}
+
+.message.received {
+    margin-right: auto;
+}
+
+.message-content {
+    padding: 8px 12px;
+    border-radius: 8px;
+    position: relative;
+    word-wrap: break-word;
+}
+
+.message.sent .message-content {
+    background-color: #ffffff;
+    border: 1px solid #e0e0e0;
+}
+
+.message.received .message-content {
+    background-color: #f8f8f8;
+    border: 1px solid #e0e0e0;
+}
+
+.message-time {
+    font-size: 0.7rem;
+    color: #666;
+    margin-top: 2px;
+    align-self: flex-end;
+    margin-right: 4px;
+}
+
+/* Input area styles */
+.input-area {
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    background-color: white;
+    padding: 12px;
+    border-top: 1px solid #e0e0e0;
+    display: flex;
+    gap: 8px;
+}
+
+#message-input {
+    flex: 1;
+    padding: 12px;
+    border: 1px solid #e0e0e0;
+    border-radius: 24px;
+    outline: none;
+}
+
+#message-input:focus {
+    border-color: #999;
+}
+
+#send-btn {
+    background-color: #333;
+    color: white;
+    border: none;
+    border-radius: 50%;
+    width: 40px;
+    height: 40px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    transition: background-color 0.2s;
+}
+
+#send-btn:hover {
+    background-color: #555;
+}
+
+/* Chat header styles */
+.chat-header {
+    position: sticky;
+    top: 0;
+    background-color: white;
+    border-bottom: 1px solid #e0e0e0;
+    padding: 12px 16px;
+    display: flex;
+    align-items: center;
+    gap: 12px;
+}
+
+.back-btn {
+    background: none;
+    border: none;
+    font-size: 1.5rem;
+    cursor: pointer;
+    padding: 4px 8px;
+    color: #333;
+}
+
+.back-btn:hover {
+    background-color: #f0f0f0;
+    border-radius: 50%;
+}

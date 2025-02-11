@@ -41,7 +41,7 @@ INSERT INTO posts (nickname, title, content, user_id) VALUES
 ('BobM', 'Scientific Discoveries', 'New research in quantum physics.', 2),
 ('CharlieS', 'Football World Cup', 'Predictions for the upcoming World Cup.', 3),
 ('DianaJ', 'Tech Innovations', 'The impact of blockchain on finance.', 4),
-('EveL', 'Space Exploration', 'NASA’s upcoming Mars mission.', 5),
+('EveL', 'Space Exploration', 'NASAs upcoming Mars mission.', 5),
 ('FrankB', 'Basketball Tactics', 'How to improve defensive strategies.', 6),
 ('GraceD', 'Cybersecurity Tips', 'Best practices to keep your data safe.', 7),
 ('HenryC', 'Health and Science', 'The effects of sleep on brain function.', 8),
@@ -73,5 +73,27 @@ INSERT INTO comments (post_id, user_id, content) VALUES
 (8, 9, 'Good sleep is underrated!'),
 (9, 10, 'Tennis has become more competitive.'),
 (10, 1, 'AI-driven training is fascinating.');
+
+-- Sample direct messages between users with IDs 33 and others
+INSERT INTO chat (content, sent_at, sender_id, receiver_id) VALUES
+('Hey, how are you doing?', '2025-02-10 10:00:00', 33, 40),
+('I am good, thanks! How about you?', '2025-02-10 10:05:00', 40, 33),
+('Did you see the latest tech news?', '2025-02-10 10:10:00', 33, 41),
+('Yes, it is incredible! AI is really evolving fast.', '2025-02-10 10:15:00', 41, 33),
+('I cant wait for the next sports event.', '2025-02-10 10:20:00', 33, 42),
+('Me neither, its going to be intense.', '2025-02-10 10:25:00', 42, 33),
+('Are you coming to the game this weekend?', '2025-02-10 10:30:00', 40, 43),
+('I will be there, excited!', '2025-02-10 10:35:00', 43, 40),
+('Have you heard about the new scientific discovery?', '2025-02-10 10:40:00', 33, 44),
+('Yes, its fascinating! The world is evolving fast.', '2025-02-10 10:45:00', 44, 33),
+('I was thinking of buying a new phone.', '2025-02-10 10:50:00', 40, 45),
+('Let me know which one you decide on, I need a new one too.', '2025-02-10 10:55:00', 45, 40),
+('Hows the project going?', '2025-02-10 11:00:00', 33, 46),
+('Its going well, were making great progress!', '2025-02-10 11:05:00', 46, 33),
+('Im planning a trip abroad soon.', '2025-02-10 11:10:00', 40, 47),
+('That sounds amazing! Let me know the details.', '2025-02-10 11:15:00', 47, 40),
+('Do you think well have a chance to collaborate on the next project?', '2025-02-10 11:20:00', 33, 48),
+('Definitely! Well have plenty of opportunities.', '2025-02-10 11:25:00', 48, 33);
+
 
 `

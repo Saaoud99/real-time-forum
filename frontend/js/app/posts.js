@@ -8,9 +8,10 @@ export async function fetchPost() {
             throw new error
         }
         const posts = await res.json();
-        /*replaceChildren(); simply empties out the content of the container element,*/
+        /*replaceChildren(); simply empties 
+        out the content of the container element,*/
         container.replaceChildren();
-        displayposts(posts);
+        displayposts(posts); /*for first 10 posts*/
         const debouncedDisplay = debounce((posts) => {
             displayposts(posts);
         }, 300);

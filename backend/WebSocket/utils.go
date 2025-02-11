@@ -24,3 +24,6 @@ func GetLineNumber(filename string, searchTerm string) (int, error) {
 
 	return 0, fmt.Errorf("term not found")
 }
+
+
+

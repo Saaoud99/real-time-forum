@@ -1,8 +1,7 @@
 import { debounce } from "../app/helpers.js";
+import {chatArea} from './chatArea.js';
 
 export async function fetchUsers() {    
-
-
     createChat()
     try {
         const res = await fetch('/users');        
@@ -45,6 +44,10 @@ function displayUsers(users){
 
             userCard.appendChild(profile);
             userCard.appendChild(nickname);
+            // click on user to display chat area
+            userCard.addEventListener('click', () => {
+                chatArea(user.id, user.nickname);
+            });
             chat.appendChild(userCard);
         }
     }

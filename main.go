@@ -17,6 +17,17 @@ func main() {
 	db := database.InitDB()
 	defer db.Close()
 
+	// working on dm
+	hub := websoc.NewHub()
+	go hub.Run()
+	mux.HandleFunc("/ws", func(w http.ResponseWriter, r *http.Request) {
+		websoc.HandleConnections(hub, db)(w, r)
+	})
+
+	mux.HandleFunc("/dm", func(w http.ResponseWriter, r *http.Request) {
+		websoc.ChatAPIHandler(db)(w, r)
+	})
+
 	mux.HandleFunc("/", func(w http.ResponseWriter, r *http.Request) {
 		if r.URL.Path != "/" {
 			http.Error(w, "page not found", 404)
@@ -77,11 +88,6 @@ func main() {
 	// displaying users
 	mux.HandleFunc("/users", func(w http.ResponseWriter, r *http.Request) {
 		forum.DisplayUsersHandler(db)(w, r)
-	})
-
-	mux.HandleFunc("/ws", func(w http.ResponseWriter, r *http.Request) {
-		print("dkhl main soc \n")
-		websoc.HandleConnections(db, w, r)
 	})
 
 	/*http.HandleFunc("/like", forum.HandleLikes(db))*/

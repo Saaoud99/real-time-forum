@@ -1,16 +1,16 @@
-const socket = new WebSocket('ws://localhost:4011/ws');
+const socket = new WebSocket(`ws://${document.location.host}/ws`);/*handle if user enters from other pc*/
 
 export function HandleConn(){
     socket.onopen = function () {
         console.log('WebSocket connection established');
-        const message = {
-            type: "message",
-            content: "Hello, WebSocket Server!",
-            senderID: 1,
-            receiverID: 0,
-            timestamp: new Date()
-        };
-        socket.send(JSON.stringify(message));
+        // const message = {
+        //     type: "message",
+        //     content: "Hello, WebSocket Server!",
+        //     senderID: 1,
+        //     receiverID: 0,
+        //     timestamp: new Date()
+        // };
+        // socket.send(JSON.stringify(message));
     };
 }
 

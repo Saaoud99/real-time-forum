@@ -11,7 +11,7 @@ import (
 	modles "real-time-forum/backend/mods"
 )
 
-func FetchPosts(db *sql.DB, category string) ([]modles.Post, error) {
+func fetchPosts(db *sql.DB, category string) ([]modles.Post, error) {
 	var rows *sql.Rows
 	var err error
 	query := `
@@ -38,7 +38,7 @@ func FetchPosts(db *sql.DB, category string) ([]modles.Post, error) {
 	for rows.Next() {
 		var post modles.Post
 		var categoryString string
-		err := rows.Scan(&post.ID, &post.UserName, &post.Title, &post.Content, &categoryString, &post.CreatedAt,)
+		err := rows.Scan(&post.ID, &post.UserName, &post.Title, &post.Content, &categoryString, &post.CreatedAt)
 		if err != nil {
 			fmt.Printf("error scanning: %v\n", err)
 			continue
@@ -68,7 +68,7 @@ func splitStringByComma(input string) []string {
 func APIHandler(db *sql.DB) http.HandlerFunc {
 	return func(w http.ResponseWriter, r *http.Request) {
 		category := r.URL.Query().Get("category")
-		posts, err := FetchPosts(db, category)
+		posts, err := fetchPosts(db, category)
 		/*add this to hid login and register if the user alredy loged*/
 		user_id := authentication.IsLoged(db, r)
 		if err != nil {
