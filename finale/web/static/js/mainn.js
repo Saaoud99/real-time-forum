@@ -1,6 +1,6 @@
 const page = document.querySelector('.zone')
-    page.innerHTML = ''
-    page.innerHTML= `
+page.innerHTML = ''
+page.innerHTML = `
         <nav class="navbar">
             <a id="logo" href="/">
                 <img id="logo-img" src="/static/img/logo.svg" alt="">
@@ -230,7 +230,7 @@ const openPost = async (postId) => {
 
             const response = await fetch("/newcomment", {
                 method: "POST",
-                body: JSON.stringify({ postId : parseInt(postId), content })
+                body: JSON.stringify({ postId: parseInt(postId), content })
             })
 
             if (response.ok) {
@@ -327,9 +327,9 @@ const loadData = async (page, resetData = false) => {
     }
 };
 
-export  const init = async () => {
-    
-    
+export const init = async () => {
+
+
     data.allCategories = await fetch("/api/categories")
         .then(response => response.json());
 
@@ -353,7 +353,7 @@ const displayPosts = (posts) => {
     const postsContainer = document.createElement('div');
     postsContainer.classList.add('posts-container');
     disactive();
-    main.innerHTML = "" ;
+    main.innerHTML = "";
     if (!posts || !posts.length) {
         main.innerHTML += `
         <img id="no_data" src="/assets/img/no_data.svg" alt="no result"/>
@@ -369,7 +369,7 @@ const displayPosts = (posts) => {
     initInfiniteScroll()
 };
 
-document.getElementById('select_1').onclick = ()=> recentPosts()
+document.getElementById('select_1').onclick = () => recentPosts()
 
 const recentPosts = async () => {
     data.currentView = 'recent';
@@ -379,7 +379,7 @@ const recentPosts = async () => {
     document.getElementById('select_1').classList.add('active');
 };
 
-document.getElementById('select_2').onclick = ()=> createdPosts()
+document.getElementById('select_2').onclick = () => createdPosts()
 
 const createdPosts = async () => {
     data.currentView = 'created';
@@ -389,7 +389,7 @@ const createdPosts = async () => {
     document.getElementById('select_2').classList.add('active');
 };
 
-document.getElementById('select_3').onclick = ()=> likedPosts()
+document.getElementById('select_3').onclick = () => likedPosts()
 
 const likedPosts = async () => {
     data.currentView = 'liked';
@@ -408,12 +408,76 @@ const filterByCategory = async (category) => {
     document.getElementById(category).classList.add('activeCat');
 };
 
+// const createPostElement = (post) => {
+//     const userId = parseInt(getCookie("user_id"));
+//     const postDiv = document.createElement("div");
+//     const likeActive = post.likes.includes(userId) ? ' liked' : '';
+//     const dislikeActive = post.dislikes.includes(userId) ? ' disliked' : '';
+
+//     postDiv.dataset.id = post.id;
+//     postDiv.classList.add("post");
+
+//     postDiv.innerHTML = `
+//         <div class="user-info">
+//             <img src="https://ui-avatars.com/api/?name=${post.by}" alt="User avatar" class="avatar">
+//             <div>
+//                 <div class="username">${post.by}</div>
+//                 <div class="timestamp">${timeAgo(new Date(post.createdAt).getTime())}</div>
+//             </div>
+//         </div>
+//         <div class="post-content">
+//             <h3 class="post-title">${filterContent(post.title)}</h3>
+//             <p>${displayContent(post.content, post.id)}</p>
+//         </div>
+//         <div class="tags-stats">
+//             <div class="tags">
+//                 ${post.categories.map(tag => `<span class="tag">${tag}</span>`).join('')}
+//             </div>
+//             <div class="post-stats">
+//                 <div class="stat${likeActive}">
+//                     <i class="like-icon like"></i><span>${post.likes.length}</span>
+//                 </div>
+//                 <div class="stat${dislikeActive}">
+//                     <i class="dislike-icon dislike"></i><span>${post.dislikes.length}</span>
+//                 </div>
+//                 <div class="stat">
+//                     <i class="comment-icon"></i><span>${post.totalComments}</span>
+//                 </div>
+//             </div>
+//         </div>
+//     `;
+
+
+//     const likeButton = postDiv.querySelector(".like");
+//     const dislikeButton = postDiv.querySelector(".dislike");
+//     const postTitle = postDiv.querySelector(".post-title");
+//     const commentIcon = postDiv.querySelector(".comment-icon");
+
+//     if (likeButton) {
+//         likeButton.addEventListener("click", () => likeAction(post.id, true));
+//     }
+
+//     if (dislikeButton) {
+//         dislikeButton.addEventListener("click", () => dislikeAction(post.id, true));
+//     }
+
+//     if (postTitle) {
+//         postTitle.addEventListener("click", () => openPost(post.id));
+//     }
+
+//     if (commentIcon) {
+//         commentIcon.addEventListener("click", () => openPost(post.id));
+//     }
+//     // console.log(postDiv)
+//     return postDiv;
+// };
+
 const createPostElement = (post) => {
     const userId = parseInt(getCookie("user_id"));
     const postDiv = document.createElement("div");
     const likeActive = post.likes.includes(userId) ? ' liked' : '';
     const dislikeActive = post.dislikes.includes(userId) ? ' disliked' : '';
-    
+
     postDiv.dataset.id = post.id;
     postDiv.classList.add("post");
 
@@ -447,7 +511,11 @@ const createPostElement = (post) => {
         </div>
     `;
 
-    
+    reattachEventListeners(postDiv, post); // Attach event listeners initially
+    return postDiv;
+};
+
+const reattachEventListeners = (postDiv, post) => {
     const likeButton = postDiv.querySelector(".like");
     const dislikeButton = postDiv.querySelector(".dislike");
     const postTitle = postDiv.querySelector(".post-title");
@@ -468,10 +536,7 @@ const createPostElement = (post) => {
     if (commentIcon) {
         commentIcon.addEventListener("click", () => openPost(post.id));
     }
-    console.log(postDiv)
-    return postDiv;
 };
-
 
 const displayContent = (content, id) => {
     if (content.match(/\n/g) && content.match(/\n/g).length < 3 && content.length < 200) {
@@ -486,6 +551,47 @@ const displayContent = (content, id) => {
         return filterContent(content)
     }
 }
+
+// const createCommentElement = (comment) => {
+//     const userId = parseInt(getCookie("user_id"));
+//     const commentDiv = document.createElement('div');
+//     const likeActive = comment.likes.includes(userId) ? ' liked' : '';
+//     const dislikeActive = comment.dislikes.includes(userId) ? ' disliked' : '';
+
+//     commentDiv.dataset.id = comment.id;
+//     commentDiv.classList.add('comment');
+
+//     commentDiv.innerHTML = `
+//         <div class="user-info">
+//             <img src="https://ui-avatars.com/api/?name=${comment.by}" alt="User avatar" class="avatar">
+//             <div>
+//                 <div class="username">${comment.by}</div>
+//                 <div class="timestamp">${timeAgo(new Date(comment.createdAt).getTime())}</div>
+//             </div>
+//         </div>
+//         <div class="content">
+//             <p>${filterContent(comment.content)}</p>
+//         </div>
+//         <div class="tags-stats">
+//             <div class="post-stats">
+//                 <div class="stat${likeActive}">
+//                     <i class="like-icon"></i><span>${comment.likes.length}</span>
+//                 </div>
+//                 <div class="stat${dislikeActive}">
+//                     <i class="dislike-icon dislike"></i><span>${comment.dislikes.length}</span>
+//                 </div>
+//             </div>
+//         </div>
+//     `;
+
+//     // Add event listeners instead of inline onclick handlers
+//     if (commentDiv) {
+//         commentDiv.querySelector(".like-icon").addEventListener("click", () => likeAction(comment.id, false));
+//         commentDiv.querySelector(".dislike-icon").addEventListener("click", () => dislikeAction(comment.id, false));
+//     }
+
+//     return commentDiv;
+// };
 
 const createCommentElement = (comment) => {
     const userId = parseInt(getCookie("user_id"));
@@ -510,7 +616,7 @@ const createCommentElement = (comment) => {
         <div class="tags-stats">
             <div class="post-stats">
                 <div class="stat${likeActive}">
-                    <i class="like-icon"></i><span>${comment.likes.length}</span>
+                    <i class="like-icon like"></i><span>${comment.likes.length}</span>
                 </div>
                 <div class="stat${dislikeActive}">
                     <i class="dislike-icon dislike"></i><span>${comment.dislikes.length}</span>
@@ -519,11 +625,23 @@ const createCommentElement = (comment) => {
         </div>
     `;
 
-    // Add event listeners instead of inline onclick handlers
-    commentDiv.querySelector(".like-icon").addEventListener("click", () => likeAction(comment.id, false));
-    commentDiv.querySelector(".dislike-icon").addEventListener("click", () => dislikeAction(comment.id, false));
+    // Attach event listeners to the comment's like and dislike buttons
+    reattachCommentEventListeners(commentDiv, comment);
 
     return commentDiv;
+};
+
+const reattachCommentEventListeners = (commentDiv, comment) => {
+    const likeButton = commentDiv.querySelector(".like");
+    const dislikeButton = commentDiv.querySelector(".dislike");
+
+    if (likeButton) {
+        likeButton.addEventListener("click", () => likeAction(comment.id, false));
+    }
+
+    if (dislikeButton) {
+        dislikeButton.addEventListener("click", () => dislikeAction(comment.id, false));
+    }
 };
 
 
@@ -535,45 +653,113 @@ const closedPost = () => {
     return document.querySelector('.comment-box') == undefined
 }
 
+// const likeAction = async (id, isPost) => {
+//     console.log("here we listen")
+//     const reqData = isPost ? { postId: id, isLike: true } : { commentId: id, isLike: true }
+//     try {
+//         const response = await fetch("/reaction", {
+//             method: "POST",
+//             body: JSON.stringify(reqData)
+//         })
+//         if (response.ok) {
+//             if (isPost && closedPost()) {
+//                 const post = await getPostData(id);
+//                 const postDiv = document.querySelector(`.post[data-id="${id}"]`)
+//                 postDiv.innerHTML = createPostElement(post).innerHTML;
+//                 console.log('post like : ', post.id);
+//                 return;
+//             } else {
+//                 const postId = getPostId();
+//                 openPost(postId);
+//                 return;
+//             }
+//         } else {
+//             const res = await response.json();
+//             console.error(res);
+//             document.getElementById("loginPopup").style.display = "block";
+//             return;
+//         }
+//     } catch (err) {
+//         console.error(err)
+//     }
+// }
 const likeAction = async (id, isPost) => {
-    //console.log("here we listen")
-    const reqData = isPost ? { postId: id, isLike: true } : { commentId: id, isLike: true }
+    console.log("here we listen");
+    const reqData = isPost ? { postId: id, isLike: true } : { commentId: id, isLike: true };
     try {
         const response = await fetch("/reaction", {
             method: "POST",
-            body: JSON.stringify(reqData)
-        })
+            headers: {
+                "Content-Type": "application/json",
+            },
+            body: JSON.stringify(reqData),
+        });
         if (response.ok) {
             if (isPost && closedPost()) {
                 const post = await getPostData(id);
-                const postDiv = document.querySelector(`.post[data-id="${id}"]`)
+                const postDiv = document.querySelector(`.post[data-id="${id}"]`);
                 postDiv.innerHTML = createPostElement(post).innerHTML;
+                reattachEventListeners(postDiv, post); // Reattach event listeners
+                console.log('post like : ', post.id);
+                return;
             } else {
                 const postId = getPostId();
                 openPost(postId);
+                return;
             }
         } else {
             const res = await response.json();
             console.error(res);
             document.getElementById("loginPopup").style.display = "block";
+            return;
         }
     } catch (err) {
-        console.error(err)
+        console.error(err);
     }
-}
+};
+// const dislikeAction = async (id, isPost) => {
+//     const reqData = isPost ? { postId: id, isDislike: true } : { commentId: id, isDislike: true }
+//     try {
+//         const response = await fetch("/reaction", {
+//             method: "POST",
+//             body: JSON.stringify(reqData)
+//         })
+//         if (response.ok) {
+//             if (isPost && closedPost()) {
+//                 const post = await getPostData(id);
+//                 const postDiv = document.querySelector(`.post[data-id="${id}"]`)
+//                 postDiv.innerHTML = createPostElement(post).innerHTML;
+//             } else {
+//                 const postId = getPostId();
+//                 openPost(postId);
+//             }
+//         } else {
+//             const res = await response.json();
+//             console.error(res);
+//             document.getElementById("loginPopup").style.display = "block";
+//         }
+
+//     } catch (err) {
+//         console.error(err)
+//     }
+// }
 
 const dislikeAction = async (id, isPost) => {
-    const reqData = isPost ? { postId: id, isDislike: true } : { commentId: id, isDislike: true }
+    const reqData = isPost ? { postId: id, isDislike: true } : { commentId: id, isDislike: true };
     try {
         const response = await fetch("/reaction", {
             method: "POST",
-            body: JSON.stringify(reqData)
-        })
+            headers: {
+                "Content-Type": "application/json", // Ensure the content type is set
+            },
+            body: JSON.stringify(reqData),
+        });
         if (response.ok) {
             if (isPost && closedPost()) {
                 const post = await getPostData(id);
-                const postDiv = document.querySelector(`.post[data-id="${id}"]`)
+                const postDiv = document.querySelector(`.post[data-id="${id}"]`);
                 postDiv.innerHTML = createPostElement(post).innerHTML;
+                reattachEventListeners(postDiv, post); // Reattach event listeners
             } else {
                 const postId = getPostId();
                 openPost(postId);
@@ -583,11 +769,10 @@ const dislikeAction = async (id, isPost) => {
             console.error(res);
             document.getElementById("loginPopup").style.display = "block";
         }
-
     } catch (err) {
-        console.error(err)
+        console.error(err);
     }
-}
+};
 
 const timeAgo = (time) => {
     const seconds = Math.floor(Date.now() - time) / 1000;
@@ -667,7 +852,7 @@ const widgetBack = () => {
     `
 }
 
-document.getElementById('logout').onclick = ()=> logout()
+document.getElementById('logout').onclick = () => logout()
 
 function logout() {
     fetch('/auth/logout', {
@@ -677,23 +862,23 @@ function logout() {
             'Content-Type': 'application/json',
         }
     })
-    
-    .then(response => response.json())  // Parse the JSON response
-    .then(result => {
-        if (result.redirected) {
-            window.location.href = "/";  // Redirect if the response indicates a redirect
-        }
-    })
-   
-    .catch(error => {
-        // console.error('Error during logout:', error);
-        // alert('There was a problem logging out. Please try again later.');
-        window.location.href = "/register"
-    });
+
+        .then(response => response.json())  // Parse the JSON response
+        .then(result => {
+            if (result.redirected) {
+                window.location.href = "/";  // Redirect if the response indicates a redirect
+            }
+        })
+
+        .catch(error => {
+            // console.error('Error during logout:', error);
+            // alert('There was a problem logging out. Please try again later.');
+            window.location.href = "/register"
+        });
 }
 
 
-document.getElementById('create').onclick = ()=> newPost()
+document.getElementById('create').onclick = () => newPost()
 
 const newPost = () => {
     document.querySelector('.main').innerHTML = `
