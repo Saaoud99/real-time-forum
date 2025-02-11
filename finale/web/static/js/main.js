@@ -6,6 +6,8 @@ const nav = (path) => {
     paths()
 }
 function paths() {
+    
+    
     if (location.pathname == "/login") {
         Handlelogin();
     } else if (location.pathname == "/") {

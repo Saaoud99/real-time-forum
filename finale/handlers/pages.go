@@ -7,10 +7,10 @@ import (
 // HomeHandler it handles requests to home page "/"
 // execute the home page and show it to the user
 func HomeHandler(w http.ResponseWriter, r *http.Request) {
-	if r.URL.Path != "/" {
-		ErrorHandler(w, r, http.StatusNotFound)
-		return
-	}
+	// if r.URL.Path != "/" {
+	// 	ErrorHandler(w, r, http.StatusNotFound)
+	// 	return
+	// }
 
 	// if r.Method != http.MethodGet {
 	// 	ErrorHandler(w, r, http.StatusMethodNotAllowed)

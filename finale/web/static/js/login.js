@@ -1,4 +1,6 @@
 export function Handlelogin(){
+    //console.log("ggggggggggggg");
+    
 const page = document.querySelector(".zone")
 page.innerHTML = ""
 console.log("hH");
