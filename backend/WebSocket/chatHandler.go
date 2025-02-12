@@ -12,16 +12,9 @@ import (
 )
 
 type Hub struct {
-	// Registered clients.
 	Clients map[*Client]bool
-
-	// Inbound messages from the clients.
 	Broadcast chan []byte
-
-	// Register requests from the clients.
 	Register chan *Client
-
-	// Unregister requests from clients.
 	Unregister chan *Client
 }
 
@@ -32,8 +25,8 @@ type Client struct {
 	userID int
 }
 
-func (c *Client) readPump(db *sql.DB) {
-	fmt.Println("readPump invoked")
+func (c *Client) read(db *sql.DB) {
+	fmt.Println("read invoked")
 	defer func() {
 		c.hub.Unregister <- c
 		c.conn.Close()
@@ -42,6 +35,7 @@ func (c *Client) readPump(db *sql.DB) {
 	for {
 		_, message, err := c.conn.ReadMessage()
 		if err != nil {
+			fmt.Println(err)
 			break
 		}
 
@@ -50,7 +44,7 @@ func (c *Client) readPump(db *sql.DB) {
 			continue
 		}
 
-		// Save to database
+		
 		_, err = db.Exec(`
             INSERT INTO chat (content, sender_id, receiver_id)
             VALUES (?, ?, ?)
@@ -62,8 +56,8 @@ func (c *Client) readPump(db *sql.DB) {
 	}
 }
 
-func (c *Client) writePump() {
-	fmt.Println("writePump invoked")
+func (c *Client) write() {
+	fmt.Println("write invoked")
 	defer c.conn.Close()
 	for {
 		message, ok := <-c.send
@@ -77,7 +71,7 @@ func (c *Client) writePump() {
 			continue
 		}
 
-		// Only send if client is sender or receiver
+		
 		if msg.SenderID == c.userID || msg.ReceiverID == c.userID {
 			if err := c.conn.WriteMessage(websocket.TextMessage, message); err != nil {
 				return
@@ -102,13 +96,13 @@ func HandleConnections(hub *Hub, db *sql.DB) http.HandlerFunc {
 		}
 		client.hub.Register <- client
 
-		go client.writePump()
-		go client.readPump(db)
+		go client.write()
+		go client.read(db)
 	}
 }
 
 var Upgrader = websocket.Upgrader{
-	// Allow all origins for development
+	
 	CheckOrigin: func(r *http.Request) bool {
 		return true
 	},

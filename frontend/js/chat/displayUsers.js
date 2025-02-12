@@ -46,7 +46,7 @@ function displayUsers(users){
             userCard.appendChild(nickname);
             // click on user to display chat area
             userCard.addEventListener('click', () => {
-                chatArea(user.id, user.nickname);
+                chatArea(user.nickname);
                 console.log(user.id);
                 
             });
@@ -54,6 +54,7 @@ function displayUsers(users){
         }
     }
 }
+
 
 function getRandomColor() {
     const letters = '0123456789ABCDEF';

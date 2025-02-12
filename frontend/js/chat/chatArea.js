@@ -4,7 +4,7 @@ import { fetchUsers } from "./displayUsers.js";
 
 const socket = new WebSocket(`ws://${document.location.host}/ws`); /*handle if user enters from other pc*/
 
-export function chatArea(userId, nickname) {
+export function chatArea(nickname) {
     const chat = document.querySelector('#chat');
     chat.innerHTML = `
         <div id="user-card">

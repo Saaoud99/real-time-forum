@@ -5,9 +5,10 @@ export async function fetchHistory(){
     try {
         const res = await fetch('/dm');
         if (!res.ok){
-            throw new error
+            throw new Error('error fetching dm history')
         }
         const dms = await res.json();
+                
         messages.replaceChildren();
         if (dms) displayHistory(dms);
          const debouncedDisplay = debounce((dms)=>{
@@ -32,9 +33,10 @@ function displayHistory(dms){
         const dm = dms.pop();
         if (dm){
             const messageCard = document.createElement('div');
-            messageCard.className = `message ${dm.SenderID === 33 ? 'sent' : 'received'}`; /*getCurrentUserId() later*/
+            messageCard.className = `message ${dm.Sender_id === 33 ? 'sent' : 'received'}`; /*getCurrentUserId() later*/
             
             const messageContent = document.createElement('div');
+            messageContent.id = `${dm.Sender_id}`
             messageContent.className = 'message-content';
             messageContent.textContent = dm.Content;
             console.log(dm.Sender_id, dm.Receiver_id);
@@ -50,3 +52,14 @@ function displayHistory(dms){
         }
     } 
 }
+
+/*
+.message.sent {
+    float: right;                
+}
+
+
+.message.received {
+    float: left;                
+}
+*/ 

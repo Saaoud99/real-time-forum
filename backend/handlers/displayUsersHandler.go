@@ -5,17 +5,20 @@ import (
 	"encoding/json"
 	"fmt"
 	"net/http"
+	"real-time-forum/backend/authentication"
 	modles "real-time-forum/backend/mods"
 )
 
-func selectUsers(db *sql.DB) ([]modles.User, error) {
+func selectUsers(db *sql.DB, r *http.Request) ([]modles.User, error) {
+	user_id := authentication.IsLoged(db, r)
 	query := `SELECT 
 				u.id,
 				u.nickname,
 				u.firstname,
 				u.lastname
-			FROM users u`
-	rows, err := db.Query(query)
+			FROM users u
+			WHERE u.id != ?`
+	rows, err := db.Query(query, user_id)
 	if err != nil {
 		fmt.Println("error selecting from users:\n", err)
 		return nil, err
@@ -40,7 +43,7 @@ func DisplayUsersHandler(db *sql.DB) http.HandlerFunc {
 			http.Error(w, "method not allowed", http.StatusMethodNotAllowed)
 			return
 		}
-		users, err := selectUsers(db)
+		users, err := selectUsers(db, r)
 		if err != nil {
 			http.Error(w, "Error fetching users", http.StatusInternalServerError)
 			fmt.Println(err)
