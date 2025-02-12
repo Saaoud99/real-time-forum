@@ -1,9 +1,9 @@
 import { debounce } from "../app/helpers.js";
 
-export async function fetchHistory(){
+export async function fetchHistory(receiverNickname){
     const messages = document.querySelector('#messages')
     try {
-        const res = await fetch('/dm');
+        const res = await fetch(`/dm?receiver=${encodeURIComponent(receiverNickname)}`); 
         if (!res.ok){
             throw new Error('error fetching dm history')
         }
@@ -33,13 +33,12 @@ function displayHistory(dms){
         const dm = dms.pop();
         if (dm){
             const messageCard = document.createElement('div');
-            messageCard.className = `message ${dm.Sender_id === 33 ? 'sent' : 'received'}`; /*getCurrentUserId() later*/
             
             const messageContent = document.createElement('div');
             messageContent.id = `${dm.Sender_id}`
             messageContent.className = 'message-content';
             messageContent.textContent = dm.Content;
-            console.log(dm.Sender_id, dm.Receiver_id);
+
             
             
             // const messageTime = document.createElement('div');

@@ -1,24 +1,21 @@
 import { router } from "./routes.js";
-
-function isAuthenticated() {
-    return document.cookie.includes('forum_session=');
-}
+import { isAuthenticated } from "./authentication/isAuth.js"; 
 
 const publicRoutes = ['/login', '/register'];
  const protectedRoutes = ['/', '/newPost', '/logout', '/comment'];
 
 export async function handleRoute() {
     const currentPath = window.location.pathname;
-    const isAuth = isAuthenticated();
+    const isAuth = await isAuthenticated();    
 
 
-    if (!isAuth && protectedRoutes.includes(currentPath)) {                
+    if (isAuth === 0 && protectedRoutes.includes(currentPath)) {                
         history.pushState(null, null, '/login');
         await router['/login'].call();
         return;
     }
 
-    if (isAuth && publicRoutes.includes(currentPath)) {
+    if (isAuth !== 0 && publicRoutes.includes(currentPath)) {
         history.pushState(null, null, '/');
         await router['/'].call();
         return;

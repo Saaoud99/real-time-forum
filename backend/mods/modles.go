@@ -58,5 +58,10 @@ type Message struct {
 	Content    string    `json:"Content"`
 	SenderID   int       `json:"Sender_id"`
 	ReceiverID int       `json:"Receiver_id"`
+	ReceiverName string  `json:"Receiver_name"`
 	Timestamp  time.Time `json:"Timestamp"`
+}
+
+type UserId struct {
+	Val int `json:"Val"`
 }

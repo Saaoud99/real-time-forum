@@ -12,9 +12,9 @@ import (
 )
 
 type Hub struct {
-	Clients map[*Client]bool
-	Broadcast chan []byte
-	Register chan *Client
+	Clients    map[*Client]bool
+	Broadcast  chan []byte
+	Register   chan *Client
 	Unregister chan *Client
 }
 
@@ -26,7 +26,6 @@ type Client struct {
 }
 
 func (c *Client) read(db *sql.DB) {
-	fmt.Println("read invoked")
 	defer func() {
 		c.hub.Unregister <- c
 		c.conn.Close()
@@ -43,12 +42,13 @@ func (c *Client) read(db *sql.DB) {
 		if err := json.Unmarshal(message, &msg); err != nil {
 			continue
 		}
-
-		
+		var r_id int
+		db.QueryRow(`SELECT id FROM users WHERE nickname = ? `, msg.ReceiverName).Scan(&r_id)
+		fmt.Println(r_id)
 		_, err = db.Exec(`
             INSERT INTO chat (content, sender_id, receiver_id)
             VALUES (?, ?, ?)
-        `, msg.Content, msg.SenderID, msg.ReceiverID)
+        `, msg.Content, msg.SenderID, r_id)
 
 		if err == nil {
 			c.hub.Broadcast <- message
@@ -71,7 +71,6 @@ func (c *Client) write() {
 			continue
 		}
 
-		
 		if msg.SenderID == c.userID || msg.ReceiverID == c.userID {
 			if err := c.conn.WriteMessage(websocket.TextMessage, message); err != nil {
 				return
@@ -102,7 +101,7 @@ func HandleConnections(hub *Hub, db *sql.DB) http.HandlerFunc {
 }
 
 var Upgrader = websocket.Upgrader{
-	
+
 	CheckOrigin: func(r *http.Request) bool {
 		return true
 	},

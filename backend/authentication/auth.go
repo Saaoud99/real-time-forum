@@ -69,3 +69,4 @@ func IsLoged(db *sql.DB, r *http.Request) int {
 	}
 	return user_id
 }
+

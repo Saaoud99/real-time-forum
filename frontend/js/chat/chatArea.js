@@ -1,3 +1,4 @@
+import { isAuthenticated } from "../authentication/isAuth.js";
 import { fetchHistory } from "./chatHistory.js";
 import { fetchUsers } from "./displayUsers.js";
 // import { socket } from "./handleConn.js";
@@ -24,7 +25,7 @@ export function chatArea(nickname) {
     
     // Event listeners
     chat.addEventListener('click', ()=>{
-        fetchHistory();
+        fetchHistory(nickname);
     })
     document.querySelector('.back-btn').addEventListener('click', () => {
         fetchUsers();
@@ -32,22 +33,21 @@ export function chatArea(nickname) {
 
     document.querySelector('#send-btn').addEventListener('click', sendMessage);
     document.querySelector('#message-input').addEventListener('keypress', (e) => {
-        if (e.key === 'Enter') sendMessage();
+        if (e.key === 'Enter') sendMessage(nickname);
     });
 
 }
-function sendMessage() {
+async function sendMessage(nickname) {
     const input = document.querySelector('#message-input');
     const content = input.value.trim();
-    console.log(content);
-    
+    const sender_id = await isAuthenticated();    
     if (!content) return;
 
     const message = {
-        type: "dm",
-        content: content,
-        sender_id: 2,//getCurrentUserId(), // Implement this based on your auth
-        receiver_id: 1,
+        Type: "dm",
+        Content: content,
+        Sender_id: sender_id,//getCurrentUserId(), // Implement this based on your auth
+        Receiver_name: nickname,
     };
     socket.send(JSON.stringify(message));
     input.value = '';

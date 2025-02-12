@@ -58,8 +58,7 @@ async function registerUser(event) {
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify(user)
     });
-    console.log(res);
-
+    
     if (res.ok) {
         history.pushState(null, null, '/');
         await handleRoute();

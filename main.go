@@ -6,6 +6,7 @@ import (
 	"net/http"
 
 	websoc "real-time-forum/backend/WebSocket"
+	"real-time-forum/backend/authentication"
 	forum "real-time-forum/backend/handlers"
 	"real-time-forum/database"
 
@@ -88,6 +89,10 @@ func main() {
 	// displaying users
 	mux.HandleFunc("/users", func(w http.ResponseWriter, r *http.Request) {
 		forum.DisplayUsersHandler(db)(w, r)
+	})
+
+	mux.HandleFunc("/user_id", func(w http.ResponseWriter, r *http.Request) {
+		authentication.HandleAuthentication(db)(w, r)
 	})
 
 	/*http.HandleFunc("/like", forum.HandleLikes(db))*/

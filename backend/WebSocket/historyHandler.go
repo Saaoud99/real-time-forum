@@ -9,7 +9,8 @@ import (
 	modles "real-time-forum/backend/mods"
 )
 
-func fetchChat(db *sql.DB) ([]modles.Message, error) {
+func fetchChat(db *sql.DB, senedr int, reciever int) ([]modles.Message, error) {
+	// where sender = ? and reciever = ?
 	query := `
 			SELECT 
 				ch.content,
@@ -17,9 +18,11 @@ func fetchChat(db *sql.DB) ([]modles.Message, error) {
 				ch.sender_id,
 				ch.receiver_id
 			FROM chat ch
-			ORDER BY ch.sent_at DESC;
+			WHERE (ch.sender_id = ? AND ch.receiver_id = ?) 
+           	OR (ch.sender_id = ? AND ch.receiver_id = ?)
+        	ORDER BY ch.sent_at DESC;
 	`
-	rows, err := db.Query(query)
+	rows, err := db.Query(query, senedr, reciever, reciever, senedr)
 	if err != nil {
 		return nil, fmt.Errorf("query error: %v", err)
 	}
@@ -42,17 +45,33 @@ func fetchChat(db *sql.DB) ([]modles.Message, error) {
 
 func ChatAPIHandler(db *sql.DB) http.HandlerFunc {
 	return func(w http.ResponseWriter, r *http.Request) {
-		if userId := authentication.IsLoged(db, r); userId != 0 {
-			chat, err := fetchChat(db)
-			if err != nil {
-				fmt.Println(err)
-				http.Error(w, "error fetching chat", 500)
-				return
-			}
-			w.Header().Set("Content-Type", "application/json")
-			if err := json.NewEncoder(w).Encode(chat); err != nil {
-				http.Error(w, "error encoding response", http.StatusInternalServerError)
-			}
+		userId := authentication.IsLoged(db, r)
+		if userId == 0 {
+			http.Error(w, "unauthorized", http.StatusUnauthorized)
+			return
 		}
+		receiverNickname := r.URL.Query().Get("receiver")
+		if receiverNickname == "" {
+			http.Error(w, "receiver not specified", http.StatusBadRequest)
+			return
+		}
+		var reciever_id int
+		err := db.QueryRow(`SELECT id FROM users WHERE nickname = ?`, receiverNickname).Scan(&reciever_id)
+		if err != nil {
+			fmt.Println("error")
+			return
+		}
+
+		chat, err := fetchChat(db, userId, reciever_id)
+		if err != nil {
+			fmt.Println(err)
+			http.Error(w, "error fetching chat", 500)
+			return
+		}
+		w.Header().Set("Content-Type", "application/json")
+		if err := json.NewEncoder(w).Encode(chat); err != nil {
+			http.Error(w, "error encoding response", http.StatusInternalServerError)
+		}
+
 	}
 }
