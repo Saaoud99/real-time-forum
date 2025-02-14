@@ -7,6 +7,7 @@ import (
 	"net/http"
 	"real-time-forum/backend/authentication"
 	modles "real-time-forum/backend/mods"
+	"sync"
 
 	"github.com/gorilla/websocket"
 )
@@ -16,68 +17,67 @@ type Hub struct {
 	Broadcast  chan []byte
 	Register   chan *Client
 	Unregister chan *Client
+	Send       chan modles.Message
+	Mu         sync.Mutex
 }
 
 type Client struct {
 	hub    *Hub
 	conn   *websocket.Conn
-	send   chan []byte
 	userID int
 }
 
-func (c *Client) read(db *sql.DB) {
-	defer func() {
-		c.hub.Unregister <- c
-		c.conn.Close()
-	}()
+// func (c *Client) read(db *sql.DB, hub *Hub) {
+// 	// defer func() {
+// 	// 	c.hub.Unregister <- c
+// 	// 	c.conn.Close()
+// 	// }()
 
-	for {
-		_, message, err := c.conn.ReadMessage()
-		if err != nil {
-			fmt.Println(err)
-			break
-		}
+// 	for {
+// 		_, message, err := c.conn.ReadMessage()
+// 		if err != nil {
+// 			fmt.Println(err)
+// 			break
+// 		}
 
-		var msg modles.Message
-		if err := json.Unmarshal(message, &msg); err != nil {
-			continue
-		}
-		var r_id int
-		db.QueryRow(`SELECT id FROM users WHERE nickname = ? `, msg.ReceiverName).Scan(&r_id)
-		fmt.Println(r_id)
-		_, err = db.Exec(`
-            INSERT INTO chat (content, sender_id, receiver_id)
-            VALUES (?, ?, ?)
-        `, msg.Content, msg.SenderID, r_id)
+// 	}
+// }
 
-		if err == nil {
-			c.hub.Broadcast <- message
-		}
-	}
-}
+// func (c *Client) write(hub *Hub) {
+// 	fmt.Println("write invoked")
+// 	defer c.conn.Close()
+// 	for {
+// 		message := <-hub.Send
+// 		c.hub.Mu.Lock()
+// 		for client := range c.hub.Clients {
+// 			if client.userID == message.ReceiverID {
+// 				err := client.conn.WriteJSON(message)
+// 				if err != nil {
+// 					client.conn.Close()
+// 					delete(c.hub.Clients, client)
+// 					fmt.Println("err != nil", err)
+// 					return
+// 				}
+// 			}
+// 		}
+// 		c.hub.Mu.Unlock()
+// 		// if !ok {
+// 		// 	c.conn.WriteMessage(websocket.CloseMessage, []byte{})
+// 		// 	return
+// 		// }
 
-func (c *Client) write() {
-	fmt.Println("write invoked")
-	defer c.conn.Close()
-	for {
-		message, ok := <-c.send
-		if !ok {
-			c.conn.WriteMessage(websocket.CloseMessage, []byte{})
-			return
-		}
+// 		// var msg modles.Message
+// 		// if err := json.Unmarshal(message, &msg); err != nil {
+// 		// 	continue
+// 		// }
 
-		var msg modles.Message
-		if err := json.Unmarshal(message, &msg); err != nil {
-			continue
-		}
-
-		if msg.SenderID == c.userID || msg.ReceiverID == c.userID {
-			if err := c.conn.WriteMessage(websocket.TextMessage, message); err != nil {
-				return
-			}
-		}
-	}
-}
+// 		// if msg.SenderID == c.userID || msg.ReceiverID == c.userID {
+// 		// 	if err := c.conn.WriteMessage(websocket.TextMessage, message); err != nil {
+// 		// 		return
+// 		// 	}
+// 		// }
+// 	}
+// }
 
 func HandleConnections(hub *Hub, db *sql.DB) http.HandlerFunc {
 	return func(w http.ResponseWriter, r *http.Request) {
@@ -90,13 +90,41 @@ func HandleConnections(hub *Hub, db *sql.DB) http.HandlerFunc {
 		client := &Client{
 			hub:    hub,
 			conn:   conn,
-			send:   make(chan []byte, 4096),
 			userID: userID,
 		}
 		client.hub.Register <- client
 
-		go client.write()
-		go client.read(db)
+		defer func() {
+			hub.Unregister <- client
+		}()
+		// go client.read(db, hub)
+		for {
+			_, mssg, err := conn.ReadMessage()
+			if err != nil {
+				fmt.Println(err)
+				return
+			}
+			var msg modles.Message
+			if err := json.Unmarshal(mssg, &msg); err != nil {
+				continue
+			}
+			// var r_id int
+			db.QueryRow(`SELECT id FROM users WHERE nickname = ? `, msg.ReceiverName).Scan(&msg.ReceiverID)
+			// fmt.Println(r_id)
+			_, err = db.Exec(`
+			INSERT INTO chat (content, sender_id, receiver_id)
+			VALUES (?, ?, ?)
+        	`, msg.Content, msg.SenderID, msg.ReceiverID)
+
+			fmt.Println(msg)
+			hub.Mu.Lock()
+			hub.Send <- msg
+			hub.Mu.Unlock()
+			// if err == nil {
+			// 	c.hub.Broadcast <- msg
+			// }
+		}
+		// go client.write(hub)
 	}
 }
 
@@ -113,6 +141,7 @@ func NewHub() *Hub {
 		Register:   make(chan *Client),
 		Unregister: make(chan *Client),
 		Clients:    make(map[*Client]bool),
+		Send:       make(chan modles.Message, 4096),
 	}
 }
 
@@ -120,21 +149,39 @@ func (h *Hub) Run() {
 	for {
 		select {
 		case client := <-h.Register:
+			h.Mu.Lock()
 			h.Clients[client] = true
+			h.Mu.Unlock()
 		case client := <-h.Unregister:
+			h.Mu.Lock()
 			if _, ok := h.Clients[client]; ok {
 				delete(h.Clients, client)
-				close(client.send)
+				// close(client.hub.Send)
 			}
-		case message := <-h.Broadcast:
+			h.Mu.Unlock()
+		case message := <-h.Send:
+			h.Mu.Lock()
 			for client := range h.Clients {
-				select {
-				case client.send <- message:
-				default:
-					close(client.send)
-					delete(h.Clients, client)
+				if client.userID == message.ReceiverID {
+					err := client.conn.WriteJSON(message)
+					if err != nil {
+						client.conn.Close()
+						delete(h.Clients, client)
+						fmt.Println("err != nil", err)
+						return
+					}
 				}
 			}
+			h.Mu.Unlock()
+			// case message := <-h.Broadcast:
+			// 	for client := range h.Clients {
+			// 		select {
+			// 		case client.send <- message:
+			// 		default:
+			// 			close(client.send)
+			// 			delete(h.Clients, client)
+			// 		}
+			// 	}
 		}
 	}
 }

@@ -5,6 +5,27 @@ import { fetchUsers } from "./displayUsers.js";
 
 const socket = new WebSocket(`ws://${document.location.host}/ws`); /*handle if user enters from other pc*/
 
+socket.addEventListener("message", (event) => {
+    const newdata = JSON.parse(event.data);
+    const messages = document.querySelector('#messages');
+            console.log(messages);
+            
+    const messageCard = document.createElement('div');
+    
+    const messageContent = document.createElement('div');
+    messageContent.className = 'message-content';
+    messageContent.textContent = newdata.Content;
+    
+    // console.log(messages);
+    // const messageTime = document.createElement('div');
+    // messageTime.className = 'message-time';
+    // messageTime.textContent = new Date(dm.Timestamp)
+    // messageCard.appendChild(messageTime);
+    
+    messageCard.appendChild(messageContent);            
+    messages.appendChild(messageCard);
+  });
+
 export function chatArea(nickname) {
     const chat = document.querySelector('#chat');
     chat.innerHTML = `
@@ -44,11 +65,21 @@ async function sendMessage(nickname) {
     if (!content) return;
 
     const message = {
-        Type: "dm",
         Content: content,
         Sender_id: sender_id,//getCurrentUserId(), // Implement this based on your auth
         Receiver_name: nickname,
     };
+    // console.log('msg :', message);
+    const messages = document.querySelector('#messages');
+    // console.log(messages);
+    
+const messageCard = document.createElement('div');
+
+const messageContent = document.createElement('div');
+messageContent.className = 'message-content';
+messageContent.textContent = content;
+messageCard.appendChild(messageContent);            
+messages.appendChild(messageCard);
     socket.send(JSON.stringify(message));
     input.value = '';
 }

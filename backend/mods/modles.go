@@ -54,7 +54,7 @@ type Comment struct {
 }*/
 
 type Message struct {
-	Type       string    `json:"Type"`
+	// Type       string    `json:"Type"`
 	Content    string    `json:"Content"`
 	SenderID   int       `json:"Sender_id"`
 	ReceiverID int       `json:"Receiver_id"`
