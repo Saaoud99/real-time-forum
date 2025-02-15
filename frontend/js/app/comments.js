@@ -14,9 +14,7 @@ export async function loadComments(postId, userId) {
                 user_id: userId,
                 content: commentContent,
             }),
-        });
-        console.log(response);
-        
+        });        
         if (response.ok) {
             postComments(postId);
             commentInput.value = "";

@@ -117,3 +117,29 @@
     background-color: #f0f0f0;   /* Light background on hover */
     border-radius: 50%;           /* Round the button */
 }
+
+#msg-sent {
+    float: right; 
+    background-color: rgb(0, 161, 0);
+    border-radius: 10px;               
+}
+
+
+#msg-received {
+    float: left;       
+    background-color: black;   
+    border-radius: 10px;
+    color: #e0e0e0;      
+}
+
+.time-received {
+    font-size: 0.75rem;
+    color: whitesmoke;
+    margin: 4px 8px;
+}
+
+.time-sent {
+    font-size: 0.75rem;
+    color: black;
+    margin: 4px 8px;
+}

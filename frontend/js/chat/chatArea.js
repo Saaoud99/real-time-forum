@@ -1,3 +1,4 @@
+import { timeAgo } from "../app/helpers.js";
 import { isAuthenticated } from "../authentication/isAuth.js";
 import { fetchHistory } from "./chatHistory.js";
 import { fetchUsers } from "./displayUsers.js";
@@ -5,26 +6,6 @@ import { fetchUsers } from "./displayUsers.js";
 
 const socket = new WebSocket(`ws://${document.location.host}/ws`); /*handle if user enters from other pc*/
 
-socket.addEventListener("message", (event) => {
-    const newdata = JSON.parse(event.data);
-    const messages = document.querySelector('#messages');
-            console.log(messages);
-            
-    const messageCard = document.createElement('div');
-    
-    const messageContent = document.createElement('div');
-    messageContent.className = 'message-content';
-    messageContent.textContent = newdata.Content;
-    
-    // console.log(messages);
-    // const messageTime = document.createElement('div');
-    // messageTime.className = 'message-time';
-    // messageTime.textContent = new Date(dm.Timestamp)
-    // messageCard.appendChild(messageTime);
-    
-    messageCard.appendChild(messageContent);            
-    messages.appendChild(messageCard);
-  });
 
 export function chatArea(nickname) {
     const chat = document.querySelector('#chat');
@@ -47,7 +28,8 @@ export function chatArea(nickname) {
     // Event listeners
     chat.addEventListener('click', ()=>{
         fetchHistory(nickname);
-    })
+    });
+
     document.querySelector('.back-btn').addEventListener('click', () => {
         fetchUsers();
     });
@@ -66,20 +48,48 @@ async function sendMessage(nickname) {
 
     const message = {
         Content: content,
-        Sender_id: sender_id,//getCurrentUserId(), // Implement this based on your auth
+        Sender_id: sender_id,
         Receiver_name: nickname,
     };
-    // console.log('msg :', message);
     const messages = document.querySelector('#messages');
-    // console.log(messages);
     
-const messageCard = document.createElement('div');
+    const messageCard = document.createElement('div');
+    messageCard.id = 'msg-sent';
+    messageCard.className = 'message';
 
-const messageContent = document.createElement('div');
-messageContent.className = 'message-content';
-messageContent.textContent = content;
-messageCard.appendChild(messageContent);            
-messages.appendChild(messageCard);
-    socket.send(JSON.stringify(message));
-    input.value = '';
+    const messageContent = document.createElement('div');
+    messageContent.className = 'message-content';
+    messageContent.textContent = content;
+
+    const messageTime = document.createElement('div');
+    messageTime.className = 'time-sent';
+    messageTime.textContent = timeAgo(new Date());
+    
+    messageCard.appendChild(messageContent);            
+    messageCard.appendChild(messageTime);
+    messages.appendChild(messageCard);
+        socket.send(JSON.stringify(message));
+        input.value = '';
 }
+
+
+socket.addEventListener("message", (event) => {
+    const newdata = JSON.parse(event.data);
+    const messages = document.querySelector('#messages');
+
+    const messageCard = document.createElement('div');
+    messageCard.id = 'msg-received'
+    messageCard.className = 'message';
+
+    const messageContent = document.createElement('div');
+    messageContent.className = 'message-content';
+    messageContent.textContent = newdata.Content;
+    
+    const messageTime = document.createElement('div');
+    messageTime.className = 'time-rececived';
+    messageTime.textContent = timeAgo(new Date(newdata.Timestamp));
+    
+    messageCard.appendChild(messageContent);            
+    messageCard.appendChild(messageTime);
+    messages.appendChild(messageCard);
+});

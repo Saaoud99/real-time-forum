@@ -10,7 +10,6 @@ import (
 )
 
 func fetchChat(db *sql.DB, senedr int, reciever int) ([]modles.Message, error) {
-	// where sender = ? and reciever = ?
 	query := `
 			SELECT 
 				ch.content,
@@ -58,7 +57,7 @@ func ChatAPIHandler(db *sql.DB) http.HandlerFunc {
 		var reciever_id int
 		err := db.QueryRow(`SELECT id FROM users WHERE nickname = ?`, receiverNickname).Scan(&reciever_id)
 		if err != nil {
-			fmt.Println("error")
+			fmt.Println("error selecting from users:", err)
 			return
 		}
 
@@ -68,6 +67,7 @@ func ChatAPIHandler(db *sql.DB) http.HandlerFunc {
 			http.Error(w, "error fetching chat", 500)
 			return
 		}
+		w.Header().Set("Cache-Control", "no-cache")
 		w.Header().Set("Content-Type", "application/json")
 		if err := json.NewEncoder(w).Encode(chat); err != nil {
 			http.Error(w, "error encoding response", http.StatusInternalServerError)

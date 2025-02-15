@@ -13,8 +13,8 @@ import (
 )
 
 type Hub struct {
-	Clients    map[*Client]bool
-	Broadcast  chan []byte
+	Clients map[*Client]bool
+	// Broadcast  chan []byte
 	Register   chan *Client
 	Unregister chan *Client
 	Send       chan modles.Message
@@ -26,58 +26,6 @@ type Client struct {
 	conn   *websocket.Conn
 	userID int
 }
-
-// func (c *Client) read(db *sql.DB, hub *Hub) {
-// 	// defer func() {
-// 	// 	c.hub.Unregister <- c
-// 	// 	c.conn.Close()
-// 	// }()
-
-// 	for {
-// 		_, message, err := c.conn.ReadMessage()
-// 		if err != nil {
-// 			fmt.Println(err)
-// 			break
-// 		}
-
-// 	}
-// }
-
-// func (c *Client) write(hub *Hub) {
-// 	fmt.Println("write invoked")
-// 	defer c.conn.Close()
-// 	for {
-// 		message := <-hub.Send
-// 		c.hub.Mu.Lock()
-// 		for client := range c.hub.Clients {
-// 			if client.userID == message.ReceiverID {
-// 				err := client.conn.WriteJSON(message)
-// 				if err != nil {
-// 					client.conn.Close()
-// 					delete(c.hub.Clients, client)
-// 					fmt.Println("err != nil", err)
-// 					return
-// 				}
-// 			}
-// 		}
-// 		c.hub.Mu.Unlock()
-// 		// if !ok {
-// 		// 	c.conn.WriteMessage(websocket.CloseMessage, []byte{})
-// 		// 	return
-// 		// }
-
-// 		// var msg modles.Message
-// 		// if err := json.Unmarshal(message, &msg); err != nil {
-// 		// 	continue
-// 		// }
-
-// 		// if msg.SenderID == c.userID || msg.ReceiverID == c.userID {
-// 		// 	if err := c.conn.WriteMessage(websocket.TextMessage, message); err != nil {
-// 		// 		return
-// 		// 	}
-// 		// }
-// 	}
-// }
 
 func HandleConnections(hub *Hub, db *sql.DB) http.HandlerFunc {
 	return func(w http.ResponseWriter, r *http.Request) {
@@ -116,7 +64,6 @@ func HandleConnections(hub *Hub, db *sql.DB) http.HandlerFunc {
 			VALUES (?, ?, ?)
         	`, msg.Content, msg.SenderID, msg.ReceiverID)
 
-			fmt.Println(msg)
 			hub.Mu.Lock()
 			hub.Send <- msg
 			hub.Mu.Unlock()
@@ -137,7 +84,7 @@ var Upgrader = websocket.Upgrader{
 
 func NewHub() *Hub {
 	return &Hub{
-		Broadcast:  make(chan []byte),
+		// Broadcast:  make(chan []byte),
 		Register:   make(chan *Client),
 		Unregister: make(chan *Client),
 		Clients:    make(map[*Client]bool),
@@ -167,7 +114,7 @@ func (h *Hub) Run() {
 					if err != nil {
 						client.conn.Close()
 						delete(h.Clients, client)
-						fmt.Println("err != nil", err)
+						fmt.Println(err)
 						return
 					}
 				}
