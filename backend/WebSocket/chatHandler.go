@@ -7,25 +7,9 @@ import (
 	"net/http"
 	"real-time-forum/backend/authentication"
 	modles "real-time-forum/backend/mods"
-	"sync"
 
 	"github.com/gorilla/websocket"
 )
-
-type Hub struct {
-	Clients map[*Client]bool
-	// Broadcast  chan []byte
-	Register   chan *Client
-	Unregister chan *Client
-	Send       chan modles.Message
-	Mu         sync.Mutex
-}
-
-type Client struct {
-	hub    *Hub
-	conn   *websocket.Conn
-	userID int
-}
 
 func HandleConnections(hub *Hub, db *sql.DB) http.HandlerFunc {
 	return func(w http.ResponseWriter, r *http.Request) {
@@ -76,7 +60,9 @@ func HandleConnections(hub *Hub, db *sql.DB) http.HandlerFunc {
 }
 
 var Upgrader = websocket.Upgrader{
-
+	// If the CheckOrigin field is nil, then the Upgrader uses a safe default:
+	// fail the handshake if the Origin request header is present and the
+	// Origin host is not equal to the Host request header.
 	CheckOrigin: func(r *http.Request) bool {
 		return true
 	},

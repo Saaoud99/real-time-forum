@@ -15,17 +15,16 @@ body {
     padding: 1rem;
 }
 
-h1 {
-    text-align: center;
-    margin-bottom: 2rem;
-    font-weight: 300;
-    color: #000;
+#header {
+    display: flex;
+    justify-content: space-between;  /* This spaces items apart */
+    align-items: center;
 }
 
 .button-group {
     display: flex;
     gap: 0.5rem;
-    margin-bottom: 1rem;
+    margin-left: auto;  /* Pushes buttons to the right */
 }
 
 #login,
@@ -33,9 +32,10 @@ h1 {
 #logout,
 #newPost {
     flex: 0 1 auto;
-    left : 80%;
+    /* left : 80%; */
     /* max-width: 200px; */
-    padding: 0.5rem;
+    padding: 0.3rem 1rem;
+    height: 40px;
     background-color: #000;
     color: #fff;
     border: none;
@@ -112,6 +112,13 @@ main {
 }
 /* posts */
 
+.postCard {
+    border: 1px solid black; /* Thin black border */
+    border-radius: 5px; /* Optional: Slightly rounded corners for a softer look */
+      padding: 10px; /* Add some space inside the border */
+      margin-bottom: 10px; /* Space between posts */
+}
+
 .title {
     font-size: 1.5rem;
     font-weight: bold;
@@ -180,12 +187,14 @@ main {
     transform: scale(1.2);
 }
 
-.post-likes,
-.post-dislikes {
+
+/*later*/
+/* .post-likes,
+.post-dislikes { 
     font-size: 0.9rem;
     color: #666;
     margin: 0 0.5rem;
-}
+} */
 
 .comment-btn {
     display: block;
@@ -556,7 +565,8 @@ main {
     align-items: center;
     justify-content: center;
     font-weight: bold;
-    color: white;
+    color:rgb(0, 0, 0);
+    background-color: #ddd;
     font-size: 1rem;
 }
 
@@ -569,7 +579,10 @@ main {
 /* Container holding the messages */
 .messages-container {
     padding: 16px;               /* Space around the messages */
-    background-color: #f0f0f0;   /* Background color of the container */
+    background-image: url('/frontend/img/dmBackground.jpeg');
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
     height: calc(100vh - 180px);  /* Height adjusts based on viewport size */
     overflow-y: auto;            /* Enable vertical scrolling */
 }
@@ -613,10 +626,10 @@ main {
 
 /* Input area at the bottom of the screen */
 .input-area {
-    position: fixed;             /* Fix input area to the bottom */
+    position: relative;             /* Fix input area to the bottom */
     bottom: 0;
-    left: 0;
-    right: 0;
+    /* left: 0;
+    right: 0; */
     background-color: white;     /* White background */
     padding: 12px;               /* Space around the input area */
     border-top: 1px solid #e0e0e0;/* Border at the top of input area */
@@ -724,3 +737,15 @@ main {
     float: left;
     margin-right: 10px; 
 }*/
+
+#send-btn {
+    background: none;
+    border: none;
+    cursor: pointer;
+    padding: 5px;
+}
+
+.send-icon {
+    width: 20px; /* Adjust size as needed */
+    height: 20px;
+}

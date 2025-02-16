@@ -1,6 +1,8 @@
 package modles
 
-import "time"
+import (
+	"time"
+)
 
 type LoginCredentials struct {
 	Login    string `json:"login"`
@@ -55,11 +57,11 @@ type Comment struct {
 
 type Message struct {
 	// Type       string    `json:"Type"`
-	Content    string    `json:"Content"`
-	SenderID   int       `json:"Sender_id"`
-	ReceiverID int       `json:"Receiver_id"`
-	ReceiverName string  `json:"Receiver_name"`
-	Timestamp  time.Time `json:"Timestamp"`
+	Content      string    `json:"Content"`
+	SenderID     int       `json:"Sender_id"`
+	ReceiverID   int       `json:"Receiver_id"`
+	ReceiverName string    `json:"Receiver_name"`
+	Timestamp    time.Time `json:"Timestamp"`
 }
 
 type UserId struct {
