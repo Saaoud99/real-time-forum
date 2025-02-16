@@ -1,18 +1,25 @@
 import { handleRoute } from "../main.js";
 
-const container = document.getElementById('container')
 
 export function renderLoginForm() {
+    const container = document.getElementById('container')
+    // document.querySelectorAll('.unloged').forEach(e => {
+    //     e.style.display = 'none';
+    // });
     const chat = document.querySelector('#chat')
     if (chat) chat.remove();
+    
     container.innerHTML = `
-    <h2>Login</h2>
-    <form id="loginForm">
-      <input type="text" id="loginNickname" placeholder="Enter your email or nickname" required><br>
-      <input type="password" id="loginPassword" placeholder="Enter your password" required><br>
-      <button type="submit">Login</button>
-    </form>
-              `;
+    <div class="login-container">
+        <h2>Login</h2>
+        <form id="loginForm">
+          <input type="text" id="loginNickname" placeholder="Enter your email or nickname" required><br>
+          <input type="password" id="loginPassword" placeholder="Enter your password" required><br>
+          <button type="submit">Login</button>
+        </form>
+        <button id="register"  href="/register" data-link>Register</button>
+    </div>
+    `;
     document.getElementById("loginForm").addEventListener("submit", logUser);
 }
 

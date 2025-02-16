@@ -1,8 +1,7 @@
-import { timeAgo } from "../app/helpers.js";
+import { timeAgo, escapeHTML } from "../app/helpers.js";
 import { isAuthenticated } from "../authentication/isAuth.js";
 import { fetchHistory } from "./chatHistory.js";
 import { fetchUsers } from "./displayUsers.js";
-// import { socket } from "./handleConn.js";
 
 const socket = new WebSocket(`ws://${document.location.host}/ws`); /*handle if user enters from other pc*/
 
@@ -13,7 +12,7 @@ export function chatArea(nickname) {
         <div id="user-card">
             <div class="chat-header">
                 <button class="back-btn">←</button>
-                <span>${nickname}</span>
+                <span>${escapeHTML(nickname)}</span>
             </div>
             <div class="messages-container" id="messages">
                 <!-- Messages will be inserted here -->

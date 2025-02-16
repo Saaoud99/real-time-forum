@@ -7,6 +7,7 @@ import { postComments } from './app/comments.js';
 //  import { HandleConn } from './chat/handleConn.js';
 import { fetchUsers } from './chat/displayUsers.js';
 // import { isAuthenticated } from './helpers.js';
+import {setuplayout} from './setupLayout.js';
 
 
 
@@ -18,6 +19,7 @@ export const router = {
     '/comment': postComments,
     // '/chat': HandleConn,
     '/': () => {
+        setuplayout();
         fetchPost();
         fetchUsers();
     },

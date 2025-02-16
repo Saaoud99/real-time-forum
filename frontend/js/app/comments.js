@@ -1,4 +1,5 @@
-// call it in indixe
+import { timeAgo } from "./helpers.js";
+
 export async function loadComments(postId, userId) {
     const commentInput = document.getElementById(`comment-input-${postId}`);
     const commentContent = commentInput.value;
@@ -24,7 +25,6 @@ export async function loadComments(postId, userId) {
     }
 }
 
-import { timeAgo } from "./helpers.js";
 
 export async function postComments(postId) {
     try {

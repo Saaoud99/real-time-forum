@@ -6,27 +6,30 @@ export function renderRegisterForm() {
     const chat = document.querySelector('#chat')
     if (chat) chat.remove();
     container.innerHTML = `
-        <h2>Register</h2>
-        <form id="registerForm">
-          <input type="text" id="nickname" placeholder="Nickname" required><br>
-          <input type="text" id="age" placeholder="Age" required><br>
-            <div class="gender-group">
-            <span class="gender-title">Gender</span>
-            <label>
-                <input type="radio" name="gender" value="male" required>
-                <span>Male</span>
-            </label>
-            <label>
-                <input type="radio" name="gender" value="female" required>
-                <span>Female</span>
-            </label>
+        <div class="register-container">
+            <h2>Register</h2>
+            <form id="registerForm">
+              <input type="text" id="nickname" placeholder="Nickname" required><br>
+              <input type="text" id="age" placeholder="Age" required><br>
+                <div class="gender-group">
+                <span class="gender-title">Gender</span>
+                <label>
+                    <input type="radio" name="gender" value="male" required>
+                    <span>Male</span>
+                </label>
+                <label>
+                    <input type="radio" name="gender" value="female" required>
+                    <span>Female</span>
+                </label>
+            </div>
+              <input type="text" id="firstName" placeholder="First Name" required><br>
+              <input type="text" id="lastName" placeholder="Last Name" required><br>
+              <input type="email" id="email" placeholder="Email" required><br>
+              <input type="password" id="password" placeholder="Password" required><br>
+              <button type="submit">Register</button>
+            </form>
+            <button id="login"  href="/login" data-link>Login</button>
         </div>
-          <input type="text" id="firstName" placeholder="First Name" required><br>
-          <input type="text" id="lastName" placeholder="Last Name" required><br>
-          <input type="email" id="email" placeholder="Email" required><br>
-          <input type="password" id="password" placeholder="Password" required><br>
-          <button type="submit">Register</button>
-        </form>
       `;
 
     document.getElementById("registerForm").addEventListener("submit", registerUser);

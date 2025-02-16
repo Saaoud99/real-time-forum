@@ -1,4 +1,4 @@
-import { debounce } from "../app/helpers.js";
+// import { debounce } from "../app/helpers.js";
 import { isAuthenticated } from "../authentication/isAuth.js";
 export async function fetchHistory(receiverNickname) {
     const messages = document.querySelector('#messages')

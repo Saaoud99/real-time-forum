@@ -1,0 +1,726 @@
+/* home */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
+    line-height: 1.6;
+    background-color: #f4f4f4;
+    color: #333;
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 1rem;
+}
+
+h1 {
+    text-align: center;
+    margin-bottom: 2rem;
+    font-weight: 300;
+    color: #000;
+}
+
+.button-group {
+    display: flex;
+    gap: 0.5rem;
+    margin-bottom: 1rem;
+}
+
+#login,
+#register,
+#logout,
+#newPost {
+    flex: 0 1 auto;
+    left : 80%;
+    /* max-width: 200px; */
+    padding: 0.5rem;
+    background-color: #000;
+    color: #fff;
+    border: none;
+    cursor: pointer;
+    border-radius : 10px;
+    /* text-transform: capitalize;
+    transition: background-color 0.3s ease; */
+}
+
+#login:hover,
+#register:hover,
+#logout:hover,
+#newPost:hover {
+    background-color: #333;
+}
+
+main {
+    display: flex;
+    gap: 1rem;
+    min-height: calc(100vh - 150px);
+}
+
+#container {
+    flex: 0 0 60%;
+    background-color: #fff;
+    padding: 1rem;
+    border-radius: 4px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    overflow-y: auto;
+}
+
+#chat {
+   overflow: auto;
+
+    flex: 0 0 40%;
+    background-color: #fff;
+    padding: 1rem;
+    border-radius: 4px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    /* overflow-y: auto; */
+}
+
+/* Preserve your existing post styles */
+.title {
+    font-size: 1.5rem;
+    font-weight: bold;
+    color: #000;
+    margin-bottom: 0.5rem;
+    line-height: 1.3;
+}
+
+/* Mobile responsiveness */
+@media screen and (max-width: 530px) {
+    main {
+        flex-direction: column;
+    }
+
+    #container,
+    #chat {
+        flex: 0 0 100%;
+    }
+
+    .button-group {
+        flex-wrap: wrap;
+    }
+
+    #login,
+    #register,
+    #logout,
+    #newPost {
+        width: calc(50% - 0.25rem);
+        max-width: none;
+    }
+}
+/* posts */
+
+.title {
+    font-size: 1.5rem;
+    font-weight: bold;
+    color: #000;
+    margin-bottom: 0.5rem;
+    line-height: 1.3;
+}
+
+.post-username {
+    color: #666;
+    font-style: italic;
+    margin-bottom: 1rem;
+    font-size: 0.9rem;
+}
+
+.post-content {
+    margin-bottom: 1rem;
+    line-height: 1.6;
+    color: #333;
+    white-space: pre-wrap;
+    word-wrap: break-word;
+}
+
+.details-toggle {
+    cursor: pointer;
+    color: #666;
+    font-size: 0.8rem;
+    margin-bottom: 0.5rem;
+    text-decoration: underline;
+    transition: color 0.3s ease;
+}
+
+.details-toggle:hover {
+    color: #000;
+}
+
+.meta {
+    background-color: #f4f4f4;
+    padding: 0.5rem;
+    border-radius: 4px;
+    font-size: 0.8rem;
+    color: #666;
+    margin-bottom: 1rem;
+}
+
+.meta.hidden {
+    display: none;
+}
+
+.post-actions {
+    display: flex;
+    align-items: center;
+    margin-bottom: 1rem;
+    gap: 0.5rem;
+}
+
+.post-btn {
+    background: none;
+    border: none;
+    font-size: 1.2rem;
+    cursor: pointer;
+    transition: transform 0.2s ease;
+}
+
+.post-btn:hover {
+    transform: scale(1.2);
+}
+
+.post-likes,
+.post-dislikes {
+    font-size: 0.9rem;
+    color: #666;
+    margin: 0 0.5rem;
+}
+
+.comment-btn {
+    display: block;
+    width: 100%;
+    padding: 0.5rem;
+    background-color: #f4f4f4;
+    color: #333;
+    border: none;
+    margin-bottom: 1rem;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+.comment-btn:hover {
+    background-color: #e4e4e4;
+}
+
+.comment-section {
+    margin-top: 1rem;
+    border-top: 1px solid #e4e4e4;
+    padding-top: 1rem;
+}
+
+.comment-section.hidden {
+    display: none;
+}
+
+.comment-input {
+    width: 100%;
+    min-height: 100px;
+    margin-bottom: 0.5rem;
+    padding: 0.5rem;
+    border: 1px solid #ddd;
+    resize: vertical;
+}
+
+.send-comment-btn {
+    width: 100%;
+    padding: 0.5rem;
+    background-color: #000;
+    color: #fff;
+    border: none;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+.send-comment-btn:hover {
+    background-color: #333;
+}
+
+.comments-list {
+    margin-top: 1rem;
+}
+
+@media screen and (max-width: 600px) {
+    .title {
+        font-size: 1.2rem;
+    }
+
+    .post-actions {
+        flex-wrap: wrap;
+    }
+}
+/* login */
+.login-container {
+    max-width: 400px;
+    margin: 2rem auto;
+    padding: 2rem;
+    background-color: #fff;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.login-container h2 {
+    text-align: center;
+    margin-bottom: 2rem;
+    color: #000;
+    font-weight: 300;
+    font-size: 1.8rem;
+}
+
+#loginForm {
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+}
+
+#loginForm input {
+    width: 100%;
+    padding: 0.8rem;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+    font-size: 1rem;
+    transition: border-color 0.3s ease;
+}
+
+#loginForm input:focus {
+    outline: none;
+    border-color: #000;
+}
+
+#loginForm button {
+    width: 100%;
+    padding: 0.8rem;
+    background-color: #000;
+    color: #fff;
+    border: none;
+    border-radius: 4px;
+    font-size: 1rem;
+    cursor: pointer;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    transition: background-color 0.3s ease;
+}
+
+#loginForm button:hover {
+    background-color: #333;
+}
+
+#loginForm button:disabled {
+    background-color: #666;
+    cursor: not-allowed;
+}
+
+@media screen and (max-width: 600px) {
+    .login-container {
+        margin: 1rem;
+        padding: 1rem;
+    }
+}
+/* register */
+.register-container {
+    max-width: 400px;
+    margin: 1rem auto;
+    padding: 1.5rem;
+    background-color: #fff;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.register-container h2 {
+    text-align: center;
+    margin-bottom: 1rem;
+    color: #000;
+    font-weight: 300;
+    font-size: 1.5rem;
+}
+
+#registerForm {
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+}
+
+#registerForm input:not([type="radio"]) {
+    width: 100%;
+    padding: 0.5rem;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+    font-size: 0.9rem;
+    transition: border-color 0.3s ease;
+}
+
+.gender-group {
+    margin: 0.25rem 0;
+}
+
+.gender-group label {
+    font-size: 0.9rem;
+    color: #333;
+    margin-right: 1.5rem;
+    cursor: pointer;
+}
+
+.gender-group label span {
+    margin-left: 0.25rem;
+}
+
+.gender-title {
+    display: block;
+    margin-bottom: 0.25rem;
+    color: #666;
+    font-size: 0.9rem;
+}
+
+#registerForm button {
+    width: 100%;
+    padding: 0.5rem;
+    margin-top: 0.5rem;
+    background-color: #000;
+    color: #fff;
+    border: none;
+    border-radius: 4px;
+    font-size: 0.9rem;
+    cursor: pointer;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    transition: background-color 0.3s ease;
+}
+
+#registerForm button:hover {
+    background-color: #333;
+}
+
+@media screen and (max-width: 600px) {
+    .register-container {
+        margin: 0.5rem;
+        padding: 1rem;
+    }
+}
+/* new post */
+
+#newPostForm {
+    max-width: 600px;
+    margin: 0 auto;
+    padding: 2rem;
+    background-color: #fff;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+#newPostForm h {
+    display: block;
+    margin-bottom: 0.5rem;
+    font-weight: bold;
+    color: #000;
+}
+
+#newPostForm input[type="text"],
+#newPostForm textarea {
+    width: 100%;
+    padding: 0.5rem;
+    margin-bottom: 1rem;
+    border: 1px solid #ddd;
+    font-size: 1rem;
+}
+
+#newPostForm textarea {
+    resize: vertical;
+    min-height: 150px;
+}
+
+#newPostForm div>div {
+    display: flex;
+    align-items: center;
+    margin-bottom: 0.5rem;
+}
+
+#newPostForm input[type="checkbox"] {
+    margin-right: 0.5rem;
+}
+
+#newPostForm label {
+    color: #333;
+}
+
+#newPostForm .create-post,
+#newPostForm .back-btn {
+    display: inline-block;
+    width: calc(50% - 0.5rem);
+    padding: 0.75rem;
+    margin-top: 1rem;
+    border: none;
+    cursor: pointer;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    transition: background-color 0.3s ease;
+}
+
+#newPostForm .create-post {
+    background-color: #000;
+    color: #fff;
+    margin-right: 0.5rem;
+}
+
+#newPostForm .create-post:hover {
+    background-color: #333;
+}
+
+#newPostForm .back-btn {
+    background-color: #f4f4f4;
+    color: #333;
+}
+
+#newPostForm .back-btn:hover {
+    background-color: #e4e4e4;
+}
+
+@media screen and (max-width: 600px) {
+    #newPostForm {
+        padding: 1rem;
+    }
+
+    #newPostForm .create-post,
+    #newPostForm .back-btn {
+        width: 100%;
+        margin-bottom: 0.5rem;
+    }
+
+    #newPostForm .create-post {
+        margin-right: 0;
+    }
+}
+/* comments */
+.comment-section {
+    margin: 1rem 0;
+    padding: 1rem;
+    background-color: #fff;
+    border-radius: 4px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.comment-section textarea {
+    width: 100%;
+    min-height: 100px;
+    padding: 0.75rem;
+    margin-bottom: 1rem;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+    font-family: inherit;
+    font-size: 1rem;
+    line-height: 1.6;
+    resize: vertical;
+}
+
+.comment-section textarea:focus {
+    outline: none;
+    border-color: #000;
+}
+
+.comment-btn {
+    max-width: 200px;
+    padding: 0.5rem;
+    background-color: #000;
+    color: #fff;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    text-transform: capitalize;
+    transition: background-color 0.3s ease;
+}
+
+.comment-btn:hover {
+    background-color: #333;
+}
+
+@media screen and (max-width: 600px) {
+    .comment-section {
+        padding: 0.75rem;
+    }
+
+    .comment-btn {
+        width: 100%;
+        max-width: 300px;
+    }
+}
+/* chat */
+.user-card {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    padding: 10px;
+    border-bottom: 1px solid #ddd;
+}
+
+.profile {
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-weight: bold;
+    color: white;
+    font-size: 1rem;
+}
+
+.nickname {
+    font-size: 1rem;
+    font-weight: 500;
+    color: #333;
+}
+
+/* Container holding the messages */
+.messages-container {
+    padding: 16px;               /* Space around the messages */
+    background-color: #f0f0f0;   /* Background color of the container */
+    height: calc(100vh - 180px);  /* Height adjusts based on viewport size */
+    overflow-y: auto;            /* Enable vertical scrolling */
+}
+
+/* Each individual message */
+.message {
+    margin-bottom: 12px;         /* Space below each message */
+    max-width: 65%;              /* Limit width of messages */
+    display: block;              /* Change to block-level element */
+    clear: both;                 /* Clear any floated elements */
+}
+
+
+
+/* Message content area (text bubble) */
+.message-content {
+    padding: 8px 12px;           /* Space inside the message bubble */
+    border-radius: 8px;          /* Rounded corners */
+    word-wrap: break-word;       /* Break long words to fit inside bubble */
+    display: inline-block;       /* Ensure the message content is inline but block-like */
+}
+
+/* Sent message appearance */
+.message.sent .message-content {
+    background-color: #ffffff;   /* White background */
+    border: 1px solid #e0e0e0;   /* Light border around the bubble */
+}
+
+/* Received message appearance */
+.message.received .message-content {
+    background-color: #f8f8f8;   /* Light gray background */
+    border: 1px solid #e0e0e0;   /* Light border around the bubble */
+}
+
+/* Add clearfix to ensure proper float handling */
+.messages-container::after {
+    content: "";
+    display: table;
+    clear: both;                 /* Clear floats so container resizes correctly */
+}
+
+/* Input area at the bottom of the screen */
+.input-area {
+    position: fixed;             /* Fix input area to the bottom */
+    bottom: 0;
+    left: 0;
+    right: 0;
+    background-color: white;     /* White background */
+    padding: 12px;               /* Space around the input area */
+    border-top: 1px solid #e0e0e0;/* Border at the top of input area */
+    display: flex;               /* Flexbox for alignment */
+    gap: 8px;                    /* Space between input and send button */
+}
+
+/* Message input field */
+#message-input {
+    flex: 1;                     /* Input takes up remaining space */
+    padding: 12px;               /* Padding inside input field */
+    border: 1px solid #e0e0e0;   /* Border around the input */
+    border-radius: 24px;         /* Rounded corners */
+    outline: none;               /* Remove default outline */
+}
+
+/* Focused input field */
+#message-input:focus {
+    border-color: #999;          /* Change border color on focus */
+}
+
+/* Send button appearance */
+#send-btn {
+    background-color: #333;      /* Dark background color */
+    color: white;                /* White icon/text */
+    border: none;                /* No border */
+    border-radius: 50%;          /* Circular button */
+    width: 40px;                 /* Width and height of the button */
+    height: 40px;
+    display: flex;               /* Flexbox for centering icon */
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;            /* Pointer cursor on hover */
+    transition: background-color 0.2s; /* Smooth transition on hover */
+}
+
+/* Hover effect for the send button */
+#send-btn:hover {
+    background-color: #555;      /* Change to lighter shade on hover */
+}
+
+/* Chat header (top bar) */
+.chat-header {
+    position: sticky;            /* Keep header at the top when scrolling */
+    top: 0;
+    background-color: white;     /* White background */
+    border-bottom: 1px solid #e0e0e0; /* Border at the bottom */
+    padding: 12px 16px;          /* Padding around header content */
+    display: flex;               /* Flexbox layout for alignment */
+    align-items: center;         /* Center items vertically */
+    gap: 12px;                   /* Space between items in header */
+}
+
+/* Back button in the chat header */
+.back-btn {
+    background: none;            /* No background */
+    border: none;                /* No border */
+    font-size: 1.5rem;           /* Font size of the button */
+    cursor: pointer;            /* Pointer cursor on hover */
+    padding: 4px 8px;            /* Space inside the button */
+    color: #333;                 /* Text color */
+}
+
+/* Hover effect for the back button */
+.back-btn:hover {
+    background-color: #f0f0f0;   /* Light background on hover */
+    border-radius: 50%;           /* Round the button */
+}
+
+#msg-sent {
+    float: right; 
+    background-color: rgb(0, 161, 0);
+    border-radius: 10px;               
+}
+
+
+#msg-received {
+    float: left;       
+    background-color: black;   
+    border-radius: 10px;
+    color: #e0e0e0;      
+}
+
+.time-received {
+    font-size: 0.75rem;
+    color: whitesmoke;
+    margin: 4px 8px;
+}
+
+.time-sent {
+    font-size: 0.75rem;
+    color: black;
+    margin: 4px 8px;
+}
+
+/* final touches */
+.home-icon {
+    width: 20px;  /* Adjust width as needed */
+    height: auto; /* Keep aspect ratio */
+    vertical-align: middle; /* Align with text */
+    margin-right: 8px; /* Space between icon and text */
+  }
+
+/* button {
+    float: left;
+    margin-right: 10px; 
+}*/

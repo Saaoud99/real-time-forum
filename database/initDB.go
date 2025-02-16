@@ -8,7 +8,7 @@ import (
 )
 
 func InitDB() *sql.DB {
-	db, err := sql.Open("sqlite3", "./database/Test38.db")
+	db, err := sql.Open("sqlite3", "./database/Test40.db")
 	if err != nil {
 		log.Fatal("Error connecting to database:", err)
 	}
