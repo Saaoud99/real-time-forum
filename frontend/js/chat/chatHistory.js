@@ -29,14 +29,17 @@ export async function fetchHistory(receiverNickname) {
     }
 }
 
-// type Message struct {
-// 	Type       string    `json:"Type"`
-// 	Content    string    `json:"Content"`
-// 	SenderID   int       `json:"Sender_id"`
-// 	ReceiverID int       `json:"Receiver_id"`
-// 	ReceiverName string  `json:"Receiver_name"`
-// 	Timestamp  time.Time `json:"Timestamp"`
-// }
+/*
+type Message struct {
+	// Type       string    `json:"Type"`
+	Content      string    `json:"Content"`
+	SenderID     int       `json:"Sender_id"`
+	ReceiverID   int       `json:"Receiver_id"`
+	ReceiverName string    `json:"Receiver_name"`
+	SenderName   string    `json:"Sender_name"`
+	Timestamp    time.Time `json:"Timestamp"`
+}
+*/
 
 function displayHistory(dms, id) {
 
@@ -47,6 +50,8 @@ function displayHistory(dms, id) {
     }
     for (let i = 0; i < dms.length; i++) {
         const dm = dms.pop();
+        console.log(dm);
+        
         if (dm) {
             const messageCard = document.createElement('div');
             messageCard.className = 'message';

@@ -28,19 +28,6 @@ export async function fetchPost() {
 
 
 function displayposts(posts) {
-    // document.querySelectorAll('.loged').forEach(e => {
-    //     e.style.display = 'none';
-    // });
-    // if (posts[1] != 0) {
-    //     document.querySelectorAll(".loged").forEach((elem) => {
-    //         elem.style.display = "none";
-    //     });
-    // }
-    // if (posts[1] === 0) {
-    //     document.querySelectorAll(".unloged").forEach((elem) => {
-    //         elem.style.display = "none";
-    //     });
-    // }
     for (let i = 0; i < 10; i++) {
         const post = posts[0].shift();
         if (post) {

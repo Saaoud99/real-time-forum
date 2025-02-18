@@ -3,9 +3,6 @@ import { handleRoute } from "../main.js";
 
 export function renderLoginForm() {
     const container = document.getElementById('container')
-    // document.querySelectorAll('.unloged').forEach(e => {
-    //     e.style.display = 'none';
-    // });
     const chat = document.querySelector('#chat')
     if (chat) chat.remove();
     

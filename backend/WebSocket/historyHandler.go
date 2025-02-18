@@ -11,15 +11,19 @@ import (
 
 func fetchChat(db *sql.DB, senedr int, reciever int) ([]modles.Message, error) {
 	query := `
-			SELECT 
-				ch.content,
-				ch.sent_at,
-				ch.sender_id,
-				ch.receiver_id
-			FROM chat ch
-			WHERE (ch.sender_id = ? AND ch.receiver_id = ?) 
-           	OR (ch.sender_id = ? AND ch.receiver_id = ?)
-        	ORDER BY ch.sent_at DESC;
+		SELECT 
+			ch.content,
+			ch.sent_at,
+			ch.sender_id,
+			ch.receiver_id,
+			s.nickname AS senderName,
+			r.nickname AS receiverName
+		FROM chat ch
+		JOIN users s ON ch.sender_id = s.id
+		JOIN users r ON ch.receiver_id = r.id
+		WHERE (ch.sender_id = ? AND ch.receiver_id = ?) 
+		   OR (ch.sender_id = ? AND ch.receiver_id = ?)
+		ORDER BY ch.sent_at DESC;
 	`
 	rows, err := db.Query(query, senedr, reciever, reciever, senedr)
 	if err != nil {
@@ -30,7 +34,15 @@ func fetchChat(db *sql.DB, senedr int, reciever int) ([]modles.Message, error) {
 	var chat []modles.Message
 	for rows.Next() {
 		var msg modles.Message
-		if err = rows.Scan(&msg.Content, &msg.Timestamp, &msg.SenderID, &msg.ReceiverID); err != nil {
+		err = rows.Scan(
+			&msg.Content,
+			&msg.Timestamp,
+			&msg.SenderID,
+			&msg.ReceiverID,
+			&msg.SenderName,
+			&msg.ReceiverName,
+		)
+		if err != nil {
 			fmt.Printf("error scanning: %v\n", err)
 			continue
 		}

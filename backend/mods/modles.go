@@ -61,6 +61,7 @@ type Message struct {
 	SenderID     int       `json:"Sender_id"`
 	ReceiverID   int       `json:"Receiver_id"`
 	ReceiverName string    `json:"Receiver_name"`
+	SenderName   string    `json:"Sender_name"`
 	Timestamp    time.Time `json:"Timestamp"`
 }
 

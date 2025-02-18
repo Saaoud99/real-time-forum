@@ -11,11 +11,12 @@ export function setuplayout(){
         `;
 
         const h = document.createElement('h1');
+        h.id = 'forum';
         h.innerHTML = `
         <img src="/frontend/img/home.png"  class="home-icon">  forum
         `;
 
         document.getElementById('header').appendChild(h)
         document.getElementById('header').appendChild(header)
-    }
+     }
 }

@@ -1,9 +1,10 @@
 import { timeAgo, escapeHTML } from "../app/helpers.js";
 import { isAuthenticated } from "../authentication/isAuth.js";
-//import { fetchHistory } from "./chatHistory.js";
+import { fetchHistory } from "./chatHistory.js";
 import { fetchUsers } from "./displayUsers.js";
 
 const socket = new WebSocket(`ws://${document.location.host}/ws`); /*handle if user enters from other pc*/
+console.log(socket);
 
 
 export function chatArea(nickname) {
@@ -27,9 +28,9 @@ export function chatArea(nickname) {
     `;
     
     // later
-    // chat.addEventListener('click', ()=>{
-    //     fetchHistory(nickname);
-    // });
+    chat.addEventListener('click', ()=>{
+        fetchHistory(nickname);
+    });
 
     document.querySelector('.back-btn').addEventListener('click', () => {
         fetchUsers();
@@ -75,9 +76,10 @@ async function sendMessage(nickname) {
 
 
 socket.addEventListener("message", (event) => {
-    console.log(event);
-    
+    // console.log(event);
     const newdata = JSON.parse(event.data);
+    console.log(newdata);
+    
     const messages = document.querySelector('#messages');
 
     const messageCard = document.createElement('div');
