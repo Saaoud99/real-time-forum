@@ -1,8 +1,8 @@
 import { handleRoute } from "../main.js";
 
-export const container = document.getElementById("container");
 
 export function renderRegisterForm() {
+    const container = document.getElementById("container");
     const chat = document.querySelector('#chat')
     if (chat) chat.remove();
     container.innerHTML = `

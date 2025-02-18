@@ -1,4 +1,4 @@
-import { debounce } from "../app/helpers.js";
+import { debounce, escapeHTML } from "../app/helpers.js";
 import {chatArea} from './chatArea.js';
 
 export async function fetchUsers() {    
@@ -28,7 +28,7 @@ export async function fetchUsers() {
 function displayUsers(users){
     const chat = document.querySelector('#chat');
     for (let i = 0; i < 30; i++){
-        const user = users.pop()
+        const user = users.shift()
         if (user){
             const userCard = document.createElement('div');
             userCard.className = 'user-card';
@@ -40,13 +40,13 @@ function displayUsers(users){
             
             const nickname = document.createElement('div');
             nickname.className = 'nickname';
-            nickname.innerText = `${user.nickname}`
+            nickname.innerText = `${escapeHTML(user.nickname)}`
 
             userCard.appendChild(profile);
             userCard.appendChild(nickname);
             // click on user to display chat area
             userCard.addEventListener('click', () => {
-                chatArea(user.nickname);
+                chatArea(escapeHTML(user.nickname));
                 console.log(user.id);
                 
             });

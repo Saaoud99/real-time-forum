@@ -1,0 +1,82 @@
+.register-container {
+    max-width: 400px;
+    margin: 0.5rem auto;
+    padding: 1.5rem;
+    background-color: #fff;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.register-container  {
+    text-align: center;
+    margin-bottom: 0.4rem;
+    color: #000;
+    font-weight: 300;
+    font-size: 1.5rem;
+}
+
+#registerForm {
+    display: flex;
+    flex-direction: column;
+    gap: 0.1rem;
+}
+
+#registerForm input:not([type="radio"]),
+#login {
+    width: 100%;
+    padding: 0.5rem;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+    font-size: 0.9rem;
+    transition: border-color 0.3s ease;
+}
+
+.gender-group {
+    margin: 0.25rem 0;
+}
+
+.gender-group label {
+    font-size: 0.9rem;
+    color: #333;
+    margin-right: 1.5rem;
+    cursor: pointer;
+}
+
+.gender-group label span {
+    margin-left: 0.25rem;
+}
+
+.gender-title {
+    display: block;
+    margin-bottom: 0.15rem;
+    color: #666;
+    font-size: 0.9rem;
+}
+
+
+
+#registerForm button:hover {
+    background-color: #333;
+}
+
+@media screen and (max-width: 600px) {
+    .register-container {
+        margin: 0.5rem;
+        padding: 1rem;
+    }
+}
+
+
+#registerForm button {
+    width: 100%;
+    padding: 0.5rem;
+    margin-top: 0.5rem;
+    background-color: #000;
+    color: #fff;
+    border: none;
+    border-radius: 4px;
+    font-size: 0.9rem;
+    cursor: pointer;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    transition: background-color 0.3s ease;
+}

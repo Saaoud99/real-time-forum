@@ -1,0 +1,200 @@
+.user-card {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    padding: 10px;
+    border-bottom: 1px solid #ddd;
+}
+
+.profile {
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-weight: bold;
+    color:rgb(0, 0, 0);
+    background-color: #ddd;
+    font-size: 1rem;
+}
+
+.nickname {
+    font-size: 1rem;
+    font-weight: 500;
+    color: #333;
+}
+
+/* Container holding the messages */
+.messages-container {
+    padding: 16px;               /* Space around the messages */
+    background-image: url('/frontend/img/dmBackground.jpeg');
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+    height: calc(100vh - 180px);  /* Height adjusts based on viewport size */
+    overflow-y: auto;            /* Enable vertical scrolling */
+}
+
+/* Each individual message */
+.message {
+    margin-bottom: 12px;         /* Space below each message */
+    max-width: 65%;              /* Limit width of messages */
+    display: block;              /* Change to block-level element */
+    clear: both;                 /* Clear any floated elements */
+}
+
+
+
+/* Message content area (text bubble) */
+.message-content {
+    padding: 8px 12px;           /* Space inside the message bubble */
+    border-radius: 8px;          /* Rounded corners */
+    word-wrap: break-word;       /* Break long words to fit inside bubble */
+    display: inline-block;       /* Ensure the message content is inline but block-like */
+}
+
+/* Sent message appearance */
+.message.sent .message-content {
+    background-color: #ffffff;   /* White background */
+    border: 1px solid #e0e0e0;   /* Light border around the bubble */
+}
+
+/* Received message appearance */
+.message.received .message-content {
+    background-color: #f8f8f8;   /* Light gray background */
+    border: 1px solid #e0e0e0;   /* Light border around the bubble */
+}
+
+/* Add clearfix to ensure proper float handling */
+.messages-container::after {
+    content: "";
+    display: table;
+    clear: both;                 /* Clear floats so container resizes correctly */
+}
+
+/* Input area at the bottom of the screen */
+.input-area {
+    position: relative;             /* Fix input area to the bottom */
+    bottom: 0;
+    /* left: 0;
+    right: 0; */
+    background-color: white;     /* White background */
+    padding: 12px;               /* Space around the input area */
+    border-top: 1px solid #e0e0e0;/* Border at the top of input area */
+    display: flex;               /* Flexbox for alignment */
+    gap: 8px;                    /* Space between input and send button */
+}
+
+/* Message input field */
+#message-input {
+    flex: 1;                     /* Input takes up remaining space */
+    padding: 12px;               /* Padding inside input field */
+    border: 1px solid #e0e0e0;   /* Border around the input */
+    border-radius: 24px;         /* Rounded corners */
+    outline: none;               /* Remove default outline */
+}
+
+/* Focused input field */
+#message-input:focus {
+    border-color: #999;          /* Change border color on focus */
+}
+
+/* Send button appearance */
+#send-btn {
+    background-color: #333;      /* Dark background color */
+    color: white;                /* White icon/text */
+    border: none;                /* No border */
+    border-radius: 50%;          /* Circular button */
+    width: 40px;                 /* Width and height of the button */
+    height: 40px;
+    display: flex;               /* Flexbox for centering icon */
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;            /* Pointer cursor on hover */
+    transition: background-color 0.2s; /* Smooth transition on hover */
+}
+
+/* Hover effect for the send button */
+#send-btn:hover {
+    background-color: #555;      /* Change to lighter shade on hover */
+}
+
+/* Chat header (top bar) */
+.chat-header {
+    position: sticky;            /* Keep header at the top when scrolling */
+    top: 0;
+    background-color: white;     /* White background */
+    border-bottom: 1px solid #e0e0e0; /* Border at the bottom */
+    padding: 12px 16px;          /* Padding around header content */
+    display: flex;               /* Flexbox layout for alignment */
+    align-items: center;         /* Center items vertically */
+    gap: 12px;                   /* Space between items in header */
+}
+
+/* Back button in the chat header */
+.back-btn {
+    background: none;            /* No background */
+    border: none;                /* No border */
+    font-size: 1.5rem;           /* Font size of the button */
+    cursor: pointer;            /* Pointer cursor on hover */
+    padding: 4px 8px;            /* Space inside the button */
+    color: #333;                 /* Text color */
+}
+
+/* Hover effect for the back button */
+.back-btn:hover {
+    background-color: #f0f0f0;   /* Light background on hover */
+    border-radius: 50%;           /* Round the button */
+}
+
+#msg-sent {
+    float: right; 
+    background-color: rgb(0, 161, 0);
+    border-radius: 10px;               
+}
+
+
+#msg-received {
+    float: left;       
+    background-color: black;   
+    border-radius: 10px;
+    color: #e0e0e0;      
+}
+
+.time-received {
+    font-size: 0.75rem;
+    color: whitesmoke;
+    margin: 4px 8px;
+}
+
+.time-sent {
+    font-size: 0.75rem;
+    color: black;
+    margin: 4px 8px;
+}
+
+/* final touches */
+.home-icon {
+    width: 20px;  /* Adjust width as needed */
+    height: auto; /* Keep aspect ratio */
+    vertical-align: middle; /* Align with text */
+    margin-right: 8px; /* Space between icon and text */
+  }
+
+/* button {
+    float: left;
+    margin-right: 10px; 
+}*/
+
+#send-btn {
+    background: none;
+    border: none;
+    cursor: pointer;
+    padding: 5px;
+}
+
+.send-icon {
+    width: 20px; /* Adjust size as needed */
+    height: 20px;
+}

@@ -26,7 +26,7 @@ export function chatArea(nickname) {
         </div>
     `;
     
-    // Event listeners
+    // later
     // chat.addEventListener('click', ()=>{
     //     fetchHistory(nickname);
     // });
@@ -60,7 +60,7 @@ async function sendMessage(nickname) {
 
     const messageContent = document.createElement('div');
     messageContent.className = 'message-content';
-    messageContent.textContent = content;
+    messageContent.textContent = escapeHTML(content);
 
     const messageTime = document.createElement('div');
     messageTime.className = 'time-sent';
@@ -86,11 +86,11 @@ socket.addEventListener("message", (event) => {
 
     const messageContent = document.createElement('div');
     messageContent.className = 'message-content';
-    messageContent.textContent = newdata.Content;
+    messageContent.textContent = escapeHTML(newdata.Content);
     
     const messageTime = document.createElement('div');
     messageTime.className = 'time-rececived';
-    messageTime.textContent = timeAgo(new Date(newdata.Timestamp));
+    messageTime.textContent = timeAgo(new Date(escapeHTML(newdata.Timestamp)));
     
     messageCard.appendChild(messageContent);            
     messageCard.appendChild(messageTime);
