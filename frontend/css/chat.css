@@ -205,7 +205,7 @@
     position: relative;
 }
 
-/* .status-dot {
+.status-dot {
     position: absolute;
     bottom: 0;
     right: 0;
@@ -218,4 +218,4 @@
 
 .status-dot.online {
     background-color: #2ce177;
-} */
+}

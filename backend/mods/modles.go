@@ -56,6 +56,7 @@ type Comment struct {
 }*/
 
 type Message struct {
+	Type         string    `json:"Dm"`
 	Content      string    `json:"Content"`
 	SenderID     int       `json:"Sender_id"`
 	ReceiverID   int       `json:"Receiver_id"`
@@ -69,6 +70,6 @@ type UserId struct {
 }
 
 type StatusUpdate struct {
-    UserID int    `json:"UserID"`
-    Status string `json:"Status"`
+	UserID int    `json:"UserID"`
+	Status string `json:"Status"`
 }
