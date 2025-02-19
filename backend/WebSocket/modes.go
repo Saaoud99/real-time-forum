@@ -9,11 +9,13 @@ import (
 
 type Hub struct {
 	Clients map[*Client]bool
-	// Broadcast  chan []byte
 	Register   chan *Client
 	Unregister chan *Client
 	Send       chan modles.Message
 	Mu         sync.Mutex
+	// tracks online status by userID
+	OnlineUsers    map[int]bool     
+    OnlineClients  map[int][]*Client
 }
 
 type Client struct {

@@ -10,14 +10,14 @@ type LoginCredentials struct {
 }
 
 type User struct {
-	ID        int    `json:"id"`
-	Nickname  string `json:"nickname"`
-	Age       string `json:"age"`
-	Gender    string `json:"gender"`
-	FirstName string `json:"firstName"`
-	LastName  string `json:"lastName"`
-	Email     string `json:"email"`
-	Password  string `json:"password"`
+	ID        int    `json:"Id"`
+	Nickname  string `json:"Nickname"`
+	Age       string `json:"Age"`
+	Gender    string `json:"Gender"`
+	FirstName string `json:"FirstName"`
+	LastName  string `json:"LastName"`
+	Email     string `json:"Email"`
+	Password  string `json:"Password"`
 }
 
 type NewPost struct {
@@ -56,7 +56,6 @@ type Comment struct {
 }*/
 
 type Message struct {
-	// Type       string    `json:"Type"`
 	Content      string    `json:"Content"`
 	SenderID     int       `json:"Sender_id"`
 	ReceiverID   int       `json:"Receiver_id"`
@@ -67,4 +66,9 @@ type Message struct {
 
 type UserId struct {
 	Val int `json:"Val"`
+}
+
+type StatusUpdate struct {
+    UserID int    `json:"UserID"`
+    Status string `json:"Status"`
 }

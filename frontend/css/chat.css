@@ -198,3 +198,24 @@
     width: 20px; /* Adjust size as needed */
     height: 20px;
 }
+
+/* online status */
+
+.profile {
+    position: relative;
+}
+
+/* .status-dot {
+    position: absolute;
+    bottom: 0;
+    right: 0;
+    width: 10px;
+    height: 10px;
+    border-radius: 50%;
+    background-color: #ccc;
+    border: 2px solid white;
+}
+
+.status-dot.online {
+    background-color: #2ce177;
+} */

@@ -7,7 +7,6 @@ import (
 )
 
 func LogOutHandler(db *sql.DB) http.HandlerFunc {
-	fmt.Println("entred to logout")
 	return func(w http.ResponseWriter, r *http.Request) {
 		if r.Method != http.MethodPost {
 			http.Error(w, "Invalid request method", http.StatusMethodNotAllowed)
@@ -33,6 +32,5 @@ func LogOutHandler(db *sql.DB) http.HandlerFunc {
 			Path:   "/",
 			MaxAge: -1,
 		})
-		fmt.Println(sessionID, "loged out")
 	}
 }

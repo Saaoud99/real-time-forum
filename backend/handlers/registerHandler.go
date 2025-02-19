@@ -59,5 +59,6 @@ func RegisterHandler(db *sql.DB, w http.ResponseWriter, r *http.Request) {
 	}
 
 	w.Write([]byte("User registered successfully"))
+	// it logs 0, but it gets autoincremented in the database
 	fmt.Println(user, "registered successfully")
 }

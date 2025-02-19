@@ -1,11 +1,42 @@
-import { timeAgo, escapeHTML } from "../app/helpers.js";
+import { escapeHTML } from "../app/helpers.js";
 import { isAuthenticated } from "../authentication/isAuth.js";
 import { fetchHistory } from "./chatHistory.js";
 import { fetchUsers } from "./displayUsers.js";
+import { displayMessage, displaySentMessage } from "./chatHelpers.js";
 
-const socket = new WebSocket(`ws://${document.location.host}/ws`); /*handle if user enters from other pc*/
-console.log(socket);
+const socketUrl = `ws://${document.location.host}/ws` /*handle if user enters from other pc*/
+const socket = new WebSocket(socketUrl); 
+export const onlineUsers = new Set();
 
+socket.addEventListener('open', () => {
+    console.log('WebSocket connection opened');
+});
+
+socket.addEventListener('error', (error) => {
+    console.error('WebSocket error:', error);
+});
+
+socket.addEventListener('close', (event) => {
+    console.log('WebSocket connection closed:', event.code, event.reason);
+});
+
+socket.addEventListener("message", (event) => {
+    try {
+        const newdata = JSON.parse(event.data);
+        if (newdata.Status) {
+            // if (newdata.Status === "online") {
+            //     onlineUsers.add(newdata.UserID);
+            // } else if (newdata.Status === "offline") {
+            //     onlineUsers.delete(newdata.UserID);
+            // }
+            // updateUserStatus(newdata.UserID, newdata.Status);
+        } else {
+            displayMessage(newdata)
+        }
+    } catch (err) {
+        console.error("Error parsing message:", err)
+    }        
+});
 
 export function chatArea(nickname) {
     const chat = document.querySelector('#chat');
@@ -36,65 +67,28 @@ export function chatArea(nickname) {
         fetchUsers();
     });
 
-    document.querySelector('#send-btn').addEventListener('click', sendMessage);
+    document.querySelector('#send-btn').addEventListener('click', ()=> sendMessage(nickname));
     document.querySelector('#message-input').addEventListener('keypress', (e) => {
         if (e.key === 'Enter') sendMessage(nickname);
     });
-
 }
+
+
+
 async function sendMessage(nickname) {
     const input = document.querySelector('#message-input');
     const content = input.value.trim();
     const sender_id = await isAuthenticated();    
     if (!content) return;
-
     const message = {
         Content: content,
         Sender_id: sender_id,
         Receiver_name: nickname,
+        Timestamp: new Date()
     };
-    const messages = document.querySelector('#messages');
-    
-    const messageCard = document.createElement('div');
-    messageCard.id = 'msg-sent';
-    messageCard.className = 'message';
-
-    const messageContent = document.createElement('div');
-    messageContent.className = 'message-content';
-    messageContent.textContent = escapeHTML(content);
-
-    const messageTime = document.createElement('div');
-    messageTime.className = 'time-sent';
-    messageTime.textContent = timeAgo(new Date());
-    
-    messageCard.appendChild(messageContent);            
-    messageCard.appendChild(messageTime);
-    messages.appendChild(messageCard);
-        socket.send(JSON.stringify(message));
-        input.value = '';
+    displaySentMessage(message)
+    socket.send(JSON.stringify(message));
+    input.value = '';
 }
 
 
-socket.addEventListener("message", (event) => {
-    // console.log(event);
-    const newdata = JSON.parse(event.data);
-    console.log(newdata);
-    
-    const messages = document.querySelector('#messages');
-
-    const messageCard = document.createElement('div');
-    messageCard.id = 'msg-received'
-    messageCard.className = 'message';
-
-    const messageContent = document.createElement('div');
-    messageContent.className = 'message-content';
-    messageContent.textContent = escapeHTML(newdata.Content);
-    
-    const messageTime = document.createElement('div');
-    messageTime.className = 'time-rececived';
-    messageTime.textContent = timeAgo(new Date(escapeHTML(newdata.Timestamp)));
-    
-    messageCard.appendChild(messageContent);            
-    messageCard.appendChild(messageTime);
-    messages.appendChild(messageCard);
-});

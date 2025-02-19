@@ -1,5 +1,5 @@
-// import { debounce } from "../app/helpers.js";
-import { escapeHTML } from "../app/helpers.js";
+//  import { debounce } from "../app/helpers.js";
+import { escapeHTML, timeAgo } from "../app/helpers.js";
 import { isAuthenticated } from "../authentication/isAuth.js";
 export async function fetchHistory(receiverNickname) {
     const messages = document.querySelector('#messages')
@@ -31,7 +31,6 @@ export async function fetchHistory(receiverNickname) {
 
 /*
 type Message struct {
-	// Type       string    `json:"Type"`
 	Content      string    `json:"Content"`
 	SenderID     int       `json:"Sender_id"`
 	ReceiverID   int       `json:"Receiver_id"`
@@ -48,6 +47,8 @@ function displayHistory(dms, id) {
         console.log('error in messages');
         return;
     }
+    messages.innerHTML = '';
+
     for (let i = 0; i < dms.length; i++) {
         const dm = dms.pop();
         console.log(dm);
@@ -62,17 +63,20 @@ function displayHistory(dms, id) {
                 messageCard.id = 'msg-received'
             }
 
+            const msgSender = document.createElement('div');
+            msgSender.className = 'message-senedr'
+            msgSender.textContent = dm.Sender_name
+
             const messageContent = document.createElement('div');
             messageContent.className = 'message-content';
             messageContent.textContent = escapeHTML(dm.Content);
 
-
-
-            // const messageTime = document.createElement('div');
-            // messageTime.className = 'message-time';
-            // messageTime.textContent = new Date(dm.Timestamp)
-            // messageCard.appendChild(messageTime);
-
+            const messageTime = document.createElement('div');
+            messageTime.className = 'message-time';
+            messageTime.textContent = timeAgo(new Date(dm.Timestamp))
+            
+            messageCard.appendChild(msgSender);
+            messageCard.appendChild(messageTime);
             messageCard.appendChild(messageContent);
             messages.append(messageCard)
         }

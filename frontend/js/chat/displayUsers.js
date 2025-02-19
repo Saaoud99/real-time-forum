@@ -1,5 +1,6 @@
-import { debounce, escapeHTML } from "../app/helpers.js";
-import {chatArea} from './chatArea.js';
+import { debounce } from "../app/helpers.js";
+import {chatArea } from './chatArea.js';
+// import { online } from "./chatHelpers.js";
 
 export async function fetchUsers() {    
     createChat()
@@ -20,7 +21,6 @@ export async function fetchUsers() {
              debouncedDisplay(users);
          });
     } catch (error){
-        console.log(error)
         console.error(error);
     }
 }
@@ -32,22 +32,26 @@ function displayUsers(users){
         if (user){
             const userCard = document.createElement('div');
             userCard.className = 'user-card';
+            console.log(user.Id);
+            
+            userCard.dataset.userId = user.Id;
+             
 
             const profile = document.createElement('div');
             profile.className = 'profile';
-            profile.innerText = `${user.firstName[0]}${user.lastName[0]}`
+            profile.innerText = `${user.FirstName[0]}${user.LastName[0]}`
+
+        //    online(user, profile)
             
             const nickname = document.createElement('div');
             nickname.className = 'nickname';
-            nickname.innerText = `${user.nickname}`
+            nickname.innerText = `${user.Nickname}`
 
             userCard.appendChild(profile);
             userCard.appendChild(nickname);
             // click on user to display chat area
             userCard.addEventListener('click', () => {
-                chatArea(escapeHTML(user.nickname));
-                console.log(user.id);
-                
+                chatArea(user.Nickname);
             });
             chat.appendChild(userCard);
         }
@@ -67,3 +71,4 @@ function createChat(){
         app.appendChild(chat)
     }
 }
+
