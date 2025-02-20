@@ -25,10 +25,11 @@ async function paths() {
     
     console.log("chck login ===>", await checkLogin());
     
-    if (location.pathname == "/login") {
+    if (location.pathname == "/login" ) {
         
         if (await checkLogin() === false){
             Handlelogin();
+            console.log('here')
         }else{
             nav("/")
         }

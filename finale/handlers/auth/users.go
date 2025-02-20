@@ -2,7 +2,6 @@ package auth
 
 import (
 	"encoding/json"
-	"fmt"
 	"net/http"
 	"strconv"
 
@@ -138,7 +137,6 @@ func LogoutUser(w http.ResponseWriter, r *http.Request) {
 
 	session_id, err := r.Cookie("session_id")
 	if err != nil {
-		fmt.Println("yes here is the error")
 		handlers.ErrorHandler(w, r, http.StatusInternalServerError)
 		return
 	}
