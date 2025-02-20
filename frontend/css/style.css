@@ -410,7 +410,7 @@ main {
 #app {
     display: flex;
     flex-direction: row;
-    justify-content: flex-start;  /* Ensure other content starts from the top */
+    justify-content: center;  /* Ensure other content starts from the top */
     width: 100%;
 }
 

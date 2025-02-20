@@ -216,6 +216,7 @@
     border: 2px solid white;
 }
 
-.status-dot.online {
+.status-dot
+.online {
     background-color: #2ce177;
 }
