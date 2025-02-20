@@ -1,3 +1,5 @@
+console.log('ffffffffffff');
+
 document.addEventListener("DOMContentLoaded", () => {
     const app = document.getElementById("app");
     
@@ -23,10 +25,11 @@ document.addEventListener("DOMContentLoaded", () => {
   
       const username = document.getElementById("username").value;
       const password = document.getElementById("password").value;
-  
+      console.log(username, password);
+      
       try {
         // Send login data to the backend
-        const response = await fetch(`${API_HOST_NAME}/api/login`, {
+        const response = await fetch(`${API_HOST_NAME}/login`, {
           method: "POST",
           headers: {
             "Content-Type": "application/json",
@@ -45,7 +48,9 @@ document.addEventListener("DOMContentLoaded", () => {
         // Redirect or load other content
         app.innerHTML = `<h1>Welcome, ${username}!</h1>`;
       } catch (error) {
-        document.getElementById("errorMessage").textContent = error.message;
+        console.log("this is the err", error);
+        response.text().then(html => console.log("HTML response:", html));
+        //document.getElementById("errorMessage").textContent = error.message;
       }
     });
   });

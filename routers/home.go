@@ -3,7 +3,7 @@ package routers
 import (
 	"net/http"
 
-	//"real-time-forum/handlers"
+	"real-time-forum/handlers"
 	//"real-time-forum/handlers/middleware"
 )
 
@@ -12,7 +12,7 @@ func SetupHomeRoutes() *http.ServeMux {
 	mux := http.NewServeMux()
 
 	//mux.HandleFunc("/", handlers.HomeHandler)
-	mux.HandleFunc("/login", )
+	mux.HandleFunc("/login", middleware.RedirectMiddleware(handlers.LoginHandler))
 	//mux.HandleFunc("/register", middleware.RedirectMiddleware(handlers.RegisterHandler))
 
 	// mux.HandleFunc("/newpost", middleware.Middleware(handlers.NewPostHandler))
