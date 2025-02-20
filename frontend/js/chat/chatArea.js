@@ -2,7 +2,7 @@ import { escapeHTML } from "../app/helpers.js";
 import { isAuthenticated } from "../authentication/isAuth.js";
 import { fetchHistory } from "./chatHistory.js";
 import { fetchUsers } from "./displayUsers.js";
-import { displayMessage, displaySentMessage } from "./chatHelpers.js";
+import { displayMessage, displaySentMessage, updateUserStatus } from "./chatHelpers.js";
 
 const socketUrl = `ws://${document.location.host}/ws`; /*handle if user enters from other pc*/
 const socket = new WebSocket(socketUrl);
@@ -24,14 +24,17 @@ socket.onmessage = (eve) => {
   try {
     const newdata = JSON.parse(eve.data);
     console.log(newdata);
+    /*
+    
+    */
 
     if (newdata.Status) {
-      // if (newdata.Status === "online") {
-      //     onlineUsers.add(newdata.UserID);
-      // } else if (newdata.Status === "offline") {
-      //     onlineUsers.delete(newdata.UserID);
-      // }
-      // updateUserStatus(newdata.UserID, newdata.Status);
+      if (newdata.Status === "online") {
+          onlineUsers.add(newdata.UserID);
+      } else if (newdata.Status === "offline") {
+          onlineUsers.delete(newdata.UserID);
+      }
+      updateUserStatus(newdata.UserID, newdata.Status);
     } else {
       displayMessage(newdata);
     }
@@ -92,3 +95,4 @@ async function sendMessage(nickname) {
   socket.send(JSON.stringify(message));
   input.value = "";
 }
+

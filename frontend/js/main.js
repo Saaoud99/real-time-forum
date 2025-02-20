@@ -50,4 +50,3 @@ window.addEventListener("popstate", () => {
 // Initial route handling
 await handleRoute();
 
-// why it does not get applyed until i refresh this is an spa

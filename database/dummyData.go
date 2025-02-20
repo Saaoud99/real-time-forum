@@ -96,6 +96,8 @@ INSERT INTO chat (content, sent_at, sender_id, receiver_id) VALUES
 ('CameronF', 31, 'Male', 'Cameron', 'Fletcher', 'cameron@example.com', 'secretpass'),
 ('DaisyG', 28, 'Female', 'Daisy', 'Garcia', 'daisy@example.com', 'flowerpower'),
 ('EthanW', 30, 'Male', 'Ethan', 'Williams', 'ethan@example.com', 'letmein4'),
+('chrome', 30, 'Male', 'Ethan', 'Williams', 'et@example.com', 'test'),
+('brave', 30, 'Male', 'Ethan', 'Williams', 'etha@example.com', 'test'),
 ('FionaH', 27, 'Female', 'Fiona', 'Harris', 'fiona@example.com', 'securepass123');
 
 `

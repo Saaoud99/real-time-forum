@@ -1,6 +1,6 @@
 import { debounce } from "../app/helpers.js";
 import {chatArea } from './chatArea.js';
-// import { online } from "./chatHelpers.js";
+// import { onlineUsers } from "./chatArea.js";
 
 export async function fetchUsers() {    
     createChat()
@@ -41,7 +41,7 @@ function displayUsers(users){
             profile.className = 'profile';
             profile.innerText = `${user.FirstName[0]}${user.LastName[0]}`
 
-        //    online(user, profile)
+          online( profile)
             
             const nickname = document.createElement('div');
             nickname.className = 'nickname';
@@ -72,3 +72,13 @@ function createChat(){
     }
 }
 
+function online(profile){
+    console.log(profile);
+    
+    const statusDot = document.createElement('div');
+    statusDot.className = 'status-dot';
+    statusDot.classList.add('online');
+    // if (onlineUsers.has(user.ID)) {
+    // }
+    profile.appendChild(statusDot);
+  }

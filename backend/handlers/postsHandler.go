@@ -81,7 +81,7 @@ func APIHandler(db *sql.DB) http.HandlerFunc {
 		/* this line sets an HTTP response header to control how the response
 		is cached by clients (browsers) and intermediate caches (proxies).*/
 		w.Header().Set("Cache-Control", "no-cache")
-		if err := json.NewEncoder(w).Encode([]any{posts, user_id}); err != nil {
+		if err := json.NewEncoder(w).Encode([]any{posts, user_id}); err != nil { // todo : send only the posts
 			http.Error(w, "error encoding response", http.StatusInternalServerError)
 		}
 	}

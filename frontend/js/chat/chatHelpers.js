@@ -41,6 +41,8 @@ export function displaySentMessage(message) {
 export function updateUserStatus(userId, status) {
     const userCards = document.querySelectorAll('.user-card');
     userCards.forEach(card => {
+        console.log(card);
+        
         if (card.dataset.userId === userId.toString()) {
             const statusDot = card.querySelector('.status-dot');
             if (status === "online") {
@@ -50,13 +52,4 @@ export function updateUserStatus(userId, status) {
             }
         }
     });
-}
-
-export function online(user, profile){
-    const statusDot = document.createElement('div');
-    statusDot.className = 'status-dot';
-    if (onlineUsers.has(user.ID)) {
-        statusDot.classList.add('online');
-    }
-    profile.appendChild(statusDot);
 }
