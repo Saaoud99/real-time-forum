@@ -6,6 +6,7 @@ const nav = (path) => {
     paths()
 }
 
+
 async function checkLogin() {
     try {
         const response = await fetch("/api/checklogin");

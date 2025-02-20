@@ -3,7 +3,7 @@ page.innerHTML = ''
 page.innerHTML = `
         <nav class="navbar">
             <a id="logo" href="/">
-                <img id="logo-img" src="/static/img/logo.svg" alt="">
+                <img id="logo-img" src="/assets/img/logo.svg" alt="">
                 <span id="logo-name"><b>01</b>Forum</span>
             </a>
             <div class="sign">

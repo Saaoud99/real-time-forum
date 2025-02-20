@@ -121,6 +121,9 @@ a {
     width: 100%;
     background-size: cover;
 }
+.hey{
+    color: #f00;
+}
 
 .register {
     background-image: url('/assets/img/bg/bg_1.jpg')

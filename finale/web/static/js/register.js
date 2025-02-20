@@ -29,6 +29,7 @@ export function Handleregister(){
             </form>
         </div>
         <div class="register showcase-img"></div>
+        <link rel="stylesheet" href="/assets/css/register_login.css">
     </div>
 
     `

@@ -1,11 +1,12 @@
-export function Handlelogin(){
+export function Handlelogin() {
     //console.log("ggggggggggggg");
-    
-const page = document.querySelector(".zone")
-page.innerHTML = ""
-console.log("hH");
 
-page.innerHTML= `
+    const page = document.querySelector(".zone")
+    page.innerHTML = ""
+    console.log("hH");
+
+    page.innerHTML = `
+    
     <nav class="navbar">
         <a id="logo" href="/">
             <img id="logo-img" src="/assets/img/logo.svg" alt="">
@@ -33,65 +34,69 @@ page.innerHTML= `
             </form>
         </div>
         <div class="login showcase-img"></div>
+        <h1 class="hey">heelo</h1>
+        <link rel="stylesheet" href="/assets/css/register_login.css">
     </div>
 
 `
-document.getElementById("loginForm").addEventListener("submit", async function (e) {
-    e.preventDefault();
-    
-    document.getElementById('errorMessage')?.remove()
-    document.getElementById('success')?.remove()
-    const form = document.querySelector('.form-container')
-    const messageDiv = document.createElement('p')
-    const username = document.querySelector("input[name='username']").value;
-    const password = document.querySelector("input[name='password']").value;
-    const errorMessage = document.getElementById("errorMessage");
-    
-    try {
-        const response = await fetch("/auth/login", {
-            method: "POST",
-            headers: {
-                "Content-Type": "application/json",
-            },
-            body: JSON.stringify({ username, password }),
-        });
-        
-        messageDiv.classList.add('message')
-        if (response.ok) {
-            messageDiv.id = 'success'
-            messageDiv.textContent = 'Logged in Successfully'
-            setTimeout(() => location.href = "/", 700); // Redirect to home page after successful login
-        } else {
-            if (response.headers.get('content-type').includes('text/html')) {
-                document.innerHTML = response.text();
-            } else {
-                const result = await response.json();
-                console.error("Login failed:", result.msg);
-                console.error(result)
-                messageDiv.id = 'errorMessage'
-                messageDiv.textContent = 'Username or Password Incorrect'
-            }
-        }
-        form.append(messageDiv)
-    } catch (err) {
-        console.error("Error during login:", err);
-    }
-});
+    document.getElementById("loginForm").addEventListener("submit", async function (e) {
+        e.preventDefault();
 
-const eyeIcon = document.querySelector(".eye-icon");
-    
-    if (eyeIcon) {
-        eyeIcon.addEventListener("click", togglePassword)();
+        document.getElementById('errorMessage')?.remove()
+        document.getElementById('success')?.remove()
+        const form = document.querySelector('.form-container')
+        const messageDiv = document.createElement('p')
+        const username = document.querySelector("input[name='username']").value;
+        const password = document.querySelector("input[name='password']").value;
+        const errorMessage = document.getElementById("errorMessage");
+
+        try {
+            const response = await fetch("/auth/login", {
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/json",
+                },
+                body: JSON.stringify({ username, password }),
+            });
+
+            messageDiv.classList.add('message')
+            if (response.ok) {
+                messageDiv.id = 'success'
+                messageDiv.textContent = 'Logged in Successfully'
+                setTimeout(() => {
+                    location.href = "/", 700
+                }); // Redirect to home page after successful login
+            } else {
+                if (response.headers.get('content-type').includes('text/html')) {
+                    document.innerHTML = response.text();
+                } else {
+                    const result = await response.json();
+                    console.error("Login failed:", result.msg);
+                    console.error(result)
+                    messageDiv.id = 'errorMessage'
+                    messageDiv.textContent = 'Username or Password Incorrect'
+                }
+            }
+            form.append(messageDiv)
+        } catch (err) {
+            console.error("Error during login:", err);
+        }
+    });
+
+    const eyeIcon = document.querySelector(".eye-icon");
+
+    // if (eyeIcon) {
+    //     eyeIcon.addEventListener("click", togglePassword)();
+    // }
+    const togglePassword = () => {
+        fieldPw = document.querySelector("input[name='password']");
+        eye = document.querySelector('#loginForm i');
+        if (fieldPw.type === 'password') {
+            fieldPw.type = 'text';
+            eye.classList = ['eye-off-icon'];
+        } else {
+            fieldPw.type = 'password';
+            eye.classList = ['eye-icon'];
+        }
     }
-const togglePassword = () => {
-    fieldPw = document.querySelector("input[name='password']");
-    eye = document.querySelector('#loginForm i');
-    if (fieldPw.type === 'password') {
-        fieldPw.type = 'text';
-        eye.classList = ['eye-off-icon'];
-    } else {
-        fieldPw.type = 'password';
-        eye.classList = ['eye-icon'];
-    }
-}
 }
