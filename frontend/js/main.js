@@ -8,7 +8,7 @@ export async function handleRoute() {
   const currentPath = window.location.pathname;
   const isAuth = await isAuthenticated();
   if (isAuth === 0 && protectedRoutes.includes(currentPath)) {
-    history.pushState(null, null, "/register");
+    history.pushState(null, null, "/login");
     await router["/login"].call();
     return;
   }
